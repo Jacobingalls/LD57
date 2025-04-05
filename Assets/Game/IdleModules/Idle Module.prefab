@@ -2036,6 +2036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5107808097385738260}
   - component: {fileID: 5846542892945700148}
+  - component: {fileID: 1396857380504443876}
   m_Layer: 0
   m_Name: Idle Module
   m_TagString: Untagged
@@ -2089,6 +2090,18 @@ MonoBehaviour:
   onPurchase:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1396857380504443876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5101973185610501300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c16ed8a2fa14453eaa5f16be52788dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5111358784952454159
 GameObject:
   m_ObjectHideFlags: 0

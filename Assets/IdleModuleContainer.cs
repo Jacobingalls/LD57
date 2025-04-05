@@ -32,6 +32,10 @@ public class IdleModuleContainer : MonoBehaviour
 
         foreach (Transform child in transform)
         {
+            if (child.GetComponent<CameraControllerConsiderHeight>() == null)
+            {
+                continue;
+            }
             float globalY = child.position.y;
             if (globalY < minY) minY = globalY;
             if (globalY > maxY) maxY = globalY;

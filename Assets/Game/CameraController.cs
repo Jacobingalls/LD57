@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
             keyHoldTime = 0;
         }
 
-        position.y = Mathf.Clamp(position.y, MinHeight + 5f, MaxHeight - 5f);
+        position.y = Mathf.Clamp(position.y, MinHeight, MaxHeight);
         transform.position = position;
     }
 }
