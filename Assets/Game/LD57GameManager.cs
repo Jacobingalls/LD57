@@ -24,8 +24,10 @@ public class LD57GameManager : MonoBehaviour
         Mako -= amount;
     }
 
+    public Toolip tooltipPrefab;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (Instance == null)
         {
