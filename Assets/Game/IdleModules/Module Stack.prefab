@@ -605,7 +605,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5101973185610501300, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_Name
-      value: Idle Module
+      value: First Module
       objectReference: {fileID: 0}
     - target: {fileID: 5107808097385738260, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -670,6 +670,38 @@ PrefabInstance:
     - target: {fileID: 5685010088894180331, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: state
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7125338217659044678}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MakeAvailableForPurchase
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: IdleModule, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5942062212019175722, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_IsActive
@@ -1071,7 +1103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5101973185610501300, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_Name
-      value: Idle Module (1)
+      value: Second Module
       objectReference: {fileID: 0}
     - target: {fileID: 5107808097385738260, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1136,6 +1168,42 @@ PrefabInstance:
     - target: {fileID: 5685010088894180331, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: purchaseCost
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: modulePurchaseTeaserName
+      value: Go Faster
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7617861198109911602}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MakeAvailableForPurchase
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: IdleModule, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7048851227399500409, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1234,6 +1302,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+--- !u!114 &7125338217659044678 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+  m_PrefabInstance: {fileID: 3729365954342807154}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d2e03cf525f5430ea0bd5858783af3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8440813282042025574 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5107808097385738260, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
@@ -1533,7 +1612,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5101973185610501300, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_Name
-      value: Idle Module (2)
+      value: Third Module
       objectReference: {fileID: 0}
     - target: {fileID: 5107808097385738260, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1598,6 +1677,14 @@ PrefabInstance:
     - target: {fileID: 5685010088894180331, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: purchaseCost
+      value: 100000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: modulePurchaseTeaserName
+      value: Go Stronger
       objectReference: {fileID: 0}
     - target: {fileID: 7048851227399500409, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1696,6 +1783,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+--- !u!114 &7617861198109911602 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+  m_PrefabInstance: {fileID: 4078857937392393990}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d2e03cf525f5430ea0bd5858783af3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9113482206579535634 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5107808097385738260, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
