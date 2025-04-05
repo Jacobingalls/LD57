@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 613905596994409245, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: m_text
+      value: Mako Refining
+      objectReference: {fileID: 0}
     - target: {fileID: 739046754600091936, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
