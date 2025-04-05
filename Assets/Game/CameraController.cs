@@ -8,10 +8,14 @@ public class CameraController : MonoBehaviour
 
     public float keyHoldTime = 0f;
 
+    public float startPositionY = 5f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Vector3 position = transform.position;
+        position.y = startPositionY;
+        transform.position = position;
     }
 
     // Update is called once per frame
