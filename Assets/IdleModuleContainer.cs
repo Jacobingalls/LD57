@@ -13,8 +13,8 @@ public class IdleModuleContainer : MonoBehaviour
         cameraController.MinHeight = minY;
         cameraController.MaxHeight = maxY;
         cameraController.transform.position = new Vector3(
-            cameraController.transform.position.x, 
-            maxY, 
+            cameraController.transform.position.x,
+            cameraController.transform.position.y, 
             cameraController.transform.position.z
         );
     }

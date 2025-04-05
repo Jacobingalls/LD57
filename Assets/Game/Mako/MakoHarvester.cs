@@ -1,16 +1,19 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MakoHarvester : MonoBehaviour
 {
     [Header("Mako Orbs")]
-    public GameObject makoOrbPrefab;
     public Transform makoOrbSpawnPoint;
 
     [Header("Visuals")]
     public SpriteFloat harvesterSpriteFloat;
     public Animator laserAnimator;
     public Animator harvesterAnimator;
+
+    public List<MakoOrb> makoOrbs = new();
 
     private int _maxChargeState = 9;
     private int _chargeState = 0;
@@ -80,12 +83,7 @@ public class MakoHarvester : MonoBehaviour
     {
         yield return new WaitForSeconds(delayTime);
 
-        var makoOrbGO = Instantiate(makoOrbPrefab);
-        makoOrbGO.transform.position = makoOrbSpawnPoint.position;
-        var makoOrb = makoOrbGO.GetComponent<MakoOrb>();
-        const float impulseMin = 2.0f;
-        const float impulseMax = 5.5f;
-        makoOrb.ApplySpawningImpulse(Random.Range(impulseMin, impulseMax));
+        GetComponentInParent<MakoManager>().SpawnMakoOrb(makoOrbSpawnPoint.position);
 
         laserAnimator.gameObject.SetActive(false);
 
