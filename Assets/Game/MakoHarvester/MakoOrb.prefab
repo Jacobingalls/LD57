@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4654900801362170564}
   - component: {fileID: 8081552424013654851}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Foreground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4280100504997996079}
   - component: {fileID: 6239971220904272616}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 889643385797385175}
   - component: {fileID: 374653067871017635}
   - component: {fileID: 6411617424924745262}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MakoOrb
   m_TagString: Untagged
   m_Icon: {fileID: 0}

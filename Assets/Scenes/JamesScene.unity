@@ -298,63 +298,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123118113}
   m_CullTransparentMesh: 1
---- !u!1001 &162755398
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -6.52
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032176544119332849, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_Name
-      value: MakoOrb (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
 --- !u!1 &205655004
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,177 +526,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &725558920
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032176544119332849, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_Name
-      value: MakoOrb (3)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
---- !u!1001 &727703240
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -6.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032176544119332849, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_Name
-      value: MakoOrb (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
---- !u!1001 &806374455
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -7.43
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032176544119332849, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_Name
-      value: MakoOrb (4)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
 --- !u!1 &891902605
 GameObject:
   m_ObjectHideFlags: 0
@@ -2392,7 +2164,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1957313889}
   m_CullTransparentMesh: 1
---- !u!1001 &1896267854445949380
+--- !u!1001 &1670328386408598338
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2400,55 +2172,55 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+    - target: {fileID: 1821424072819425811, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
+      propertyPath: m_Name
+      value: MakoFocus
+      objectReference: {fileID: 0}
+    - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.96
+      value: -7
       objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+    - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.08
+      value: -7
       objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+    - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+    - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+    - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+    - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+    - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+    - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+    - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1436665664837696612, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+    - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7032176544119332849, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
-      propertyPath: m_Name
-      value: MakoOrb
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
 --- !u!1001 &5678593060122537266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2518,8 +2290,4 @@ SceneRoots:
   - {fileID: 1598082201}
   - {fileID: 57023163}
   - {fileID: 5678593060122537266}
-  - {fileID: 1896267854445949380}
-  - {fileID: 162755398}
-  - {fileID: 727703240}
-  - {fileID: 725558920}
-  - {fileID: 806374455}
+  - {fileID: 1670328386408598338}
