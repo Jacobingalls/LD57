@@ -126,10 +126,11 @@ public class ResourceManager : MonoBehaviour
     /// Increments the resource according to active modifiers.
     /// </summary>
     /// <param name="resourceType"></param>
-    public void IncrementResource(ResourceType resourceType)
+    /// <param name="gain">Number of times to add the resource. Each addition takes into account modifiers.</param>
+    public void IncrementResource(ResourceType resourceType, int gain = 1)
     {
         var resource = GetResource(resourceType);
-        var resourceGain = resource.baseGain;
+        var resourceGain = resource.baseGain * gain;
 
         // TODO: calculate modifiers
 

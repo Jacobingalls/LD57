@@ -29,12 +29,6 @@ public class MakoManager : MonoBehaviour
             }
         });
     }
-
-    void Update()
-    {
-        
-    }
-
     public void SpawnMakoOrb(Vector3 spawnPosition)
     {
         var makoOrbGO = Instantiate(makoOrbPrefab);
@@ -43,6 +37,7 @@ public class MakoManager : MonoBehaviour
         const float impulseMin = 1.0f;
         const float impulseMax = 1.5f;
         makoOrb.ApplySpawningImpulse(Random.Range(impulseMin, impulseMax));
+        makoOrb.transform.parent = transform;
 
         makoOrbs.Add(makoOrb);
     }

@@ -10,12 +10,10 @@ public enum UpgradeType
     MakoManualSummonIncrease,
     MakoManualCollectIncrease,
     MakoManualAdditionalCollector,
-
-    // MARK: - Mako Refinement
     MakoRefinementUnlockCrystal,
-
-    // MARK: - Research Processing
     ResearchProcessingUnlockFactory,
+    PeopleSmallHouse,
+    PeopleLargeHouse,
 }
 
 public delegate void ApplyUpgradeEffectDelegate(Upgrade u);
@@ -226,6 +224,36 @@ public class UpgradeManager : MonoBehaviour
                 "research.factory.unlocked"
             }
         });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.PeopleSmallHouse,
+            name = "Cottage",
+            description = "A damp, cold cottage. Provides housing for 1 mortal soul.",
+            maxPurchases = 16,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 5,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 2,
+            }
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.PeopleLargeHouse,
+            name = "Flat",
+            description = "A cramped, towering flat. Provides housing for 4 mortal souls.",
+            maxPurchases = 16,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 25,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 2,
     }
 
     public void RegisterUpgradePurchaseHandler(UpgradeType upgradeType, UpgradePurchasedDelegate handler)

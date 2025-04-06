@@ -84,6 +84,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72f247fc48dfcc4c8460113c6ca0456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  housePrefab: {fileID: 7834095170565036754, guid: 5e17b96831135eb4f898ed0fd95d1675, type: 3}
+  largeHousePrefab: {fileID: 1026747840576913384, guid: f00b6efb8b9117b49b8b4128d1f8ec59, type: 3}
 --- !u!1001 &545419507705127275
 PrefabInstance:
   m_ObjectHideFlags: 0

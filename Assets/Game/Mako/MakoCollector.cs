@@ -30,10 +30,10 @@ public class MakoCollector : MonoBehaviour
         _pubsub = GetComponent<PubSubSender>();
         _mm = GetComponentInParent<MakoManager>();
 
-        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualSummonIncrease, (u =>
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualSummonIncrease, u =>
         {
             maxVel *= 2f;
-        }));
+        });
     }
 
     void FixedUpdate()
