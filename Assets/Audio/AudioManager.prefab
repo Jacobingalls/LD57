@@ -80,7 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f451908c10284852b8f00cf88e003e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - {fileID: 11400000, guid: cc9e9b5482d8b44b5bea3661d26381f5, type: 2}
 --- !u!1 &700154185766278688
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +130,7 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
   audioSourcePrefab: {fileID: 5304750828136170511, guid: 6dc175167ffb53347b7845ab3fc03c39, type: 3}
   AmbianceSoundInfoID: Ambiance
-  MusicSoundInfoID: 
+  MusicSoundInfoID: LD57 BGM
 --- !u!1 &700154186250235073
 GameObject:
   m_ObjectHideFlags: 0
