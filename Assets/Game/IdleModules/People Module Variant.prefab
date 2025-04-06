@@ -821,11 +821,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
       propertyPath: 'upgrades.Array.data[0]'
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
       propertyPath: 'upgrades.Array.data[1]'
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

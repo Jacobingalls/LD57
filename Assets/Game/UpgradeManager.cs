@@ -254,6 +254,8 @@ public class UpgradeManager : MonoBehaviour
             costsScaleFactors =
             {
                 [ResourceType.Mako] = 2,
+            }
+        });
     }
 
     public void RegisterUpgradePurchaseHandler(UpgradeType upgradeType, UpgradePurchasedDelegate handler)
