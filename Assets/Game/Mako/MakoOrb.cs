@@ -3,10 +3,27 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MakoOrb : MonoBehaviour
 {
-    public bool Collectable { get; set; }
+    private bool _collectable = false;
+    public bool Collectable
+    {
+        get
+        {
+            return _collectable && !BeingSucked;
+        }
+        set
+        {
+            BaseVisuals.SetActive(false);
+            AcceleratedVisuals.SetActive(true);
+            _collectable = value;
+        }
+    }
     public bool Captured { get; set; }
+    public bool BeingSucked { get; set; }
 
     private Rigidbody2D _rb;
+
+    public GameObject BaseVisuals;
+    public GameObject AcceleratedVisuals;
 
     void Awake()
     {

@@ -244,8 +244,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
-  m_fontSizeBase: 16
+  m_fontSize: 14
+  m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -534,6 +534,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8622079569780625347}
     m_Modifications:
+    - target: {fileID: 5105834676170459874, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_PreferredHeight
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5105834676170459878, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -618,6 +622,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UpgradeButton
       objectReference: {fileID: 0}
+    - target: {fileID: 5105834676170459929, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5105834676693854178, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -642,21 +650,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7423361812100248177, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.a
-      value: 0.5372549
+    - target: {fileID: 5105834676693854179, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_fontSize
+      value: 12
       objectReference: {fileID: 0}
-    - target: {fileID: 7423361812100248177, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.b
-      value: 0.582
+    - target: {fileID: 5105834676693854179, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
       objectReference: {fileID: 0}
-    - target: {fileID: 7423361812100248177, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.g
-      value: 0.582
-      objectReference: {fileID: 0}
-    - target: {fileID: 7423361812100248177, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
-      propertyPath: m_Colors.m_DisabledColor.r
-      value: 0.582
+    - target: {fileID: 5105834676693854181, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7423361812100248177, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

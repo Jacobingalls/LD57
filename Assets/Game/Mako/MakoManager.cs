@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MakoManager : MonoBehaviour
@@ -11,14 +12,22 @@ public class MakoManager : MonoBehaviour
     public List<MakoOrb> makoOrbs = new();
 
     private MakoHarvester _harvester;
-    private MakoCollector _collector;
+    private List<MakoCollector> _collectors;
     private MakoAccelerator _accelerator;
 
     void Start()
     {
         _harvester = GetComponentInChildren<MakoHarvester>();
-        _collector = GetComponentInChildren<MakoCollector>();
+        _collectors = GetComponentsInChildren<MakoCollector>(includeInactive: true).ToList();
         _accelerator = GetComponentInChildren<MakoAccelerator>();
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualAdditionalCollector, u => {
+            var firstInactiveCollector = _collectors.Where(c => c.gameObject.activeSelf == false).First();
+            if (firstInactiveCollector != null)
+            {
+                firstInactiveCollector.gameObject.SetActive(true);
+            }
+        });
     }
 
     void Update()

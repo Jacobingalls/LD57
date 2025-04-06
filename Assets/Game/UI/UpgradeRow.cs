@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor.Rendering.Universal;
 
 public class UpgradeRow : MonoBehaviour
 {
@@ -36,17 +37,55 @@ public class UpgradeRow : MonoBehaviour
     private void Redraw()
     {
         var upgrade = UpgradeManager.Instance.GetUpgrade(_upgradeType);
-        tooltipProvider.tooltipTitle = upgrade.name;
+
+        var romanNumeral = "";
+        if (upgrade.maxPurchases > 1)
+        {
+            // thank you, Tsundere Dev
+            romanNumeral += " ";
+            var timesPurchased = upgrade.Complete ? upgrade.maxPurchases - 1 : upgrade.timesPurchased;
+            if (timesPurchased == 0)
+            {
+                romanNumeral += "I";
+            } 
+            else if (timesPurchased == 1)
+            {
+                romanNumeral += "II";
+            }
+            else if (timesPurchased == 2)
+            {
+                romanNumeral += "III";
+            }
+            else if (timesPurchased == 3)
+            {
+                romanNumeral += "IV";
+            }
+            else if (timesPurchased == 4)
+            {
+                romanNumeral += "V";
+            }
+            else if (timesPurchased == 5)
+            {
+                romanNumeral += "VI";
+            }
+            else
+            {
+                romanNumeral += $"{timesPurchased + 1}";
+            }
+        }
+        var upgradeName = $"{upgrade.name}{romanNumeral}";
+
+        tooltipProvider.tooltipTitle = upgradeName;
         tooltipProvider.tooltipText = upgrade.description;
-        upgradeTitleLabel.text = upgrade.name;
+        upgradeTitleLabel.text = upgradeName;
 
         var costText = "";
 
-        for (var i = 0; i < upgrade.cost.Count; i++)
+        for (var i = 0; i < upgrade.Costs.Count; i++)
         {
-            var entry = upgrade.cost.ElementAt(i);
+            var entry = upgrade.Costs.ElementAt(i);
             costText += $"<sprite name=\"{entry.Key}\"> {entry.Value}";
-            if (i != upgrade.cost.Count - 1)
+            if (i != upgrade.Costs.Count - 1)
             {
                 costText += " ";
             }

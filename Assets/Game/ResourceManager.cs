@@ -1,3 +1,4 @@
+using info.jacobingalls.jamkit;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -34,8 +35,11 @@ public class ResourceSpriteConfig
     public Sprite Sprite;
 }
 
+[RequireComponent(typeof(PubSubSender))]
 public class ResourceManager : MonoBehaviour
 {
+    public bool cheatMode;
+
     public static ResourceManager Instance { get; private set; }
     private readonly Dictionary<ResourceType, Resource> _resources = new();
 
@@ -168,7 +172,15 @@ public class ResourceManager : MonoBehaviour
 
     void Start()
     {
-
+        if (cheatMode)
+        {
+            foreach(var entry in _resources)
+            {
+                entry.Value.unlocked = true;
+                entry.Value.amount = (int)10e5;
+            }
+            GetComponent<PubSubSender>().Publish("resource.unlocked");
+        }
     }
 
     void Update()

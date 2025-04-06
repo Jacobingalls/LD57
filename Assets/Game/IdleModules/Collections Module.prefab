@@ -979,6 +979,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: upgrades.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[1]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[2]'
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[3]'
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

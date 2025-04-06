@@ -52,10 +52,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 10
-    m_Right: 10
-    m_Top: 10
-    m_Bottom: 10
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 5
   m_ChildForceExpandWidth: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpgradeRowPrefab: {fileID: 3394813646815245322, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
-  upgrades: 000000000100000002000000
+  upgrades: 00000000
 --- !u!114 &1419660555640023077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +146,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2668510408473244564, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668510408473244564, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668510408473244564, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2668510408473244564, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}

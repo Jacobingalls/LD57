@@ -1,8 +1,10 @@
+using info.jacobingalls.jamkit;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PubSubSender))]
 public class MakoHarvester : MonoBehaviour
 {
     [Header("Mako Orbs")]
@@ -22,18 +24,52 @@ public class MakoHarvester : MonoBehaviour
     private GameObject _makoFocusGO;
     private SpriteFloat[] _makoFocusSpriteFloats;
 
+    private bool _pressing = false;
+    private float _pressTime = 0.0f;
+    private float _triggerTime = 0.0f;
+
+    [UnityEngine.Range(0.0f, 1.0f)]
+    public float shortPressThreshold = 0.200f;
+    public bool pressAndHoldEnabled = false;
+    [UnityEngine.Range(0.0f, 2.0f)]
+    public float pressAndHoldTriggerTime = 0.500f;
+
+    private int manualClickGain = 1;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _makoFocusGO = GameObject.Find("MakoFocus");
         _makoFocusSpriteFloats = _makoFocusGO.GetComponentsInChildren<SpriteFloat>();
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoClickAndHold, (u =>
+        {
+            pressAndHoldEnabled = true;
+        }));
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualSummonIncrease, (u =>
+        {
+            manualClickGain *= 2;
+        }));
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (_pressing)
+        {
+            _pressTime += Time.deltaTime;
+            _triggerTime -= Time.deltaTime;
+            
+            if (_triggerTime < 0.0f && pressAndHoldEnabled)
+            {
+                _triggerTime = pressAndHoldTriggerTime;
+                ChargeHarvester(manualClickGain);
+            }
+        }
     }
+
+    // method to add two numbers
 
     private void OnMouseDown()
     {
@@ -42,9 +78,27 @@ public class MakoHarvester : MonoBehaviour
             return;
         }
 
-        _chargeState += 1;
+        _pressing = true;
+        _pressTime = 0.0f;
+        _triggerTime = pressAndHoldTriggerTime;
+    }
+
+    private void OnMouseUp()
+    {
+        if (_pressTime <= shortPressThreshold || !pressAndHoldEnabled)
+        {
+            ChargeHarvester(manualClickGain);
+        }
+
+        _pressing = false;
+    }
+
+    private void ChargeHarvester(int increaseAmount = 1)
+    {
+        _chargeState = Mathf.Min(_chargeState + increaseAmount, _maxChargeState);
         if (_chargeState == _maxChargeState)
         {
+            if (_discharging) { return; }
             harvesterAnimator.ResetTrigger("ChargeUp");
             harvesterAnimator.speed = 1.0f;
             harvesterAnimator.Play("MakoHarvesterChargedAnimation", 0, 0);
@@ -67,6 +121,7 @@ public class MakoHarvester : MonoBehaviour
     void ShowLaser(float hideAfter)
     {
         harvesterSpriteFloat.Jitter(jitterDuration: hideAfter);
+        GetComponent<PubSubSender>().Publish("mako.harvester.laser.begin");
 
         foreach (var spriteFloat in _makoFocusSpriteFloats)
         {
@@ -94,5 +149,6 @@ public class MakoHarvester : MonoBehaviour
         harvesterAnimator.SetTrigger("ChargeUp");
         harvesterAnimator.speed = 0.0f;
         harvesterAnimator.Play("MakoHarvesterChargeAnimation", 0, 0.0f);
+        GetComponent<PubSubSender>().Publish("mako.harvester.laser.end");
     }
 }

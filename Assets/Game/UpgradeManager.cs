@@ -7,17 +7,19 @@ public enum UpgradeType
 {
     MakoClickAndHold,
     MakoManualSummonIncrease,
-    MakoManualCollectIncrease
+    MakoManualCollectIncrease,
+    MakoManualAdditionalCollector,
 }
 
 public delegate void ApplyUpgradeEffectDelegate(Upgrade u);
+public delegate void UpgradePurchasedDelegate(Upgrade u);
 
 public class Upgrade
 {
     public UpgradeType type;
 
-    public Dictionary<ResourceType, int> cost = new();
-    public Dictionary<ResourceType, float> costScaleFactor = null;
+    public Dictionary<ResourceType, int> baseCosts = new();
+    public Dictionary<ResourceType, float> costsScaleFactors = new();
 
     public string name = "Upgrade";
     public string description = "Upgrade Description";
@@ -29,7 +31,9 @@ public class Upgrade
     public bool forcedHidden = false;
 
     public List<UpgradeType> requirements = new();
+    public List<UpgradeType> hiddenRequirements = new();
 
+    public event UpgradePurchasedDelegate UpgradePurchased;
     public ApplyUpgradeEffectDelegate ApplyUpgradeEffect;
 
     public bool Hidden
@@ -37,7 +41,8 @@ public class Upgrade
         get
         {
             var requirementsHidden = requirements.Where(r => UpgradeManager.Instance.GetUpgrade(r).Hidden).Count() > 0;
-            return forcedHidden || requirementsHidden;
+            var hiddenRequirementsNotPurchased = hiddenRequirements.Where(r => UpgradeManager.Instance.GetUpgrade(r).Purchased == false).Count() > 0;
+            return forcedHidden || requirementsHidden || hiddenRequirementsNotPurchased;
         }
     }
     public bool Unlocked
@@ -45,7 +50,8 @@ public class Upgrade
         get
         {
             var requirementsPurchased = requirements.Where(r => UpgradeManager.Instance.GetUpgrade(r).Purchased == false).Count() == 0;
-            return !forcedLocked && requirementsPurchased;
+            var hiddenRequirementsPurchased = hiddenRequirements.Where(r => UpgradeManager.Instance.GetUpgrade(r).Purchased == false).Count() == 0;
+            return !forcedLocked && requirementsPurchased && hiddenRequirementsPurchased;
         }
     }
 
@@ -64,6 +70,35 @@ public class Upgrade
             return timesPurchased == maxPurchases;
         }
     }
+
+    public void Purchase()
+    {
+        timesPurchased += 1;
+        UpgradePurchased?.Invoke(this);
+        ApplyUpgradeEffect?.Invoke(this);
+    }
+
+    public Dictionary<ResourceType, int> Costs
+    {
+        get
+        {
+            return baseCosts.ToDictionary(kvp => kvp.Key, kvp => GetCost(kvp.Key));
+        }
+    }
+
+    public int GetCost(ResourceType resourceType)
+    {
+        if (!baseCosts.ContainsKey(resourceType))
+        {
+            return 0;
+        }
+        var scaleFactor = 1.0f;
+        if (costsScaleFactors.ContainsKey(resourceType))
+        {
+            scaleFactor = costsScaleFactors[resourceType];
+        }
+        return (int)(Mathf.Pow(scaleFactor, timesPurchased) * baseCosts[resourceType]);
+    }
 }
 
 [RequireComponent(typeof(PubSubSender))]
@@ -71,6 +106,8 @@ public class UpgradeManager : MonoBehaviour
 {
     public static UpgradeManager Instance { get; private set; }
     private readonly Dictionary<UpgradeType, Upgrade> _upgrades = new();
+
+    private PubSubSender _pubSub;
 
     public Upgrade GetUpgrade(UpgradeType upgradeType)
     {
@@ -94,27 +131,26 @@ public class UpgradeManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        _pubSub = GetComponent<PubSubSender>();
+
         RegisterUpgrade(new Upgrade 
         {
             type = UpgradeType.MakoClickAndHold,
             name = "Divine Guidance",
             description = "By the grace of God, we can begin to uncover the mysteries of this strange substance. Unlocks click + hold on the channeling device.",
-            cost =
+            baseCosts =
             {
                 [ResourceType.Mako] = 5,
             },
-            ApplyUpgradeEffect = (u =>
-            {
-                Debug.Log($"Purchased {u}!");
-            })
         });
 
         RegisterUpgrade(new Upgrade
         {
             type = UpgradeType.MakoManualCollectIncrease,
             name = "Alignment",
-            requirements = { UpgradeType.MakoClickAndHold },
-            cost =
+            description = "Improve alignment of the collector arrays. Substance is attracted at a faster rate.",
+            hiddenRequirements = { UpgradeType.MakoClickAndHold },
+            baseCosts =
             {
                 [ResourceType.Mako] = 10,
             },
@@ -124,18 +160,43 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoManualSummonIncrease,
             name = "Calibration",
-            requirements = { UpgradeType.MakoClickAndHold },
-            cost =
+            description = "Calibrate the channeling device. Substance is drawn more easily from the depths.",
+            hiddenRequirements = { UpgradeType.MakoClickAndHold },
+            maxPurchases = 3,
+            baseCosts =
             {
                 [ResourceType.Mako] = 10,
             },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 2,
+            }
         });
+
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.MakoManualAdditionalCollector,
+            name = "Collector",
+            description = "Construct an additional substance collector.",
+            hiddenRequirements = { UpgradeType.MakoClickAndHold },
+            baseCosts =
+            {
+                [ResourceType.Mako] = 25,
+            },
+        });
+    }
+
+    public void RegisterUpgradePurchaseHandler(UpgradeType upgradeType, UpgradePurchasedDelegate handler)
+    {
+        var upgrade = GetUpgrade(upgradeType);
+        upgrade.UpgradePurchased += handler;
     }
 
     public bool CanAfford(UpgradeType upgradeType)
     {
         var upgrade = GetUpgrade(upgradeType);
-        foreach (var cost in upgrade.cost)
+        foreach (var cost in upgrade.Costs)
         {
             if (ResourceManager.Instance.GetResourceAmount(cost.Key) < cost.Value)
             {
@@ -159,14 +220,12 @@ public class UpgradeManager : MonoBehaviour
             return false;
         }
 
-        foreach (var cost in upgrade.cost)
+        foreach (var cost in upgrade.Costs)
         {
             ResourceManager.Instance.PayResource(cost.Key, cost.Value);
         }
 
-        upgrade.timesPurchased += 1;
-
-        upgrade.ApplyUpgradeEffect?.Invoke(upgrade);
+        upgrade.Purchase();
 
         GetComponent<PubSubSender>().Publish("upgrade.purchased");
 
