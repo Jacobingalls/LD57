@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9188970590147869884}
   - component: {fileID: 5677856895485127212}
   - component: {fileID: 4315847150791977749}
+  - component: {fileID: 4792110223151541354}
   m_Layer: 0
   m_Name: LD57GameManager
   m_TagString: Untagged
@@ -63,7 +64,7 @@ MonoBehaviour:
   - Type: 0
     Sprite: {fileID: 21300000, guid: aa1df80e268f7c64bb75e9bb6fd56d34, type: 3}
   - Type: 1
-    Sprite: {fileID: -7585664845875449013, guid: 3ed04f71e66d543a4be277bb720d2962, type: 3}
+    Sprite: {fileID: -841016360, guid: 5ee1e7117ba5fd943a16bb0eee6c0443, type: 3}
   - Type: 2
     Sprite: {fileID: -7585664845875449013, guid: 3ed04f71e66d543a4be277bb720d2962, type: 3}
   - Type: 3
@@ -78,5 +79,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 650ecb2d99b89d0409f64a9f64f620c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4792110223151541354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989715486978337487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa85f00fea274f27ad241da0b5a270c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

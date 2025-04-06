@@ -45,7 +45,6 @@ public class Upgrade
         get
         {
             var requirementsPurchased = requirements.Where(r => UpgradeManager.Instance.GetUpgrade(r).Purchased == false).Count() == 0;
-            Debug.Log($"{type} Requirements Purchased " + requirements.Where(r => UpgradeManager.Instance.GetUpgrade(r).Purchased == false).Count());
             return !forcedLocked && requirementsPurchased;
         }
     }
