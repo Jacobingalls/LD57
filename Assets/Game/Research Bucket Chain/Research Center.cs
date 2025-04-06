@@ -13,16 +13,30 @@ public class ResearchCenter : MonoBehaviour
 
     public KnoledgeTop knoledgeTop;
 
+    public SpriteRenderer researchCenterBuilding;
+    public SpriteRenderer researchCenterBuilderLit;
+    public AnimationCurve researchCenterBuildingLightCurve;
+    public float researchCenterBuildingLightTime = 1f;
+
+    public KnowledgeGuage knowledgeGuage;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        researchCenterBuilding.gameObject.SetActive(true);
+        researchCenterBuilderLit.gameObject.SetActive(true);
+        researchCenterBuildingLightTime = 1f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        researchCenterBuildingLightTime += Time.deltaTime;
+        researchCenterBuildingLightTime = Mathf.Clamp01(researchCenterBuildingLightTime);
+        researchCenterBuilding.color = new Color(1, 1, 1, researchCenterBuildingLightCurve.Evaluate(researchCenterBuildingLightTime));
+        researchCenterBuilderLit.color = new Color(1, 1, 1, 1 - researchCenterBuildingLightCurve.Evaluate(researchCenterBuildingLightTime));
+        knowledgeGuage.percentage = Mathf.Clamp01(gooLevel / gooToMakeKnowledge);
     }
 
     public void DidGetGoo()
@@ -42,6 +56,7 @@ public class ResearchCenter : MonoBehaviour
         knowledgeParticle.speed = 1f;
         knowledgeParticle.maxY = maxKnowledgeHeight;
         knowledgeParticle.researchCenter = this;
+        researchCenterBuildingLightTime = Mathf.Clamp01(researchCenterBuildingLightTime - 0.5f);
     }
 
     public void KnoledgeParticleDidReachTop(KnowledgeParticle knowledgeParticle)

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4ff048d11e5aa4776a7eba5d7a3010a3
+guid: 836b8fcfa239c45dcad9d951ffcac35c
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -98,7 +98,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638794811280983000
+  platformSettingsDirtyTick: 638794936178093770
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -123,7 +123,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Research Center
+  - name: Research Center Lit
     originalName: 
     pivot: {x: 0.516129, y: 0}
     alignment: 9
@@ -135,7 +135,7 @@ ScriptedImporter:
       y: 4
       width: 93
       height: 64
-    spriteID: 4e4a7e77456884bbe92ab6d760399de3
+    spriteID: ccf7ed71285ae4c9e8099cb79d7d0c7a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -144,16 +144,79 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
+  - name: Frame_1
+    originalName: 
+    pivot: {x: 0.516129, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 76
+      width: 93
+      height: 64
+    spriteID: 310680d62864d47c18d048a7f338097f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 76}
+  - name: Frame_2
+    originalName: 
+    pivot: {x: 0.516129, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 148
+      width: 93
+      height: 64
+    spriteID: 186c5e6fb601943ae9025bb8c4f71375
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 148}
+  - name: Frame_3
+    originalName: 
+    pivot: {x: 0.516129, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 105
+      y: 4
+      width: 93
+      height: 64
+    spriteID: 261e80d937843493bb379a62fdc8526a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 105, y: 4}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: 1576524056
-    name: Research Center
+    guid: 977993875
+    name: Research Center Lit
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Research Center
+    - name: Frame_0
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -161,7 +224,34 @@ ScriptedImporter:
         y: 0
         width: 93
         height: 64
-      spriteId: 4e4a7e77456884bbe92ab6d760399de3
+      spriteId: ccf7ed71285ae4c9e8099cb79d7d0c7a
+    - name: Frame_1
+      frameIndex: 1
+      additiveSortOrder: 0
+      cellRect:
+        x: 0
+        y: 0
+        width: 93
+        height: 64
+      spriteId: 310680d62864d47c18d048a7f338097f
+    - name: Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: 0
+        y: 0
+        width: 93
+        height: 64
+      spriteId: 186c5e6fb601943ae9025bb8c4f71375
+    - name: Frame_3
+      frameIndex: 3
+      additiveSortOrder: 0
+      cellRect:
+        x: 0
+        y: 0
+        width: 93
+        height: 64
+      spriteId: 261e80d937843493bb379a62fdc8526a
     linkedCells: []
     parentIndex: -1
   platformSettings:
@@ -217,4 +307,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 96, y: 64}
-  previousTextureSize: {x: 128, y: 128}
+  previousTextureSize: {x: 256, y: 256}
