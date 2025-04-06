@@ -700,7 +700,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mako Harvesting
+  m_text: The Substance
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7c674711b26c76246b0ee18a4d5abe31, type: 2}
   m_sharedMaterial: {fileID: -6985338626427091019, guid: 7c674711b26c76246b0ee18a4d5abe31, type: 2}
@@ -909,6 +909,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6577768699406297777, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6577768699406297777, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6577768699406297777, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6577768699406297777, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
