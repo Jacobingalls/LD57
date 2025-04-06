@@ -98,6 +98,10 @@ public class ResourceManager : MonoBehaviour
     {
         return _resources[resourceType].amount;
     }
+    public int PayResource(ResourceType resourceType, int amount)
+    {
+        return _resources[resourceType].amount -= amount;
+    }
 
     public Sprite GetResourceSprite(ResourceType resourceType)
     {

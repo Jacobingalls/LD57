@@ -99,6 +99,15 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoClickAndHold,
             name = "Divine Guidance",
+            description = "By the grace of God, we can begin to uncover the mysteries of this strange substance. Unlocks click + hold on the channeling device.",
+            cost =
+            {
+                [ResourceType.Mako] = 5,
+            },
+            ApplyUpgradeEffect = (u =>
+            {
+                Debug.Log($"Purchased {u}!");
+            })
         });
 
         RegisterUpgrade(new Upgrade
@@ -106,6 +115,10 @@ public class UpgradeManager : MonoBehaviour
             type = UpgradeType.MakoManualCollectIncrease,
             name = "Alignment",
             requirements = { UpgradeType.MakoClickAndHold },
+            cost =
+            {
+                [ResourceType.Mako] = 10,
+            },
         });
 
         RegisterUpgrade(new Upgrade
@@ -113,16 +126,52 @@ public class UpgradeManager : MonoBehaviour
             type = UpgradeType.MakoManualSummonIncrease,
             name = "Calibration",
             requirements = { UpgradeType.MakoClickAndHold },
+            cost =
+            {
+                [ResourceType.Mako] = 10,
+            },
         });
+    }
+
+    public bool CanAfford(UpgradeType upgradeType)
+    {
+        var upgrade = GetUpgrade(upgradeType);
+        foreach (var cost in upgrade.cost)
+        {
+            if (ResourceManager.Instance.GetResourceAmount(cost.Key) < cost.Value)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public bool Purchase(UpgradeType upgradeType)
     {
         var upgrade = GetUpgrade(upgradeType);
 
+        if (!CanAfford(upgradeType))
+        {
+            return false;
+        }
+
+        if (upgrade.timesPurchased >= upgrade.maxPurchases)
+        {
+            return false;
+        }
+
+        foreach (var cost in upgrade.cost)
+        {
+            ResourceManager.Instance.PayResource(cost.Key, cost.Value);
+        }
+
         upgrade.timesPurchased += 1;
 
+        upgrade.ApplyUpgradeEffect?.Invoke(upgrade);
+
         GetComponent<PubSubSender>().Publish("upgrade.purchased");
+
+        AudioManager.Instance.Play2D("Upgrade/Purchase", pitchMin: 0.9f, pitchMax: 1.1f);
 
         return true;
     }
