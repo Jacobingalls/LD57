@@ -19,6 +19,8 @@ public class BucketChain : MonoBehaviour
 
     private Bucket lastBucketGoingUp;
 
+    public UnityEngine.Events.UnityEvent onNewBucketOfGoo;
+
     public void SetSpeed(float speed)
     {
         chainSpeed = speed;
@@ -67,6 +69,9 @@ public class BucketChain : MonoBehaviour
 
     public void BucketDidReachTop(Bucket bucket) {
         float error = bucket.transform.localPosition.y - topY;
+        if (bucket.isBucket) {
+            onNewBucketOfGoo.Invoke();
+        }
 
         Destroy(bucket.gameObject);
 
