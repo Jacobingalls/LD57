@@ -27,6 +27,9 @@ public class ResearchCenter : MonoBehaviour
         researchCenterBuilding.gameObject.SetActive(true);
         researchCenterBuilderLit.gameObject.SetActive(true);
         researchCenterBuildingLightTime = 1f;
+        researchCenterBuilding.color = new Color(1, 1, 1, 1);
+        researchCenterBuilderLit.color = new Color(1, 1, 1, 0);
+       
     }
 
     // Update is called once per frame

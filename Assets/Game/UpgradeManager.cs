@@ -1,4 +1,5 @@
 using info.jacobingalls.jamkit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,6 +13,9 @@ public enum UpgradeType
 
     // MARK: - Mako Refinement
     MakoRefinementUnlockCrystal,
+
+    // MARK: - Research Processing
+    ResearchProcessingUnlockFactory,
 }
 
 public delegate void ApplyUpgradeEffectDelegate(Upgrade u);
@@ -38,6 +42,8 @@ public class Upgrade
 
     public event UpgradePurchasedDelegate UpgradePurchased;
     public ApplyUpgradeEffectDelegate ApplyUpgradeEffect;
+
+    public List<String> pubSubNotifications = new();
 
     public bool Hidden
     {
@@ -199,8 +205,25 @@ public class UpgradeManager : MonoBehaviour
             {
                 [ResourceType.Mako] = 50,
             },
-            ApplyUpgradeEffect = (u) => {
-                GetComponent<PubSubSender>().Publish("refinement.crystal.unlocked");
+            pubSubNotifications = 
+            { 
+                "refinement.crystal.unlocked" 
+            }
+        });
+
+        // MARK: - Research Processing
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.ResearchProcessingUnlockFactory,
+            name = "Construct Factory",
+            description = "Construct a factory to process refined substance into research.",
+            baseCosts =
+            {
+                [ResourceType.Mako] = 100,
+            },
+            pubSubNotifications =
+            {
+                "research.factory.unlocked"
             }
         });
     }
@@ -245,7 +268,16 @@ public class UpgradeManager : MonoBehaviour
 
         upgrade.Purchase();
 
-        GetComponent<PubSubSender>().Publish("upgrade.purchased");
+
+        PubSubSender sender = GetComponent<PubSubSender>();
+        if (sender != null) 
+        {
+            sender.Publish("upgrade.purchased");
+            foreach (var notification in upgrade.pubSubNotifications)
+            {
+                _pubSub.Publish(notification);
+            }
+        }
 
         AudioManager.Instance.Play2D("Upgrade/Purchase", pitchMin: 0.9f, pitchMax: 1.1f);
 
