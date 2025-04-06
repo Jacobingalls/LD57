@@ -65,5 +65,6 @@ public class ResearchCenter : MonoBehaviour
     public void KnoledgeParticleDidReachTop(KnowledgeParticle knowledgeParticle)
     {
         knoledgeTop.DidGetKnowledge();
+        ResourceManager.Instance.Science += 1;
     }
 }
