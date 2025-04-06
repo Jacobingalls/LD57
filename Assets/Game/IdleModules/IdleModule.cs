@@ -60,7 +60,7 @@ public class IdleModule : MonoBehaviour
     {
         if (CanBePurchased())
         {
-            LD57GameManager.Instance.Mako -= purchaseCost;
+            ResourceManager.Instance.Mako -= purchaseCost;
             SetState(IdleModuleState.Purchased);
             onPurchase.Invoke();
         }
@@ -68,7 +68,7 @@ public class IdleModule : MonoBehaviour
 
     public bool CanBePurchased()
     {
-        return state == IdleModuleState.AvailableForPurchase && LD57GameManager.Instance.Mako >= purchaseCost;
+        return state == IdleModuleState.AvailableForPurchase && ResourceManager.Instance.Mako >= purchaseCost;
     }
 }
 

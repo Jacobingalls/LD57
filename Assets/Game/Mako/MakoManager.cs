@@ -49,6 +49,6 @@ public class MakoManager : MonoBehaviour
         makoOrbs.Remove(makoOrb);
         Destroy(makoOrb.gameObject);
 
-        LD57GameManager.Instance.Mako += 100;
+        ResourceManager.Instance.IncrementResource(ResourceType.Mako);
     }
 }

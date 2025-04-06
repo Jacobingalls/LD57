@@ -7,23 +7,6 @@ public class LD57GameManager : MonoBehaviour
 {
     public static LD57GameManager Instance;
 
-    private int mako = 0;
-
-    public int Mako
-    {
-        get { return mako; }
-        set { mako = value; }
-    }
-
-    public void IncrementMako(int amount)
-    {
-        Mako += amount;
-    }
-    public void DecrementMako(int amount)
-    {
-        Mako -= amount;
-    }
-
     public Toolip tooltipPrefab;
 
     // Start is called before the first frame update

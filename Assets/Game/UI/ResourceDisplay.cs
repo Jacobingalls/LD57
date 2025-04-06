@@ -1,19 +1,20 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResourceDisplay : MonoBehaviour
 {
-    public TextMeshProUGUI makoCounterLabel;
-
-    private LD57GameManager _gm;
+    public ResourceType resourceType;
+    public Image resourceImage;
+    public TextMeshProUGUI resourceLabel;
 
     public void Start()
     {
-        _gm = FindFirstObjectByType<LD57GameManager>();
+        resourceImage.sprite = ResourceManager.Instance.GetResourceSprite(resourceType);
     }
 
     void Update()
     {
-        makoCounterLabel.text = $"{_gm.Mako}";
+        resourceLabel.text = $"{ResourceManager.Instance.GetResourceAmount(resourceType)}";
     }
 }
