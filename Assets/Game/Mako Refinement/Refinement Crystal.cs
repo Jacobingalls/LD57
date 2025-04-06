@@ -20,6 +20,9 @@ public class RefinementCrystal : MonoBehaviour
         unlitSprite.gameObject.SetActive(true);
         litSprite.gameObject.SetActive(true);
         animationTime = 1f;
+        unlitSprite.color = new Color(1, 1, 1, 1);
+        litSprite.color = new Color(1, 1, 1, 0);
+        laserSprite.color = new Color(1, 1, 1, 0);
     }
 
     // Update is called once per frame

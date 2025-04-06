@@ -9,6 +9,9 @@ public enum UpgradeType
     MakoManualSummonIncrease,
     MakoManualCollectIncrease,
     MakoManualAdditionalCollector,
+
+    // MARK: - Mako Refinement
+    MakoRefinementUnlockCrystal,
 }
 
 public delegate void ApplyUpgradeEffectDelegate(Upgrade u);
@@ -184,6 +187,21 @@ public class UpgradeManager : MonoBehaviour
             {
                 [ResourceType.Mako] = 25,
             },
+        });
+
+        // MARK: - Mako Refinement
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.MakoRefinementUnlockCrystal,
+            name = "Construct Refinement Crystal",
+            description = "Refines the beam to attract refined substance.",
+            baseCosts =
+            {
+                [ResourceType.Mako] = 50,
+            },
+            ApplyUpgradeEffect = (u) => {
+                GetComponent<PubSubSender>().Publish("refinement.crystal.unlocked");
+            }
         });
     }
 
