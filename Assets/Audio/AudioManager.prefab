@@ -127,8 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
-  audioSourcePrefab: {fileID: 5304750828136170511, guid: c618699a796894436aad3fc3b5341dbe, type: 3}
-  AmbianceSoundInfoID: 
+  audioSourcePrefab: {fileID: 5304750828136170511, guid: 6dc175167ffb53347b7845ab3fc03c39, type: 3}
+  AmbianceSoundInfoID: Ambiance
   MusicSoundInfoID: 
 --- !u!1 &700154186250235073
 GameObject:
@@ -184,6 +184,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 45dabced99aeda943b3f1bf3584c85d8, type: 2}
   - {fileID: 11400000, guid: 115940e48cdf5384dbf9fb3664abbcd9, type: 2}
   - {fileID: 11400000, guid: c51d1595f11708d42b112f8f71ee74c4, type: 2}
+  - {fileID: 11400000, guid: 738a81a2901f71f4ab631eebf79e3193, type: 2}
 --- !u!114 &3260317210035423714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f451908c10284852b8f00cf88e003e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - {fileID: 11400000, guid: 15ff803080ec8b84381526835097b235, type: 2}
 --- !u!1 &8799399376963914872
 GameObject:
   m_ObjectHideFlags: 0

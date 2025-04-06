@@ -9,6 +9,8 @@ public class MakoCollector : MonoBehaviour
     public float maxForce = 10.0f;
     public float gain = 3f;
 
+    public MakoHarvesterBeam makoCollectorBeam;
+
     public SpriteFloat spriteFloat;
     public Animator laserAnimator;
 
@@ -16,6 +18,7 @@ public class MakoCollector : MonoBehaviour
 
     private MakoManager _mm;
     private bool _isSucking;
+    private AudioSource _pullInAudioSource;
 
     void Start()
     {
@@ -28,7 +31,6 @@ public class MakoCollector : MonoBehaviour
         {
             SelectTarget();
             PullInTarget();
-            CollectTarget();
         }
     }
 
@@ -42,6 +44,18 @@ public class MakoCollector : MonoBehaviour
     private void OnMouseUp()
     {
         _isSucking = false;
+        CleanUp();
+    }
+
+    private void CleanUp()
+    {
+        _makoOrbTarget = null;
+        makoCollectorBeam.Target = null;
+        if (_pullInAudioSource != null)
+        {
+            _pullInAudioSource.Stop();
+            _pullInAudioSource = null;
+        }
     }
 
     private void SelectTarget()
@@ -71,6 +85,9 @@ public class MakoCollector : MonoBehaviour
         }
 
         _makoOrbTarget = candidateClosest;
+        makoCollectorBeam.Target = _makoOrbTarget.transform.Find("Visuals").transform;
+
+        _pullInAudioSource = AudioManager.Instance.Play2D("Mako/PullIn", loop: true, pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
     }
 
     private void PullInTarget()
@@ -93,7 +110,7 @@ public class MakoCollector : MonoBehaviour
             // Lock that bad boy in
             _makoOrbTarget.Captured = true;
             _makoOrbTarget.StopDrifting();
-            AudioManager.Instance.Play("Mako/Capture", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
+            AudioManager.Instance.Play2D("Mako/Capture", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
             _makoOrbTarget.transform.position = drawTarget.transform.position;
 
             const float jitterDuration = 0.25f;
@@ -101,27 +118,11 @@ public class MakoCollector : MonoBehaviour
         }
     }
 
-    private void CollectTarget()
-    {
-
-        if (_makoOrbTarget == null)
-        {
-            return;
-        }
-
-        if (!_makoOrbTarget.Captured)
-        {
-            return;
-        }
-
-        Debug.Log("Capture that mofo!!!");
-    }
-
     void ShowLaser(float hideAfter)
     {
         spriteFloat.Jitter(jitterDuration: hideAfter);
 
-        AudioManager.Instance.Play("Mako/Charge", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
+        AudioManager.Instance.Play2D("Mako/Charge", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
         laserAnimator.gameObject.SetActive(true);
         laserAnimator.SetTrigger("ChargeUp");
         StartCoroutine(HideLaser(hideAfter));
@@ -133,8 +134,10 @@ public class MakoCollector : MonoBehaviour
 
         _mm.ConsumeMakoOrb(_makoOrbTarget);
         _makoOrbTarget = null;
-        AudioManager.Instance.Play("Mako/Harvest", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
+        makoCollectorBeam.Target = null;
+        AudioManager.Instance.Play2D("Mako/Harvest", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
 
         laserAnimator.gameObject.SetActive(false);
+        CleanUp();
     }
 }

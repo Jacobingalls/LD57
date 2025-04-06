@@ -13,6 +13,6 @@ public class MakoAccelerator : MonoBehaviour
         const float impulseMax = 5.5f;
         makoOrb.ApplyAccleratingImpulse(Random.Range(impulseMin, impulseMax));
         makoOrb.Collectable = true;
-        AudioManager.Instance.Play("Mako/Accelerate", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
+        AudioManager.Instance.Play2D("Mako/Accelerate", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
     }
 }

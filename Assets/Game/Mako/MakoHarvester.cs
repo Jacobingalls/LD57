@@ -58,7 +58,7 @@ public class MakoHarvester : MonoBehaviour
             harvesterAnimator.speed = 0.0f;
             harvesterAnimator.Play("MakoHarvesterChargeAnimation", 0, (float)_chargeState / _maxChargeState);
 
-            AudioManager.Instance.Play("Mako/Focus", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
+            AudioManager.Instance.Play2D("Mako/Focus", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
             const float jitterDuration = 0.15f;
             harvesterSpriteFloat.Jitter(jitterDuration: jitterDuration);
         }
@@ -73,7 +73,7 @@ public class MakoHarvester : MonoBehaviour
             spriteFloat.Jitter(jitterDuration: Random.Range(hideAfter * 0.8f, hideAfter * 1.2f));
         }
 
-        AudioManager.Instance.Play("Mako/Charge", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
+        AudioManager.Instance.Play2D("Mako/Charge", pitchMin: 0.9f, pitchMax: 1.1f, position: transform.position);
         laserAnimator.gameObject.SetActive(true);
         laserAnimator.SetTrigger("ChargeUp");
         StartCoroutine(HideLaser(hideAfter));
