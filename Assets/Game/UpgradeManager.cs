@@ -52,6 +52,7 @@ public class Upgrade
 
     public bool forcedLocked = false;
     public bool forcedHidden = false;
+    public bool hideOnComplete = false;
 
     public List<UpgradeType> requirements = new();
     public List<UpgradeType> hiddenRequirements = new();
@@ -291,6 +292,7 @@ public class UpgradeManager : MonoBehaviour
             type = UpgradeType.MakoRefinementUnlockCrystal,
             name = "Construct Refinement Crystal",
             description = "Refines the beam to attract refined substance.",
+            hideOnComplete = true,
             baseCosts =
             {
                 [ResourceType.Mako] = 50,
@@ -358,6 +360,7 @@ public class UpgradeManager : MonoBehaviour
             type = UpgradeType.ResearchProcessingUnlockFactory,
             name = "Construe",
             description = "Construct a distillary to process the <i>Cognitio Aqua Diluta</i> from the depths.",
+            hideOnComplete = true,
             baseCosts =
             {
                 [ResourceType.Mako] = 100,

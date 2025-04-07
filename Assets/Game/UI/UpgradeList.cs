@@ -25,7 +25,7 @@ public class UpgradeList : MonoBehaviour
         var rectTransform = GetComponent<RectTransform>();
         foreach (var upgradeType in upgrades) {
             var upgrade = UpgradeManager.Instance.GetUpgrade(upgradeType);
-            if (upgrade.Hidden) { continue; }
+            if (upgrade.Hidden || (upgrade.Complete && upgrade.hideOnComplete)) { continue; }
             var upgradeRowGO = Instantiate(UpgradeRowPrefab);
             upgradeRowGO.GetComponent<RectTransform>().SetParent(rectTransform, false);
             upgradeRowGO.GetComponent<RectTransform>().name = upgradeType.ToString();
