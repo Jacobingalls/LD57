@@ -49,6 +49,7 @@ public class RefinementCrystal : MonoBehaviour
     {
         animationTime += Time.deltaTime;
         animationTime = Mathf.Clamp01(animationTime);
+        
         float curvePos = animationTime * animationSpeed;
         unlitSprite.color = new Color(1, 1, 1, animationCurve.Evaluate(curvePos));
         litSprite.color = new Color(1, 1, 1, 1 - animationCurve.Evaluate(curvePos));
@@ -65,7 +66,19 @@ public class RefinementCrystal : MonoBehaviour
     }
 
     public void LaserDidFire() {
+        if (gameObject.activeSelf == false) {
+            return;
+        }
+        
         animationTime = 0f;
+        AudioManager.Instance.Play2D(
+            "Refinement/Hit", 
+            pitchMin: 0.9f, 
+            pitchMax: 1.1f, 
+            volumeMin: 0.1f + (laserLevel / 30f)  + (laserPower / 30f), 
+            volumeMax: 0.1f + (laserLevel / 12f)  + (laserPower / 12f), 
+            position: transform.position
+        );
     }
 
     public void UpdateLaserLevel() {
