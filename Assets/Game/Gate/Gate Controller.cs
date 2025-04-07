@@ -78,6 +78,15 @@ public class GateController : MonoBehaviour
         if (progress >= 1f) {
             ForceOpenGate();
         }
+
+        AudioManager.Instance.Play2D(
+            "Gate/PersonHit", 
+            pitchMin: 0.8f, 
+            pitchMax: 1.2f, 
+            volumeMin: 0.25f, 
+            volumeMax: 0.5f, 
+            position: transform.position
+        );
     }
 
     // https://acegikmo.substack.com/p/lerp-smoothing-is-broken
