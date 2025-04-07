@@ -279,8 +279,8 @@ public class UpgradeManager : MonoBehaviour
         RegisterUpgrade(new Upgrade
         {
             type = UpgradeType.ResearchProcessingUnlockFactory,
-            name = "Construct Factory",
-            description = "Construct a factory to process refined substance into research.",
+            name = "Construe",
+            description = "Construct a distillary to process the <i>Cognitio Aqua Diluta</i> from the depths.",
             baseCosts =
             {
                 [ResourceType.Mako] = 100,
