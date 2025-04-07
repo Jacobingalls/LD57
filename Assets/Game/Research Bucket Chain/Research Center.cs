@@ -50,6 +50,16 @@ public class ResearchCenter : MonoBehaviour
             gooLevel -= gooToMakeKnowledge;
             MakeKnowledge();
         }
+
+        AudioManager.Instance.Play2D(
+            "Factory/GotBucket", 
+            loop: false,
+            pitchMin: 0.9f,
+            pitchMax: 1.1f,
+            volumeMin: 0.05f, 
+            volumeMax: 0.015f, 
+            position: transform.position
+        );
     }
 
     void MakeKnowledge()
