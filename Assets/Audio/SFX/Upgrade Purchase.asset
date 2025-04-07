@@ -15,4 +15,6 @@ MonoBehaviour:
   id: Upgrade/Purchase
   audioMixerGroup: {fileID: 4674431572857700961, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
   audioClips:
-  - {fileID: 8300000, guid: 5593c0cf0be5304499cdf06b0b9a8e88, type: 3}
+  - {fileID: 8300000, guid: 2afb0d129844e4626bfb3fb5bd8f2bdb, type: 3}
+  - {fileID: 8300000, guid: 4a020ea897a9943ecbe0d9a888073b54, type: 3}
+  - {fileID: 8300000, guid: 18f920cdede514011a9a2530dba9031a, type: 3}
