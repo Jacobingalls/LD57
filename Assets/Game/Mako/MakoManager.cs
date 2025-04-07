@@ -83,6 +83,8 @@ public class MakoManager : MonoBehaviour
         int numberOfOrbs = 1;
         int laserPower = UpgradeManager.Instance.GetUpgrade(UpgradeType.MakoRefinementIncreaseLaserPower).timesPurchased + 1;
         bool hasUnlockedCrystal = UpgradeManager.Instance.GetUpgrade(UpgradeType.MakoRefinementUnlockCrystal).timesPurchased > 0;
+        int critChance = UpgradeManager.Instance.GetUpgrade(UpgradeType.MakoRefinementCriticalHitChance).timesPurchased;
+        
 
         if (hasUnlockedCrystal && Random.Range(0f, 1f) < 0.1f)
         {
@@ -97,6 +99,11 @@ public class MakoManager : MonoBehaviour
         if (laserPower >= 3 && Random.Range(0f, 1f) < 0.5f)
         {
             numberOfOrbs += 1;
+        }
+
+        if (critChance > Random.Range(0f, 100f))
+        {
+            numberOfOrbs *= 2;
         }
 
         return numberOfOrbs;

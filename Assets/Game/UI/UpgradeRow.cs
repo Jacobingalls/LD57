@@ -34,46 +34,46 @@ public class UpgradeRow : MonoBehaviour
         purchaseButton.interactable = UpgradeManager.Instance.CanAfford(_upgradeType);
     }
 
+    private string ConvertToRomanNumerals(int number)
+    {
+        if (number < 1 || number > 100)
+            throw new ArgumentOutOfRangeException(nameof(number), "Number must be between 1 and 100.");
+
+        var romanNumerals = new Dictionary<int, string>
+        {
+            { 100, "C" },
+            { 90, "XC" },
+            { 50, "L" },
+            { 40, "XL" },
+            { 10, "X" },
+            { 9, "IX" },
+            { 5, "V" },
+            { 4, "IV" },
+            { 1, "I" }
+        };
+
+        var result = string.Empty;
+
+        foreach (var pair in romanNumerals)
+        {
+            while (number >= pair.Key)
+            {
+                result += pair.Value;
+                number -= pair.Key;
+            }
+        }
+
+        return result;
+    }
+
     private void Redraw()
     {
         var upgrade = UpgradeManager.Instance.GetUpgrade(_upgradeType);
 
-        var romanNumeral = "";
-        if (upgrade.maxPurchases > 1)
-        {
-            // thank you, Tsundere Dev
-            romanNumeral += " ";
-            var timesPurchased = upgrade.Complete ? upgrade.maxPurchases - 1 : upgrade.timesPurchased;
-            if (timesPurchased == 0)
-            {
-                romanNumeral += "I";
-            } 
-            else if (timesPurchased == 1)
-            {
-                romanNumeral += "II";
-            }
-            else if (timesPurchased == 2)
-            {
-                romanNumeral += "III";
-            }
-            else if (timesPurchased == 3)
-            {
-                romanNumeral += "IV";
-            }
-            else if (timesPurchased == 4)
-            {
-                romanNumeral += "V";
-            }
-            else if (timesPurchased == 5)
-            {
-                romanNumeral += "VI";
-            }
-            else
-            {
-                romanNumeral += $"{timesPurchased + 1}";
-            }
-        }
-        var upgradeName = $"{upgrade.name}{romanNumeral}";
+        var numeral = upgrade.timesPurchased + (upgrade.Complete ? 0 : 1);
+        var romanNumeral = numeral <= 1 ? "" : ConvertToRomanNumerals(numeral);
+
+        var upgradeName = $"{upgrade.name} {romanNumeral}";
 
         tooltipProvider.tooltipTitle = upgradeName;
         tooltipProvider.tooltipText = upgrade.description;

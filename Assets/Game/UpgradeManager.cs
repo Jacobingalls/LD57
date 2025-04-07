@@ -18,6 +18,7 @@ public enum UpgradeType
     MakoRefinementUnlockCrystal = 4,
     MakoRefinementIncreaseLaserLevel = 5,
     MakoRefinementIncreaseLaserPower = 9,
+    MakoRefinementCriticalHitChance = 10,
 
     // MARK: - Research Processing
     ResearchProcessingUnlockFactory = 6,
@@ -224,7 +225,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoRefinementIncreaseLaserLevel,
             name = "Attenuate",
-            description = "Attenuates the crystal to increase the effectiveness of the beam on the substance.",
+            description = "Attenuates the crystal to increase the effectiveness of the beam on the substance. Increases the chance of attracting high-quality substance from the depths.",
             hiddenRequirements = { UpgradeType.MakoRefinementUnlockCrystal },
             maxPurchases = 2,
             baseCosts =
@@ -251,6 +252,23 @@ public class UpgradeManager : MonoBehaviour
             pubSubNotifications = 
             { 
                 "refinement.crystal.amplified" 
+            }
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.MakoRefinementCriticalHitChance,
+            name = "Luck",
+            description = "It's not luck, it's skill. A chance of getting double the substances. Each upgrade increases the chance by 1%.",
+            hiddenRequirements = { UpgradeType.MakoRefinementUnlockCrystal },
+            maxPurchases = 10,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 200,
+            },
+            pubSubNotifications = 
+            { 
+                "refinement.crystal.criticalHitChanceImproved" 
             }
         });
 
