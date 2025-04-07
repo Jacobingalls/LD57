@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: -1
+  m_MinWidth: 10
   m_MinHeight: -1
   m_PreferredWidth: -1
   m_PreferredHeight: -1
@@ -535,6 +535,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 8622079569780625347}
     m_Modifications:
     - target: {fileID: 5105834676170459874, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_FlexibleWidth
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105834676170459874, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_FlexibleHeight
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105834676170459874, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_PreferredWidth
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105834676170459874, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
       propertyPath: m_PreferredHeight
       value: 20
       objectReference: {fileID: 0}
@@ -651,12 +663,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5105834676693854179, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_text
+      value: <sprite name="Mako"> 10 <sprite name="People"> 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105834676693854179, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
       propertyPath: m_fontSize
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5105834676693854179, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105834676693854179, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105834676693854179, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
       propertyPath: m_fontSizeBase
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5105834676693854179, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5105834676693854181, guid: 46b44a623a183e043b0844587a350a7c, type: 3}
       propertyPath: m_IsActive
