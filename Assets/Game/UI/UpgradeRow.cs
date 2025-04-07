@@ -4,7 +4,6 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor.Rendering.Universal;
 
 public class UpgradeRow : MonoBehaviour
 {
