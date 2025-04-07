@@ -6,10 +6,19 @@ using info.jacobingalls.jamkit;
 [RequireComponent(typeof(PubSubSender))]
 public class MakoCollector : MonoBehaviour
 {
+    [Header("Succ Physics")]
     public float toVel = 2.5f;
     public float maxVel = 4.0f;
     public float maxForce = 10.0f;
     public float gain = 3f;
+
+    [Header ("Manual Controls")]
+    public bool AllowsManual = true;
+
+    [Header("Auto Controls")]
+    public bool AllowsAuto = false;
+    [Range(0.0f, 10.0f)]
+    public float AutoCooldown = 2.0f;
 
     public MakoHarvesterBeam makoCollectorBeam;
 
@@ -23,12 +32,14 @@ public class MakoCollector : MonoBehaviour
     private bool _isLasering;
     private AudioSource _pullInAudioSource;
     private PubSubSender _pubsub;
-
+    private float _currentCooldown = 0.0f;
+    private JumpingMortal _jumpingMortal;
 
     void Start()
     {
         _pubsub = GetComponent<PubSubSender>();
         _mm = GetComponentInParent<MakoManager>();
+        _jumpingMortal = GetComponentInChildren<JumpingMortal>();
 
         UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualSummonIncrease, u =>
         {
@@ -38,10 +49,27 @@ public class MakoCollector : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (AllowsAuto && !_isSucking)
+        {
+            if (_currentCooldown > 0)
+            {
+                _currentCooldown -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                _isSucking = true;
+            }
+        }
+
         if (_isSucking)
         {
             SelectTarget();
             PullInTarget();
+        }
+
+        if (_jumpingMortal != null)
+        {
+            _jumpingMortal.jumping = _makoOrbTarget != null;
         }
     }
 
@@ -64,12 +92,18 @@ public class MakoCollector : MonoBehaviour
 
     private void OnMouseDown()
     {
-        _pubsub.Publish("mako.collector.begin");
+        if (AllowsManual)
+        {
+            _pubsub.Publish("mako.collector.manual.begin");
+        }
     }
 
     private void OnMouseUp()
     {
-        _pubsub.Publish("mako.collector.end");
+        if (AllowsManual)
+        {
+            _pubsub.Publish("mako.collector.manual.end");
+        }
     }
 
     private void CleanUp()
@@ -173,5 +207,6 @@ public class MakoCollector : MonoBehaviour
         laserAnimator.gameObject.SetActive(false);
         CleanUp();
         _isLasering = false;
+        _currentCooldown = AutoCooldown;
     }
 }

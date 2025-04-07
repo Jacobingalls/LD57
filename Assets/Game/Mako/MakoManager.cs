@@ -24,11 +24,13 @@ public class MakoManager : MonoBehaviour
         _accelerator = GetComponentInChildren<MakoAccelerator>();
 
         UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualAdditionalCollector, u => {
-            var firstInactiveCollector = _collectors.Where(c => c.gameObject.activeSelf == false).First();
-            if (firstInactiveCollector != null)
+            var inactiveCollectors = _collectors.Where(c => c.gameObject.activeSelf == false);
+            if (inactiveCollectors.Count() == 0)
             {
-                firstInactiveCollector.gameObject.SetActive(true);
+                return;
             }
+            var firstInactiveCollector = inactiveCollectors.First();
+            firstInactiveCollector.gameObject.SetActive(true);
         });
     }
 
