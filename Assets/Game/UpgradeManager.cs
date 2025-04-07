@@ -177,7 +177,7 @@ public class UpgradeManager : MonoBehaviour
             description = "By the grace of God, we can begin to uncover the mysteries of this strange substance. Unlocks click + hold on the channeling device.",
             baseCosts =
             {
-                [ResourceType.Mako] = 5,
+                [ResourceType.Mako] = 1,
             },
         });
 
@@ -274,7 +274,7 @@ public class UpgradeManager : MonoBehaviour
             },
             costsScaleFactors =
             {
-                [ResourceType.Mako] = 2,
+                [ResourceType.Mako] = 1.5f,
             }
         });
 
@@ -287,7 +287,7 @@ public class UpgradeManager : MonoBehaviour
             hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
             baseCosts =
             {
-                [ResourceType.Mako] = 100,
+                [ResourceType.Mako] = 500,
                 [ResourceType.Science] = 5,
             },
         });

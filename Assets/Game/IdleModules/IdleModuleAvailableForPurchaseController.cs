@@ -16,8 +16,8 @@ public class IdleModuleAvailableForPurchaseController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        titleText.text = idleModule.modulePurchaseTeaserName;
-        costText.text = idleModule.purchaseCost.ToString();
+        titleText.text = $"{idleModule.modulePurchaseTeaserName}";
+        costText.text = $"<sprite name=\"Mako\"> {idleModule.purchaseCost}";
     }
 
     // Update is called once per frame
