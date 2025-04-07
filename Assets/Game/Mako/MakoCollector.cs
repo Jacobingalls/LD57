@@ -40,6 +40,7 @@ public class MakoCollector : MonoBehaviour
     private PubSubSender _pubsub;
     private float _currentCooldown = 0.0f;
     private JumpingMortal _jumpingMortal;
+    private float _timeHoldingOrb;
 
 
     void Start()
@@ -146,6 +147,7 @@ public class MakoCollector : MonoBehaviour
     {
         if (_makoOrbTarget != null)
         {
+            _makoOrbTarget.GetComponent<CircleCollider2D>().enabled = true;
             _makoOrbTarget.BeingSucked = false;
         }
         _makoOrbTarget = null;
@@ -200,6 +202,12 @@ public class MakoCollector : MonoBehaviour
         if (_makoOrbTarget.Captured)
         {
             return;
+        }
+
+        _timeHoldingOrb += Time.fixedDeltaTime;
+        if (_timeHoldingOrb > 5.0f)
+        {
+            _makoOrbTarget.GetComponent<CircleCollider2D>().enabled = false;
         }
 
         _makoOrbTarget.DriftTowardsTarget(drawTarget, toVel, maxVel * maxVelMultiplier, maxForce + maxForceAdditive, gain);
