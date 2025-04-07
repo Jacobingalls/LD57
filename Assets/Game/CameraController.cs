@@ -1,3 +1,4 @@
+using info.jacobingalls.jamkit;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -45,6 +46,12 @@ public class CameraController : MonoBehaviour
         }
 
         position.y = Mathf.Clamp(position.y, MinHeight, MaxHeight);
+        transform.position = position;
+    }
+
+    public void TriggerEndGameCinimatic(PubSubListenerEvent e) {
+        Vector3 position = transform.position;
+        position.y = e.sender.transform.position.y;
         transform.position = position;
     }
 }
