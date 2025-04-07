@@ -19,7 +19,7 @@ public class Bucket : MonoBehaviour
     void Update()
     {
         Vector3 currentPosition = transform.localPosition;
-        currentPosition.y += (isGoingUp ? 1 : -1) * chain.chainSpeed * Time.deltaTime;
+        currentPosition.y += (isGoingUp ? 1 : -1) * chain.currentChainSpeed * Time.deltaTime;
         transform.localPosition = currentPosition;
 
         if (isGoingUp && currentPosition.y >= chain.topY)

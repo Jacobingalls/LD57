@@ -296,8 +296,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: upgrades.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
       propertyPath: 'upgrades.Array.data[0]'
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[1]'
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[2]'
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[3]'
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -386,7 +402,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 613905596994409245, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_text
-      value: Reasearch
+      value: Knowledge Distillary
       objectReference: {fileID: 0}
     - target: {fileID: 739046754600091936, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y
@@ -435,6 +451,10 @@ PrefabInstance:
     - target: {fileID: 1209394175508890501, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287731519701933819, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: m_text
+      value: Go Smarter
       objectReference: {fileID: 0}
     - target: {fileID: 1296222262130843168, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y

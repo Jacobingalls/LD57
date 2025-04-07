@@ -22,6 +22,9 @@ public enum UpgradeType
 
     // MARK: - Research Processing
     ResearchProcessingUnlockFactory = 6,
+    ResearchProcessingBuyBucket = 11,
+    ResearchProcessingFasterChain = 12,
+    ResearchProcessingIncresedEfficiency = 13,
 
     // MARK: - People Upgrades
     PeopleSmallHouse = 7,
@@ -287,6 +290,71 @@ public class UpgradeManager : MonoBehaviour
                 "research.factory.unlocked"
             }
         });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.ResearchProcessingBuyBucket,
+            name = "Situla",
+            description = "Increase the amount of <i>Cognitio Aqua Diluta</i> drawn from the well. Add another bucket to the factory well.",
+            hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
+            maxPurchases = 100,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 100,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 1.1f,
+            },
+            pubSubNotifications =
+            {
+                "research.factory.bucketAdded"
+            }
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.ResearchProcessingFasterChain,
+            name = "Aliquid",
+            description = "Draw the <i>Cognitio Aqua Diluta</i> faster from the well. Increases the speed of the chain.",
+            hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
+            maxPurchases = 3,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 1000,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 10,
+            },
+            pubSubNotifications =
+            {
+                "research.factory.fasterChain"
+            }
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.ResearchProcessingIncresedEfficiency,
+            name = "Studeo",
+            description = "Learn how to use the <i>Cognitio Aqua Diluta</i> more efficiently. Increases the efficiency of the factory.",
+            hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
+            maxPurchases = 3,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 1000,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 10,
+            },
+            pubSubNotifications =
+            {
+                "research.factory.increasedEfficiency"
+            }
+        });
+
+        // MARK: - People
 
         RegisterUpgrade(new Upgrade
         {

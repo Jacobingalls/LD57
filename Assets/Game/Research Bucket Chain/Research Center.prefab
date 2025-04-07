@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6620911268056604557}
   - component: {fileID: 7409217900109728992}
+  - component: {fileID: 6105121352051745635}
   m_Layer: 0
   m_Name: Research Center
   m_TagString: Untagged
@@ -52,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gooLevel: 0
-  gooToMakeKnowledge: 10
+  gooToMakeKnowledge: 64
   maxKnowledgeHeight: 9
   bucketChain: {fileID: 6910860632023089881}
   knowledgeParticlePrefab: {fileID: 3346931043568150574, guid: 107ebef64b0744f7ab4e2d115fcca60a, type: 3}
@@ -85,6 +86,67 @@ MonoBehaviour:
     m_RotationOrder: 4
   researchCenterBuildingLightTime: 1
   knowledgeGuage: {fileID: 6714301974453227440}
+--- !u!114 &6105121352051745635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2966267803556267664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e1e1583edd74c4f9c6fcd2a572cbfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Subscriptions:
+  - Key: research.factory.fasterChain
+    Delegate:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7409217900109728992}
+          m_TargetAssemblyTypeName: ResearchCenter, Assembly-CSharp
+          m_MethodName: MakeChainFaster
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Key: research.factory.increasedEfficiency
+    Delegate:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7409217900109728992}
+          m_TargetAssemblyTypeName: ResearchCenter, Assembly-CSharp
+          m_MethodName: IncreaseEfficiency
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Key: research.factory.bucketAdded
+    Delegate:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7409217900109728992}
+          m_TargetAssemblyTypeName: ResearchCenter, Assembly-CSharp
+          m_MethodName: AddBucket
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &3702741974657843684
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,10 +195,12 @@ MonoBehaviour:
   bucketGoingDownPrefab: {fileID: 8152669728883391047, guid: be27b61ce6a6a4fdab501418a881eb54, type: 3}
   chainGoingUpPrefab: {fileID: 6798366779763233109, guid: f10ac416a854b4a908f507cedd8c93db, type: 3}
   chainGoingDownPrefab: {fileID: 3527190275113054588, guid: 0c60855a1357f4fc797a15b3561ba1f2, type: 3}
-  chainSpeed: 20
+  chainSpeed: 5
+  currentChainSpeed: 0
+  dampingFactor: 0.5
   topY: 0
   bottomY: -42
-  bucketFreeCount: 10
+  bucketFreeCount: 8
   onNewBucketOfGoo:
     m_PersistentCalls:
       m_Calls:

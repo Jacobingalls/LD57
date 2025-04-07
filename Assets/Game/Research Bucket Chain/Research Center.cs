@@ -59,12 +59,24 @@ public class ResearchCenter : MonoBehaviour
         knowledgeParticle.speed = 1f;
         knowledgeParticle.maxY = maxKnowledgeHeight;
         knowledgeParticle.researchCenter = this;
-        researchCenterBuildingLightTime = Mathf.Clamp01(researchCenterBuildingLightTime - 0.5f);
+        researchCenterBuildingLightTime = 0f;
     }
 
     public void KnoledgeParticleDidReachTop(KnowledgeParticle knowledgeParticle)
     {
         knoledgeTop.DidGetKnowledge();
         ResourceManager.Instance.Science += 1;
+    }
+
+    public void MakeChainFaster() {
+        bucketChain.chainSpeed *= 2;
+    }
+
+    public void IncreaseEfficiency() {
+        gooToMakeKnowledge /= 2;
+    }
+
+    public void AddBucket() {
+        bucketChain.bucketFreeCount += 1;
     }
 }

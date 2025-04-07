@@ -9,6 +9,8 @@ public class BucketChain : MonoBehaviour
     public Bucket chainGoingDownPrefab;
 
     public float chainSpeed = 1f;
+    public float currentChainSpeed = 0f;
+    public float dampingFactor = 1f;
 
     public float topY = 0f;
     public float bottomY = -10f;
@@ -35,7 +37,7 @@ public class BucketChain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        currentChainSpeed = expDecay(currentChainSpeed, chainSpeed, dampingFactor, Time.deltaTime);
     }
 
     public void CreateEmptyChain(float top, float bottom) {
@@ -111,5 +113,12 @@ public class BucketChain : MonoBehaviour
             newBucket.transform.localPosition.z
         );
         lastBucketGoingUp = newBucket;
+    }
+    
+
+    // https://acegikmo.substack.com/p/lerp-smoothing-is-broken
+    float expDecay(float a, float b, float decay, float deltaTime)
+    {
+        return b + (a - b) * Mathf.Exp(-decay * deltaTime);
     }
 }
