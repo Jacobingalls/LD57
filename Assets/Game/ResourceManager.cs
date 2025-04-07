@@ -19,6 +19,9 @@ public class Resource
     public int amount = 0;
 
     // DO NOT directly manipulate
+    public int lifetimeAmount = 0;
+
+    // DO NOT directly manipulate
     public int baseGain = 1;
 
     // DO NOT directly manipulate
@@ -105,6 +108,12 @@ public class ResourceManager : MonoBehaviour
     {
         return _resources[resourceType].amount;
     }
+
+    public int GetResourceLifetimeAmount(ResourceType resourceType)
+    {
+        return _resources[resourceType].lifetimeAmount;
+    }
+
     public int PayResource(ResourceType resourceType, int amount)
     {
         return _resources[resourceType].amount -= amount;
@@ -155,6 +164,7 @@ public class ResourceManager : MonoBehaviour
         Debug.Log("multiplicativeModifier = " + additiveModifier);
 
         resource.amount += (int)resourceGain;
+        resource.lifetimeAmount += (int)resourceGain;
     }
 
     public void UnlockResource(ResourceType resourceType)
@@ -209,6 +219,47 @@ public class ResourceManager : MonoBehaviour
 
     void Start()
     {
+        if (cheatMode)
+        {
+            foreach(var entry in _resources)
+            {
+                entry.Value.unlocked = true;
+                entry.Value.amount = (int)10e5;
+            }
+            GetComponent<PubSubSender>().Publish("resource.unlocked");
+        }
+    }
+
+    // Called when the game has finished and we are going back to the main menu
+    void Reset()
+    {
+        _resources[ResourceType.Mako] = new Resource
+        {
+            type = ResourceType.Mako,
+            unlocked = true,
+        };
+
+        _resources[ResourceType.People] = new Resource
+        {
+            type = ResourceType.People,
+        };
+
+        _resources[ResourceType.Science] = new Resource
+        {
+            type = ResourceType.Science,
+        };
+
+        _resources[ResourceType.Artifacts] = new Resource
+        {
+            type = ResourceType.Artifacts,
+        };
+
+        foreach(var entry in _resources)
+        {
+            _additiveModifiers[entry.Key] = new List<float> { 1.0f };
+            _mutliplicativeModifiers[entry.Key] = new List<float> { 1.0f };
+        }
+
         if (cheatMode)
         {
             foreach(var entry in _resources)

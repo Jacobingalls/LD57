@@ -577,6 +577,14 @@ public class UpgradeManager : MonoBehaviour
         return true;
     }
 
+    public void Reset()
+    {
+        foreach (var upgrade in _upgrades.Values)
+        {
+            upgrade.timesPurchased = 0;
+        }
+    }
+
     void Start()
     {
 
