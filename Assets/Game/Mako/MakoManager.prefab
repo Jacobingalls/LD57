@@ -47,7 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb60ed417afd6346833b7e4026a233a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  makoOrbPrefab: {fileID: 7032176544119332849, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+  makoOrbPrefab1: {fileID: 7032176544119332849, guid: 4cada98bc1b46844b89ad2d4d19e4070, type: 3}
+  makoOrbPrefab2: {fileID: 7032176544119332849, guid: 8ea548352364744a5a69d8314fa5dc88, type: 3}
+  makoOrbPrefab3: {fileID: 7032176544119332849, guid: 8277b4ad34e4948c1b70224446ec6495, type: 3}
   makoOrbSpawnPoint: {fileID: 1682055403348802435}
   makoOrbs: []
 --- !u!1001 &2227030816436322249

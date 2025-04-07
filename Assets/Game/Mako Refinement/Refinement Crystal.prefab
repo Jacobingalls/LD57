@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserLevel: 1
+  laserPower: 1
   unlitSprite: {fileID: 521719999312178998}
   litSprite: {fileID: 7123891103902122304}
   laserSprite1: {fileID: 5753126939131705381}
@@ -117,6 +118,22 @@ MonoBehaviour:
         - m_Target: {fileID: 8341409551364846156}
           m_TargetAssemblyTypeName: RefinementCrystal, Assembly-CSharp
           m_MethodName: UpdateLaserLevel
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - Key: refinement.crystal.amplified
+    Delegate:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8341409551364846156}
+          m_TargetAssemblyTypeName: RefinementCrystal, Assembly-CSharp
+          m_MethodName: UpdateLaserPower
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

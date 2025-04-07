@@ -25,6 +25,8 @@ public class MakoOrb : MonoBehaviour
     public GameObject BaseVisuals;
     public GameObject AcceleratedVisuals;
 
+    public int baseValue = 1;
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();

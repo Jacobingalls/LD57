@@ -138,7 +138,7 @@ public class MakoHarvester : MonoBehaviour
     {
         yield return new WaitForSeconds(delayTime);
 
-        GetComponentInParent<MakoManager>().SpawnMakoOrb(makoOrbSpawnPoint.position);
+        GetComponentInParent<MakoManager>().SpawnMakoOrbs(makoOrbSpawnPoint.position);
 
         laserAnimator.gameObject.SetActive(false);
 
