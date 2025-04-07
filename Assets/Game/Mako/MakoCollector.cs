@@ -12,6 +12,8 @@ public class MakoCollector : MonoBehaviour
     public float maxForce = 10.0f;
     public float gain = 3f;
 
+    private static float maxVelMultiplier = 1.0f;
+
     [Header ("Manual Controls")]
     public bool AllowsManual = true;
 
@@ -19,6 +21,9 @@ public class MakoCollector : MonoBehaviour
     public bool AllowsAuto = false;
     [Range(0.0f, 10.0f)]
     public float AutoCooldown = 2.0f;
+
+    public GameObject onCooldownVisuals;
+    public GameObject offCooldownVisuals;
 
     public MakoHarvesterBeam makoCollectorBeam;
 
@@ -35,6 +40,7 @@ public class MakoCollector : MonoBehaviour
     private float _currentCooldown = 0.0f;
     private JumpingMortal _jumpingMortal;
 
+
     void Start()
     {
         _pubsub = GetComponent<PubSubSender>();
@@ -43,21 +49,36 @@ public class MakoCollector : MonoBehaviour
 
         UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualSummonIncrease, u =>
         {
-            maxVel *= 2f;
+            maxVelMultiplier = Mathf.Pow(2, u.timesPurchased);
         });
     }
 
     void FixedUpdate()
     {
-        if (AllowsAuto && !_isSucking)
+        if (AllowsAuto)
         {
             if (_currentCooldown > 0)
             {
                 _currentCooldown -= Time.fixedDeltaTime;
+                _isSucking = false;
             }
             else
             {
                 _isSucking = true;
+            }
+        }
+
+        if (onCooldownVisuals != null && offCooldownVisuals != null)
+        {
+            if (_currentCooldown > 0)
+            {
+                onCooldownVisuals.SetActive(true);
+                offCooldownVisuals.SetActive(false);
+            }
+            else
+            {
+                onCooldownVisuals.SetActive(false);
+                offCooldownVisuals.SetActive(true);
             }
         }
 
@@ -166,7 +187,7 @@ public class MakoCollector : MonoBehaviour
             return;
         }
 
-        _makoOrbTarget.DriftTowardsTarget(drawTarget, toVel, maxVel, maxForce, gain);
+        _makoOrbTarget.DriftTowardsTarget(drawTarget, toVel, maxVel * maxVelMultiplier, maxForce, gain);
 
         float distanceToTarget = (drawTarget.position - _makoOrbTarget.transform.position).magnitude;
         if (distanceToTarget < 0.025f && !_isLasering)

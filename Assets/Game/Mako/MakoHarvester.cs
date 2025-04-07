@@ -21,6 +21,10 @@ public class MakoHarvester : MonoBehaviour
     private int _chargeState = 0;
     private bool _discharging = false;
 
+    public bool Discharging
+    {
+        get { return _discharging; }
+    }
     private GameObject _makoFocusGO;
     private SpriteFloat[] _makoFocusSpriteFloats;
 
@@ -91,6 +95,11 @@ public class MakoHarvester : MonoBehaviour
         }
 
         _pressing = false;
+    }
+
+    public void AutoChargeHarvester()
+    {
+        ChargeHarvester();
     }
 
     private void ChargeHarvester(int increaseAmount = 1)

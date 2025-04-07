@@ -39,7 +39,7 @@ public class JumpingMortal : MonoBehaviour
 
     void Start()
     {
-        _startingPosition = visuals.transform.position;
+        _startingPosition = visuals.transform.localPosition;
     }
 
     void Update()
@@ -47,6 +47,6 @@ public class JumpingMortal : MonoBehaviour
         _time += Time.deltaTime;
         var time = jumping ? _time : 0.0f;
         var offset = new Vector3(0.0f, animationCurve.Evaluate(time) * yScale, 0.0f);
-        visuals.transform.position = _startingPosition + offset;
+        visuals.transform.localPosition = _startingPosition + offset;
     }
 }

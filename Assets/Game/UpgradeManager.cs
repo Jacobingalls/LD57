@@ -9,10 +9,13 @@ using UnityEngine;
 // the editor will reference the wrong upgrade.
 public enum UpgradeType
 {
+    // MARK: - Mako Mining
     MakoClickAndHold = 0,
     MakoManualSummonIncrease = 1,
     MakoManualCollectIncrease = 2,
     MakoManualAdditionalCollector = 3,
+    MakoAutoAdditionalCollector = 100,
+    MakoAutoAdditionalHarvester = 101,
 
     // MARK: - Mako Refinement
     MakoRefinementUnlockCrystal = 4,
@@ -155,6 +158,8 @@ public class UpgradeManager : MonoBehaviour
 
         _pubSub = GetComponent<PubSubSender>();
 
+        // MARK: - Mako Mining
+
         RegisterUpgrade(new Upgrade 
         {
             type = UpgradeType.MakoClickAndHold,
@@ -195,7 +200,6 @@ public class UpgradeManager : MonoBehaviour
             }
         });
 
-
         RegisterUpgrade(new Upgrade
         {
             type = UpgradeType.MakoManualAdditionalCollector,
@@ -206,6 +210,79 @@ public class UpgradeManager : MonoBehaviour
             {
                 [ResourceType.Mako] = 25,
             },
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.MakoAutoAdditionalCollector,
+            name = "Manifest Pylon",
+            description = "Raise a small collector pylon. A mortal soul toils away, collecting the substance.",
+            hiddenRequirements = { UpgradeType.PeopleSmallHouse },
+            maxPurchases = 6,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 10,
+                [ResourceType.People] = 1,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 2.0f,
+                [ResourceType.People] = 1,
+            }
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.MakoAutoAdditionalHarvester,
+            name = "Channeler",
+            description = "Raise a harvester platform from the depths. A mortal soul toils away, channeling for substance.",
+            hiddenRequirements = { UpgradeType.PeopleSmallHouse },
+            maxPurchases = 8,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 10,
+                [ResourceType.People] = 1,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 2.0f,
+                [ResourceType.People] = 1,
+            }
+        });
+
+        // MARK: - People
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.PeopleSmallHouse,
+            name = "Cottage",
+            description = "A damp, cold cottage. Provides housing for 1 mortal soul.",
+            maxPurchases = 16,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 5,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 2,
+            }
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.PeopleLargeHouse,
+            name = "Flat",
+            description = "A cramped, towering flat. Provides housing for 4 mortal souls.",
+            maxPurchases = 16,
+            hiddenRequirements = { UpgradeType.PeopleSmallHouse },
+            baseCosts =
+            {
+                [ResourceType.Mako] = 25,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 2,
+            }
         });
 
         // MARK: - Mako Refinement

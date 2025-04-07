@@ -60,8 +60,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.2
-      value: 0.04
+      time: 0.1408706
+      value: 0.07274581
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
-    m_PostInfinity: 2
+    m_PostInfinity: 0
     m_RotationOrder: 4
   Target: {fileID: 0}
 --- !u!1 &2203374056687287929
@@ -440,12 +440,15 @@ MonoBehaviour:
   maxVel: 4
   maxForce: 10
   gain: 3
+  AllowsManual: 1
+  AllowsAuto: 0
+  AutoCooldown: 2
+  onCooldownVisuals: {fileID: 0}
+  offCooldownVisuals: {fileID: 0}
   makoCollectorBeam: {fileID: 5113805734448377728}
   spriteFloat: {fileID: 4292203652161063180}
   laserAnimator: {fileID: 3095967153141205041}
   drawTarget: {fileID: 7717499176935659187}
-  AllowsManual: 1
-  AllowsAuto: 0
 --- !u!114 &574391647431275718
 MonoBehaviour:
   m_ObjectHideFlags: 0

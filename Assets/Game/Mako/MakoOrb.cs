@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -12,13 +13,17 @@ public class MakoOrb : MonoBehaviour
         }
         set
         {
-            BaseVisuals.SetActive(false);
-            AcceleratedVisuals.SetActive(true);
             _collectable = value;
         }
     }
     public bool Captured { get; set; }
     public bool BeingSucked { get; set; }
+
+    public void ShowAcceleratedVisuals()
+    {
+        BaseVisuals.SetActive(false);
+        AcceleratedVisuals.SetActive(true);
+    }
 
     private Rigidbody2D _rb;
 
@@ -58,6 +63,29 @@ public class MakoOrb : MonoBehaviour
         // calc a force proportional to the error (clamped to maxForce)
         Vector2 force = Vector2.ClampMagnitude(gain * error, maxForce);
         _rb.AddForce(force);
+    }
+    public void Flash(float duration)
+    {
+        StartCoroutine(FlashRoutine(duration));
+    }
+
+    private IEnumerator FlashRoutine(float duration)
+    {
+        float elapsedTime = 0f;
+        SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        while (elapsedTime < duration)
+        {
+            foreach (var spriteRenderer in spriteRenderers)
+            {
+                spriteRenderer.enabled = !spriteRenderer.enabled;
+            }
+            elapsedTime += 0.1f;
+            yield return new WaitForSeconds(0.1f);
+        }
+        foreach (var spriteRenderer in spriteRenderers)
+        {
+            spriteRenderer.enabled = true;
+        }
     }
 
     public void StopDrifting()

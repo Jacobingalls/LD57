@@ -14,23 +14,45 @@ public class MakoManager : MonoBehaviour
     public List<MakoOrb> makoOrbs = new();
 
     private MakoHarvester _harvester;
+    private List<MakoAutoHarvester> _autoHarvesters;
     private List<MakoCollector> _collectors;
     private MakoAccelerator _accelerator;
 
     void Start()
     {
         _harvester = GetComponentInChildren<MakoHarvester>();
+        _autoHarvesters = GetComponentsInChildren<MakoAutoHarvester>(includeInactive: true).ToList();
         _collectors = GetComponentsInChildren<MakoCollector>(includeInactive: true).ToList();
         _accelerator = GetComponentInChildren<MakoAccelerator>();
 
         UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualAdditionalCollector, u => {
-            var inactiveCollectors = _collectors.Where(c => c.gameObject.activeSelf == false);
+            var inactiveCollectors = _collectors.Where(c => c.gameObject.activeSelf == false && c.AllowsManual);
             if (inactiveCollectors.Count() == 0)
             {
                 return;
             }
             var firstInactiveCollector = inactiveCollectors.First();
             firstInactiveCollector.gameObject.SetActive(true);
+        });
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoAutoAdditionalCollector, u => {
+            var inactiveCollectors = _collectors.Where(c => c.gameObject.activeSelf == false && c.AllowsAuto);
+            if (inactiveCollectors.Count() == 0)
+            {
+                return;
+            }
+            var firstInactiveCollector = inactiveCollectors.First();
+            firstInactiveCollector.gameObject.SetActive(true);
+        });
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoAutoAdditionalHarvester, u => {
+            var inactiveHarvesters = _autoHarvesters.Where(c => c.gameObject.activeSelf == false);
+            if (inactiveHarvesters.Count() == 0)
+            {
+                return;
+            }
+            var firstInactiveHarvester = inactiveHarvesters.First();
+            firstInactiveHarvester.gameObject.SetActive(true);
         });
     }
 
