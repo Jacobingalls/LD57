@@ -30,6 +30,15 @@ public class MakoOrb : MonoBehaviour
     public GameObject BaseVisuals;
     public GameObject AcceleratedVisuals;
 
+    private bool _flashing = false;
+    public bool Flashing
+    {
+        get
+        {
+            return _flashing;
+        }
+    }
+
     public int baseValue = 1;
 
     void Awake()
@@ -71,6 +80,7 @@ public class MakoOrb : MonoBehaviour
 
     private IEnumerator FlashRoutine(float duration)
     {
+        _flashing = true;
         float elapsedTime = 0f;
         SpriteRenderer[] spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         while (elapsedTime < duration)
@@ -86,6 +96,7 @@ public class MakoOrb : MonoBehaviour
         {
             spriteRenderer.enabled = true;
         }
+        _flashing = false;
     }
 
     public void StopDrifting()

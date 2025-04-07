@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class IdleModuleContainer : MonoBehaviour
@@ -19,12 +20,25 @@ public class IdleModuleContainer : MonoBehaviour
         );
     }
 
-    // Update is called once per frame
-    void Update()
+    public Bounds CalculateBoundsForLowestActiveModule()
     {
-        
-    }
+        var activeModules = GetComponentsInChildren<IdleModule>().Where(m => m.state == IdleModuleState.Purchased);
 
+        if (activeModules.Count() == 0)
+        {
+            return new Bounds();
+        }
+
+        var lowestBound = activeModules.First().Bounds;
+        foreach (var module in activeModules)
+        {
+            if (module.Bounds.min.y < lowestBound.min.y)
+            {
+                lowestBound = module.Bounds;
+            }
+        }
+        return lowestBound;
+    }
     public (float minY, float maxY) GetMinMaxGlobalPositionY()
     {
         float minY = float.MaxValue;

@@ -23,6 +23,10 @@ public class MakoAccelerator : MonoBehaviour
         {
             return;
         }
+        if (makoOrb.Flashing)
+        {
+            return;
+        }
         const float impulseMin = 3.0f;
         const float impulseMax = 5.5f;
         makoOrb.ApplyAccleratingImpulse(Random.Range(impulseMin, impulseMax));

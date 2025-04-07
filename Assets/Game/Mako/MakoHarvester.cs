@@ -55,6 +55,11 @@ public class MakoHarvester : MonoBehaviour
         {
             manualClickGain *= 2;
         }));
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoRefinementUnlockCrystal, (u =>
+        {
+            laserAnimator.transform.localScale = new Vector3(1.0f, 150.0f, 1.0f);
+        }));
     }
 
     // Update is called once per frame
@@ -73,7 +78,13 @@ public class MakoHarvester : MonoBehaviour
         }
     }
 
-    // method to add two numbers
+    public void RepositionFocus()
+    {
+        var moduleContainer = (IdleModuleContainer)FindFirstObjectByType(typeof(IdleModuleContainer));
+        var lowestBounds = moduleContainer.CalculateBoundsForLowestActiveModule();
+
+        _makoFocusGO.transform.position = new Vector3(_makoFocusGO.transform.position.x, lowestBounds.min.y, _makoFocusGO.transform.position.z);
+    }
 
     private void OnMouseDown()
     {

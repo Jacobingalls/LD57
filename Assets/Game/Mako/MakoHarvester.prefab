@@ -407,7 +407,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 150, z: 1}
+  m_LocalScale: {x: 1, y: 1000, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5905444114055986497}
@@ -694,6 +694,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 702522785505297482}
+  - component: {fileID: 428259514055990743}
   m_Layer: 0
   m_Name: MakoOrbSpawnPoint
   m_TagString: Untagged
@@ -709,13 +710,68 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3746809339343392093}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -11.68, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4658308198430405691}
+  m_Father: {fileID: 7522339489776521959}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &428259514055990743
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3746809339343392093}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -2413806693520163455, guid: 4adeaf2d2b1c7417e89f026626d8264f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &5257350930181137231
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,6 +784,7 @@ GameObject:
   - component: {fileID: 6425190965475539250}
   - component: {fileID: 6337112937037414078}
   - component: {fileID: 6894962346941760874}
+  - component: {fileID: 4775139713190940871}
   m_Layer: 0
   m_Name: MakoHarvester
   m_TagString: Untagged
@@ -758,7 +815,6 @@ Transform:
   - {fileID: 6416812971841748711}
   - {fileID: 7522339489776521959}
   - {fileID: 5905444114055986497}
-  - {fileID: 702522785505297482}
   - {fileID: 337416391572667093}
   - {fileID: 3836417080221792042}
   - {fileID: 3781171527773316005}
@@ -833,6 +889,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa85f00fea274f27ad241da0b5a270c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4775139713190940871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5257350930181137231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e1e1583edd74c4f9c6fcd2a572cbfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Subscriptions:
+  - Key: module.purchased
+    Delegate:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6425190965475539250}
+          m_TargetAssemblyTypeName: MakoHarvester, Assembly-CSharp
+          m_MethodName: RepositionFocus
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &5301953626312802566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1777,7 +1862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12.09
+      value: -9.09
       objectReference: {fileID: 0}
     - target: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1813,7 +1898,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6584623085102427962, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 702522785505297482}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 354b67a9e52d9214494c01c02c8a04ca, type: 3}
 --- !u!4 &7522339489776521959 stripped

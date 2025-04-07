@@ -43,6 +43,9 @@ public class ResourceManager : MonoBehaviour
     public static ResourceManager Instance { get; private set; }
     private readonly Dictionary<ResourceType, Resource> _resources = new();
 
+    private readonly Dictionary<ResourceType, List<float>> _additiveModifiers = new();
+    private readonly Dictionary<ResourceType, List<float>> _mutliplicativeModifiers = new();
+
     [SerializeField]
     public List<ResourceSpriteConfig> _resourceSpriteConfigs = new();
 
@@ -122,6 +125,18 @@ public class ResourceManager : MonoBehaviour
 
     public List<Resource> GetUnlockedResources() => _resources.Values.Where(r => r.unlocked).ToList();
 
+    public void AddAdditiveModifier(ResourceType resourceType, float modifier)
+    {
+        _additiveModifiers[resourceType].Add(modifier);
+        Debug.Log($"{resourceType}: insert {modifier} additive modifier");
+    }
+
+    public void AddMultiplicativeModifier(ResourceType resourceType, float modifier)
+    {
+        _mutliplicativeModifiers[resourceType].Add(modifier);
+        Debug.Log($"{resourceType}: insert {modifier} multiplicative modifier");
+    }
+
     /// <summary>
     /// Increments the resource according to active modifiers.
     /// </summary>
@@ -130,11 +145,16 @@ public class ResourceManager : MonoBehaviour
     public void IncrementResource(ResourceType resourceType, int gain = 1)
     {
         var resource = GetResource(resourceType);
-        var resourceGain = resource.baseGain * gain;
 
-        // TODO: calculate modifiers
+        float additiveModifier = _additiveModifiers[resourceType].Aggregate(0.0f, (cur, next) => cur + next);
+        float multiplicativeModifier = _mutliplicativeModifiers[resourceType].Aggregate(1.0f, (cur, next) => cur * next);
 
-        resource.amount += resourceGain;
+        var resourceGain = resource.baseGain * gain * additiveModifier * multiplicativeModifier;
+
+        Debug.Log("additive modifier = " + additiveModifier);
+        Debug.Log("multiplicativeModifier = " + additiveModifier);
+
+        resource.amount += (int)resourceGain;
     }
 
     public void UnlockResource(ResourceType resourceType)
@@ -179,6 +199,12 @@ public class ResourceManager : MonoBehaviour
         {
             type = ResourceType.Artifacts,
         };
+
+        foreach(var entry in _resources)
+        {
+            _additiveModifiers[entry.Key] = new List<float> { 1.0f };
+            _mutliplicativeModifiers[entry.Key] = new List<float> { 1.0f };
+        }
     }
 
     void Start()

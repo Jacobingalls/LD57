@@ -1,3 +1,4 @@
+using info.jacobingalls.jamkit;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,19 @@ public class MakoManager : MonoBehaviour
             var firstInactiveHarvester = inactiveHarvesters.First();
             firstInactiveHarvester.gameObject.SetActive(true);
         });
+        
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.ResearchProcessingMoreMako, u => {
+            ResourceManager.Instance.AddMultiplicativeModifier(ResourceType.Mako, 4.0f);
+        });
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoRefinementMoreValuableMako, u => {
+            ResourceManager.Instance.AddAdditiveModifier(ResourceType.Mako, 10.0f);
+        });
+    }
+
+    public void ModulePurchased()
+    {
+        ResourceManager.Instance.AddMultiplicativeModifier(ResourceType.Mako, 2.0f);
     }
 
     // We unlock higher level orbs with laser level, but it is random what kind of orb we get.

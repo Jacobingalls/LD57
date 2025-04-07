@@ -22,16 +22,20 @@ public enum UpgradeType
     MakoRefinementIncreaseLaserLevel = 5,
     MakoRefinementIncreaseLaserPower = 9,
     MakoRefinementCriticalHitChance = 10,
+    MakoRefinementMoreValuableMako = 205,
 
     // MARK: - Research Processing
     ResearchProcessingUnlockFactory = 6,
     ResearchProcessingBuyBucket = 11,
     ResearchProcessingFasterChain = 12,
     ResearchProcessingIncresedEfficiency = 13,
+    ResearchProcessingMoreMako = 305,
+    ResearchProcessingMoreMakoSuck = 306,
 
     // MARK: - People Upgrades
     PeopleSmallHouse = 7,
     PeopleLargeHouse = 8,
+    PeopleUnlockLargeHouse = 403,
 }
 
 public delegate void ApplyUpgradeEffectDelegate(Upgrade u);
@@ -142,6 +146,11 @@ public class UpgradeManager : MonoBehaviour
 
     private void RegisterUpgrade(Upgrade upgrade)
     {
+        if (_upgrades.ContainsKey(upgrade.type))
+        {
+            Debug.LogError("Unable to register the same upgrade type multiple times! Keeping previous value.");
+            return;
+        }
         _upgrades[upgrade.type] = upgrade;
     }
 
@@ -271,11 +280,25 @@ public class UpgradeManager : MonoBehaviour
 
         RegisterUpgrade(new Upgrade
         {
+            type = UpgradeType.PeopleUnlockLargeHouse,
+            name = "Sturdier Supports",
+            description = "Reinforce New Duskhollow's support structures. Permits the construction of larger Flats.",
+            maxPurchases = 1,
+            hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
+            baseCosts =
+            {
+                [ResourceType.Mako] = 100,
+                [ResourceType.Science] = 5,
+            },
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
             type = UpgradeType.PeopleLargeHouse,
             name = "Flat",
             description = "A cramped, towering flat. Provides housing for 4 mortal souls.",
             maxPurchases = 16,
-            hiddenRequirements = { UpgradeType.PeopleSmallHouse },
+            hiddenRequirements = { UpgradeType.PeopleUnlockLargeHouse },
             baseCosts =
             {
                 [ResourceType.Mako] = 25,
@@ -352,6 +375,25 @@ public class UpgradeManager : MonoBehaviour
             { 
                 "refinement.crystal.criticalHitChanceImproved" 
             }
+        }); 
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.MakoRefinementMoreValuableMako,
+            name = "Imbumentum",
+            description = "Imbue the crystal with <i>Cognitio Aqua Diluta</i>. Each upgrade increases the base value of substance sphaera by 10.",
+            hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
+            maxPurchases = 3,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 1000,
+                [ResourceType.Science] = 2,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 2.0f,
+                [ResourceType.Science] = 2.5f,
+            },
         });
 
         // MARK: - Research Processing
@@ -364,6 +406,7 @@ public class UpgradeManager : MonoBehaviour
             baseCosts =
             {
                 [ResourceType.Mako] = 100,
+                [ResourceType.People] = 2,
             },
             pubSubNotifications =
             {
@@ -434,38 +477,46 @@ public class UpgradeManager : MonoBehaviour
             }
         });
 
-        // MARK: - People
-
         RegisterUpgrade(new Upgrade
         {
-            type = UpgradeType.PeopleSmallHouse,
-            name = "Cottage",
-            description = "A damp, cold cottage. Provides housing for 1 mortal soul.",
-            maxPurchases = 16,
+            type = UpgradeType.ResearchProcessingMoreMako,
+            name = "Intellectus",
+            description = "Understand the link between <i>Cognitio Aqua Diluta</i> and the substance. (2x <sprite name=\"Mako\"> extracted)",
+            hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
+            maxPurchases = 3,
             baseCosts =
             {
-                [ResourceType.Mako] = 5,
+                [ResourceType.Mako] = 100,
+                [ResourceType.Science] = 1,
+                [ResourceType.People] = 1,
             },
             costsScaleFactors =
             {
-                [ResourceType.Mako] = 2,
-            }
+                [ResourceType.Mako] = 10,
+                [ResourceType.Science] = 2,
+                [ResourceType.People] = 1,
+            },
         });
 
         RegisterUpgrade(new Upgrade
         {
-            type = UpgradeType.PeopleLargeHouse,
-            name = "Flat",
-            description = "A cramped, towering flat. Provides housing for 4 mortal souls.",
-            maxPurchases = 16,
+            type = UpgradeType.ResearchProcessingMoreMakoSuck,
+            name = "Divina Guidantia",
+            description = "Per Dei gratiam pergere possumus mysteria huius substantiae alienae detegere. Substance is attracted at a faster rate.",
+            hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
+            maxPurchases = 3,
             baseCosts =
             {
-                [ResourceType.Mako] = 25,
+                [ResourceType.Mako] = 200,
+                [ResourceType.Science] = 2,
+                [ResourceType.People] = 1,
             },
             costsScaleFactors =
             {
-                [ResourceType.Mako] = 2,
-            }
+                [ResourceType.Mako] = 10,
+                [ResourceType.Science] = 2,
+                [ResourceType.People] = 1,
+            },
         });
     }
 
@@ -511,9 +562,10 @@ public class UpgradeManager : MonoBehaviour
 
 
         PubSubSender sender = GetComponent<PubSubSender>();
-        if (sender != null) 
+        if (sender != null)
         {
             sender.Publish("upgrade.purchased");
+            sender.Publish($"upgrade.purchased.{upgrade.type}");
             foreach (var notification in upgrade.pubSubNotifications)
             {
                 _pubSub.Publish(notification);

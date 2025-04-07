@@ -897,6 +897,7 @@ GameObject:
   - component: {fileID: 1865348656592308520}
   - component: {fileID: 4853994334373392777}
   - component: {fileID: 3139851986783982700}
+  - component: {fileID: 8994793334466094590}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
@@ -989,6 +990,25 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &8994793334466094590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338022949988213157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 686a797e0ac224600bc39ef60dc70bdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipTitle: Delve Deeper
+  tooltipText: 'Delve deeper into the depths.
+
+
+    Doubles extraction potential
+    of substance drawn from the aether. (2x <sprite name="Mako"> extracted)'
+  isShowingTooltip: 0
 --- !u!1 &2784537649465236050
 GameObject:
   m_ObjectHideFlags: 0
@@ -2037,6 +2057,7 @@ GameObject:
   - component: {fileID: 5107808097385738260}
   - component: {fileID: 5846542892945700148}
   - component: {fileID: 1396857380504443876}
+  - component: {fileID: 6271996894574852573}
   m_Layer: 0
   m_Name: Idle Module
   m_TagString: Untagged
@@ -2083,6 +2104,8 @@ MonoBehaviour:
   purchasedView: {fileID: 8316345162842962963}
   modulePurchaseTeaserName: Go Deeper
   purchaseCost: 100
+  doesUnlockResourceType: 0
+  resourceTypeToUnlock: 0
   onPurchase:
     m_PersistentCalls:
       m_Calls: []
@@ -2096,6 +2119,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c16ed8a2fa14453eaa5f16be52788dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6271996894574852573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5101973185610501300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa85f00fea274f27ad241da0b5a270c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5111358784952454159

@@ -13,6 +13,7 @@ public class MakoCollector : MonoBehaviour
     public float gain = 3f;
 
     private static float maxVelMultiplier = 1.0f;
+    private static float maxForceAdditive = 0.0f;
 
     [Header ("Manual Controls")]
     public bool AllowsManual = true;
@@ -49,8 +50,22 @@ public class MakoCollector : MonoBehaviour
 
         UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualSummonIncrease, u =>
         {
-            maxVelMultiplier = Mathf.Pow(2, u.timesPurchased);
+            SetMaxVelMultiplier();
         });
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.ResearchProcessingMoreMakoSuck, u =>
+        {
+            SetMaxVelMultiplier();
+        });
+    }
+
+    private void SetMaxVelMultiplier()
+    {
+        var makuManualSummonIncrease = UpgradeManager.Instance.GetUpgrade(UpgradeType.MakoManualSummonIncrease).timesPurchased;
+        var researchProcessingMoreMakoSuck = UpgradeManager.Instance.GetUpgrade(UpgradeType.ResearchProcessingMoreMakoSuck).timesPurchased;
+        var totalUpgrades = makuManualSummonIncrease + researchProcessingMoreMakoSuck;
+        maxVelMultiplier = Mathf.Pow(2, totalUpgrades);
+        maxForceAdditive = totalUpgrades;
     }
 
     void FixedUpdate()
@@ -187,7 +202,7 @@ public class MakoCollector : MonoBehaviour
             return;
         }
 
-        _makoOrbTarget.DriftTowardsTarget(drawTarget, toVel, maxVel * maxVelMultiplier, maxForce, gain);
+        _makoOrbTarget.DriftTowardsTarget(drawTarget, toVel, maxVel * maxVelMultiplier, maxForce + maxForceAdditive, gain);
 
         float distanceToTarget = (drawTarget.position - _makoOrbTarget.transform.position).magnitude;
         if (distanceToTarget < 0.025f && !_isLasering)

@@ -1,6 +1,8 @@
+using info.jacobingalls.jamkit;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+[RequireComponent(typeof(PubSubSender))]
 public class IdleModule : MonoBehaviour
 {
 
@@ -72,12 +74,36 @@ public class IdleModule : MonoBehaviour
             {
                 ResourceManager.Instance.UnlockResource(resourceTypeToUnlock);
             }
+
+            GetComponent<PubSubSender>().Publish("module.purchased");
         }
     }
 
     public bool CanBePurchased()
     {
         return state == IdleModuleState.AvailableForPurchase && ResourceManager.Instance.Mako >= purchaseCost;
+    }
+
+    private Bounds _bounds;
+    private bool _boundsDirty = true;
+    public Bounds Bounds
+    {
+        get {
+            if (!_boundsDirty)
+            {
+                return _bounds;
+            }
+            _boundsDirty = false;
+            var newBounds = new Bounds();
+            foreach(var sr in GetComponentsInChildren<SpriteRenderer>())
+            {
+                newBounds.Encapsulate(sr.bounds);
+                Debug.Log($"New Bounds is now {newBounds}");
+            }
+            _bounds = newBounds;
+
+            return _bounds;
+        }
     }
 }
 
