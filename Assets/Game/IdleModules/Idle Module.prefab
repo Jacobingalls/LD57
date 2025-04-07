@@ -291,6 +291,8 @@ GameObject:
   - component: {fileID: 178075393839979312}
   - component: {fileID: 1127089500084886157}
   - component: {fileID: 372437432395414033}
+  - component: {fileID: 917235631451700555}
+  - component: {fileID: 3644010107877545078}
   m_Layer: 0
   m_Name: Locked Canvas
   m_TagString: Untagged
@@ -338,7 +340,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 770170999
   m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &1127089500084886157
@@ -381,6 +383,50 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &917235631451700555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217718205473113944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e1e1583edd74c4f9c6fcd2a572cbfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Subscriptions:
+  - Key: game.triggerEndCinimatic
+    Delegate:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3644010107877545078}
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+--- !u!114 &3644010107877545078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1217718205473113944}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8d6b582ae8c4f85b9c5cda84f0fd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progress: 0
+  speed: 2
+  canvasGroup: {fileID: 9173006882639422991}
 --- !u!1 &1250748466208053499
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,6 +526,7 @@ GameObject:
   - component: {fileID: 376455253601784946}
   - component: {fileID: 2677518236252337905}
   - component: {fileID: 1838820050937096798}
+  - component: {fileID: 3657147744487486727}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
@@ -573,6 +620,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!225 &3657147744487486727
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255098680703517521}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1357146249701413247
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,6 +957,7 @@ GameObject:
   - component: {fileID: 4853994334373392777}
   - component: {fileID: 3139851986783982700}
   - component: {fileID: 8994793334466094590}
+  - component: {fileID: 2507596133374687959}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
@@ -1009,6 +1069,18 @@ MonoBehaviour:
     Doubles extraction potential
     of substance drawn from the aether. (2x <sprite name="Mako"> extracted)'
   isShowingTooltip: 0
+--- !u!225 &2507596133374687959
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338022949988213157}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2784537649465236050
 GameObject:
   m_ObjectHideFlags: 0
@@ -1108,6 +1180,8 @@ GameObject:
   - component: {fileID: 998226900786506484}
   - component: {fileID: 6327758372424649303}
   - component: {fileID: 7076392148854930002}
+  - component: {fileID: 6079496894221567261}
+  - component: {fileID: 3007976964742696383}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -1155,7 +1229,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 770170999
   m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &6327758372424649303
@@ -1198,6 +1272,50 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6079496894221567261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2974953503556483670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e1e1583edd74c4f9c6fcd2a572cbfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Subscriptions:
+  - Key: game.triggerEndCinimatic
+    Delegate:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3007976964742696383}
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+--- !u!114 &3007976964742696383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2974953503556483670}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8d6b582ae8c4f85b9c5cda84f0fd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progress: 0
+  speed: 2
+  canvasGroup: {fileID: 3657147744487486727}
 --- !u!1 &3042193014461460314
 GameObject:
   m_ObjectHideFlags: 0
@@ -1607,6 +1725,7 @@ GameObject:
   - component: {fileID: 2572784007072500178}
   - component: {fileID: 3622293659501553727}
   - component: {fileID: 4513910554462179141}
+  - component: {fileID: 9173006882639422991}
   m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
@@ -1698,6 +1817,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!225 &9173006882639422991
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3799212840229814874}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3987112811825924832
 GameObject:
   m_ObjectHideFlags: 0
@@ -2145,6 +2276,8 @@ GameObject:
   - component: {fileID: 7445849628018973080}
   - component: {fileID: 5547239360784874739}
   - component: {fileID: 2267427716613343313}
+  - component: {fileID: 2625221614137427058}
+  - component: {fileID: 6426822005292416657}
   m_Layer: 0
   m_Name: Available Canvas
   m_TagString: Untagged
@@ -2192,7 +2325,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 770170999
   m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &5547239360784874739
@@ -2235,6 +2368,50 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2625221614137427058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5111358784952454159}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec8d6b582ae8c4f85b9c5cda84f0fd3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progress: 0
+  speed: 2
+  canvasGroup: {fileID: 2507596133374687959}
+--- !u!114 &6426822005292416657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5111358784952454159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e1e1583edd74c4f9c6fcd2a572cbfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Subscriptions:
+  - Key: game.triggerEndCinimatic
+    Delegate:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2625221614137427058}
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
 --- !u!1 &5837048963190699286
 GameObject:
   m_ObjectHideFlags: 0

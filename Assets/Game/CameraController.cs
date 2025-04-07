@@ -11,6 +11,9 @@ public class CameraController : MonoBehaviour
 
     public float startPositionY = 5f;
 
+    public bool isEndGame = false;
+    public Vector3 endGamePosition = new Vector3(0f, 0f, 0f);
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,6 +25,14 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (isEndGame)
+        {
+            transform.position = expDecay(transform.position, endGamePosition, 2f, Time.deltaTime);
+            return;
+        }
+
+
         float moveSpeed = Mathf.Min(20f * Mathf.Pow(2f, 10f * keyHoldTime), 100f);
         Vector3 position = transform.position;
 
@@ -53,5 +64,22 @@ public class CameraController : MonoBehaviour
         Vector3 position = transform.position;
         position.y = e.sender.transform.position.y;
         transform.position = position;
+        isEndGame = true;
+        endGamePosition = position + new Vector3(0f, -10f, 0f);
+    }
+
+    // https://acegikmo.substack.com/p/lerp-smoothing-is-broken
+    float expDecay(float a, float b, float decay, float deltaTime)
+    {
+        return b + (a - b) * Mathf.Exp(-decay * deltaTime);
+    }
+
+    Vector3 expDecay(Vector3 a, Vector3 b, float decay, float deltaTime)
+    {
+        return new Vector3(
+            expDecay(a.x, b.x, decay, deltaTime),
+            expDecay(a.y, b.y, decay, deltaTime),
+            expDecay(a.z, b.z, decay, deltaTime)
+        );
     }
 }
