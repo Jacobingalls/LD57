@@ -57,7 +57,7 @@ public class ResearchCenter : MonoBehaviour
             pitchMin: 0.9f,
             pitchMax: 1.1f,
             volumeMin: 0.05f, 
-            volumeMax: 0.015f, 
+            volumeMax: 0.15f, 
             position: transform.position
         );
     }
@@ -70,6 +70,16 @@ public class ResearchCenter : MonoBehaviour
         knowledgeParticle.maxY = maxKnowledgeHeight;
         knowledgeParticle.researchCenter = this;
         researchCenterBuildingLightTime = 0f;
+
+        AudioManager.Instance.Play2D(
+            "Factory/MakeKnowledge", 
+            loop: false,
+            pitchMin: 0.9f,
+            pitchMax: 1.1f,
+            volumeMin: 0.3f, 
+            volumeMax: 0.5f, 
+            position: transform.position
+        );
     }
 
     public void KnoledgeParticleDidReachTop(KnowledgeParticle knowledgeParticle)
