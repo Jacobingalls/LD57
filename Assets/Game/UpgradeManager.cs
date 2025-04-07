@@ -572,7 +572,7 @@ public class UpgradeManager : MonoBehaviour
             }
         }
 
-        AudioManager.Instance.Play2D("Upgrade/Purchase", volumeMin: 0.4f, volumeMax: 0.6f);
+        AudioManager.Instance.Play2D("Upgrade/Purchase", volumeMin: 0.2f, volumeMax: 0.4f);
 
         return true;
     }

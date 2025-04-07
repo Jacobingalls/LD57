@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: font_spritesheet_0
+      name: Mako
       rect:
         serializedVersion: 2
-        x: 5
-        y: 54
-        width: 5
-        height: 5
+        x: 0
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,13 +145,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: font_spritesheet_1
+      name: People
       rect:
         serializedVersion: 2
-        x: 21
-        y: 51
-        width: 5
-        height: 11
+        x: 16
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,13 +167,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: font_spritesheet_2
+      name: Science
       rect:
         serializedVersion: 2
-        x: 35
-        y: 49
-        width: 9
-        height: 13
+        x: 32
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,6 +184,50 @@ TextureImporter:
       bones: []
       spriteID: 6b66b7d58f8131744b3e90362d1b0baa
       internalID: -2110983776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lock
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 261ff6cf8db584f618035eebbd3b9538
+      internalID: -204290652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Check
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 887dd576c7cfd4508a3539be4b2ad6b1
+      internalID: 662836104
       vertices: []
       indices: 
       edges: []
@@ -202,9 +246,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      font_spritesheet_0: -557097223
-      font_spritesheet_1: -841016360
-      font_spritesheet_2: -2110983776
+      Check: 662836104
+      Lock: -204290652
+      Mako: -557097223
+      People: -841016360
+      Science: -2110983776
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

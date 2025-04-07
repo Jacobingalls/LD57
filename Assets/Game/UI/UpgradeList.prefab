@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 250, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7418421265020079990
 MonoBehaviour:
@@ -180,6 +180,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2668510408473244565, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
+      propertyPath: m_text
+      value: <sprite name="Science"> 10 <sprite name="People"> 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668510408473244565, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
+      propertyPath: m_fontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668510408473244565, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 2668510409023856272, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -204,10 +216,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2834835930383092343, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 662836104, guid: 5ee1e7117ba5fd943a16bb0eee6c0443, type: 3}
     - target: {fileID: 3394813646815245322, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
       propertyPath: m_Name
       value: UpgradeRow
       objectReference: {fileID: 0}
+    - target: {fileID: 6053268659144664490, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -204290652, guid: 5ee1e7117ba5fd943a16bb0eee6c0443, type: 3}
     - target: {fileID: 8571712137072790569, guid: 060f70a6e3326204fb98bdb2ace1edc1, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
