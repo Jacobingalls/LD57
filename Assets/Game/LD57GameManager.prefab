@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4203c032a4145ed4e8bdeef7e18b739d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cheatMode: 0
   _resourceSpriteConfigs:
   - Type: 0
     Sprite: {fileID: 21300000, guid: aa1df80e268f7c64bb75e9bb6fd56d34, type: 3}

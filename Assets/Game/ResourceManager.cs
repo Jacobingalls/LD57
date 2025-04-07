@@ -137,6 +137,16 @@ public class ResourceManager : MonoBehaviour
         resource.amount += resourceGain;
     }
 
+    public void UnlockResource(ResourceType resourceType)
+    {
+        var resource = GetResource(resourceType);
+        if (resource != null)
+        {
+            resource.unlocked = true;
+            GetComponent<PubSubSender>().Publish("resource.unlocked");
+        }
+    }
+
     void Awake()
     {
         if (Instance == null)

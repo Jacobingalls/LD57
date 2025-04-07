@@ -1300,6 +1300,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: resourceTypeToUnlock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: doesUnlockResourceType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: modulePurchaseTeaserName
       value: Explore the Depths
       objectReference: {fileID: 0}

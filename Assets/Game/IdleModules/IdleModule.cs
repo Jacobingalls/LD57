@@ -15,6 +15,10 @@ public class IdleModule : MonoBehaviour
     public string modulePurchaseTeaserName = "Go Deeper";
     public int purchaseCost = 100;
 
+
+    public bool doesUnlockResourceType = false;
+    public ResourceType resourceTypeToUnlock = ResourceType.Mako;
+
     public UnityEngine.Events.UnityEvent onPurchase;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -63,6 +67,11 @@ public class IdleModule : MonoBehaviour
             ResourceManager.Instance.Mako -= purchaseCost;
             SetState(IdleModuleState.Purchased);
             onPurchase.Invoke();
+
+            if (doesUnlockResourceType)
+            {
+                ResourceManager.Instance.UnlockResource(resourceTypeToUnlock);
+            }
         }
     }
 
