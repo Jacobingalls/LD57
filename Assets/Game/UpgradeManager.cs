@@ -4,16 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// WARNING: You must not change the value of the enum after creating it, 
+// the ids are what the editor stores the enum as, so if the id changes for a row, 
+// the editor will reference the wrong upgrade.
 public enum UpgradeType
 {
-    MakoClickAndHold,
-    MakoManualSummonIncrease,
-    MakoManualCollectIncrease,
-    MakoManualAdditionalCollector,
-    MakoRefinementUnlockCrystal,
-    ResearchProcessingUnlockFactory,
-    PeopleSmallHouse,
-    PeopleLargeHouse,
+    MakoClickAndHold = 0,
+    MakoManualSummonIncrease = 1,
+    MakoManualCollectIncrease = 2,
+    MakoManualAdditionalCollector = 3,
+
+    // MARK: - Mako Refinement
+    MakoRefinementUnlockCrystal = 4,
+    MakoRefinementIncreaseLaserLevel = 5,
+
+    // MARK: - Research Processing
+    ResearchProcessingUnlockFactory = 6,
+
+    // MARK: - People Upgrades
+    PeopleSmallHouse = 7,
+    PeopleLargeHouse = 8,
 }
 
 public delegate void ApplyUpgradeEffectDelegate(Upgrade u);
@@ -206,6 +216,23 @@ public class UpgradeManager : MonoBehaviour
             pubSubNotifications = 
             { 
                 "refinement.crystal.unlocked" 
+            }
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.MakoRefinementIncreaseLaserLevel,
+            name = "Attenuate",
+            description = "Attenuates the crystal to increase the effectiveness of the beam on the substance.",
+            requirements = { UpgradeType.MakoRefinementUnlockCrystal },
+            maxPurchases = 2,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 50,
+            },
+            pubSubNotifications = 
+            { 
+                "refinement.crystal.attenuated" 
             }
         });
 
