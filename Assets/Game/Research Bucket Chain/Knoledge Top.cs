@@ -27,5 +27,15 @@ public class KnoledgeTop : MonoBehaviour
 
     public void DidGetKnowledge() {
         currentTime = 0;
+
+        AudioManager.Instance.Play2D(
+            "Factory/TowerHit", 
+            loop: false,
+            pitchMin: 0.9f,
+            pitchMax: 1.1f,
+            volumeMin: 0.3f, 
+            volumeMax: 0.5f, 
+            position: transform.position
+        );
     }
 }

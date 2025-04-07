@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a173958d21274cc2875c8fe08113670, type: 3}
   m_Name: Refinement Laser Hit
   m_EditorClassIdentifier: 
-  id: 
-  audioMixerGroup: {fileID: 0}
-  audioClips: []
+  id: Refinement/Hit
+  audioMixerGroup: {fileID: 4674431572857700961, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
+  audioClips:
+  - {fileID: 8300000, guid: e85da680e157d47639ad08933e03ed44, type: 3}
+  - {fileID: 8300000, guid: b97ad483323ae461a8978ae1123a21b0, type: 3}

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a173958d21274cc2875c8fe08113670, type: 3}
-  m_Name: Factory Got Bucket
+  m_Name: Factory Tower Hit
   m_EditorClassIdentifier: 
-  id: Factory/GotBucket
+  id: Factory/TowerHit
   audioMixerGroup: {fileID: 4674431572857700961, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
   audioClips:
-  - {fileID: 8300000, guid: d6f38dc5ad478480292d30bab9800f02, type: 3}
+  - {fileID: 8300000, guid: 9111ba8882150450a8ead86de46f64fa, type: 3}

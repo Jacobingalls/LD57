@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a173958d21274cc2875c8fe08113670, type: 3}
   m_Name: Factory Ambience
   m_EditorClassIdentifier: 
-  id: 
-  audioMixerGroup: {fileID: 0}
-  audioClips: []
+  id: Ambiance/Factory
+  audioMixerGroup: {fileID: 5533308583630544802, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
+  audioClips:
+  - {fileID: 8300000, guid: 41b251e46d3074070baf3edb16dfffdc, type: 3}

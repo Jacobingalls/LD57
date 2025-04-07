@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a173958d21274cc2875c8fe08113670, type: 3}
   m_Name: Factory Make Knowledge
   m_EditorClassIdentifier: 
-  id: 
-  audioMixerGroup: {fileID: 0}
-  audioClips: []
+  id: Factory/MakeKnowledge
+  audioMixerGroup: {fileID: 4674431572857700961, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
+  audioClips:
+  - {fileID: 8300000, guid: ec2ef467690184c71ba1fa15219df141, type: 3}
