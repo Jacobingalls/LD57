@@ -79,4 +79,14 @@ public class ResearchCenter : MonoBehaviour
     public void AddBucket() {
         bucketChain.bucketFreeCount += 1;
     }
+
+    public void PlayAudio() {
+        AudioManager.Instance.Play2D(
+            "Ambiance/Factory", 
+            loop: true,
+            volumeMin: 0.05f, 
+            volumeMax: 0.05f, 
+            position: transform.position
+        );
+    }
 }
