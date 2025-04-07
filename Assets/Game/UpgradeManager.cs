@@ -36,6 +36,16 @@ public enum UpgradeType
     PeopleSmallHouse = 7,
     PeopleLargeHouse = 8,
     PeopleUnlockLargeHouse = 403,
+    PeopleUnlockCathedral = 404,
+    PeopleConvinceResidents = 405,
+    PeopleHireRitekeeper = 406,
+    PeopleBreedingPrograms = 407,
+    PeopleUpgradeRitekeeper = 408,
+
+    // MARK: - Gate Upgrades
+    GateStory1 = 501,
+    GateStory2 = 502,
+    GateStory3 = 503,
 }
 
 public delegate void ApplyUpgradeEffectDelegate(Upgrade u);
@@ -309,6 +319,77 @@ public class UpgradeManager : MonoBehaviour
             }
         });
 
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.PeopleUnlockCathedral,
+            name = "Cathedral",
+            description = "A fine place for a fine end.",
+            hiddenRequirements = { UpgradeType.GateStory3 },
+            baseCosts =
+            {
+                [ResourceType.Mako] = 100000,
+                [ResourceType.Science] = 100,
+            },
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.PeopleConvinceResidents,
+            name = "Extended Flock",
+            description = "Persuasive letters from residents fly across distant lands, luring new blood to New Gloomhollow.",
+            hiddenRequirements = { UpgradeType.PeopleUnlockCathedral },
+            baseCosts =
+            {
+                [ResourceType.Mako] = 100000,
+                [ResourceType.Science] = 100,
+            },
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.PeopleHireRitekeeper,
+            name = "Ritekeeper",
+            description = "Leads willing and unwilling alike to meet their fate.",
+            hiddenRequirements = { UpgradeType.PeopleUnlockCathedral },
+            maxPurchases = 8,
+            baseCosts =
+            {
+                [ResourceType.Mako] = 100000,
+                [ResourceType.Science] = 100,
+                [ResourceType.People] = 1,
+            },
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.PeopleBreedingPrograms,
+            name = "Fecund Harvest",
+            description = "It is the solemn duty of each soul in New Gloomhollow to produce and raise the next generation. For the greater good.",
+            hiddenRequirements = { UpgradeType.PeopleConvinceResidents },
+            baseCosts =
+            {
+                [ResourceType.Mako] = 100000,
+                [ResourceType.Science] = 100,
+            },
+            ApplyUpgradeEffect = u => {
+                ResourceManager.Instance.AddAdditiveModifier(ResourceType.People, 1);
+            },
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.PeopleUpgradeRitekeeper,
+            name = "Twin Reaping Rite",
+            description = "The darkness in the depths must be sated. Two hapless souls are now cast into the gate's maw by the righteous Ritekeeper.",
+            hiddenRequirements = { UpgradeType.PeopleHireRitekeeper },
+            baseCosts =
+            {
+                [ResourceType.Mako] = 100000,
+                [ResourceType.Science] = 100,
+                [ResourceType.People] = 1,
+            },
+        });
+
         // MARK: - Mako Refinement
         RegisterUpgrade(new Upgrade
         {
@@ -516,6 +597,46 @@ public class UpgradeManager : MonoBehaviour
                 [ResourceType.Mako] = 10,
                 [ResourceType.Science] = 2,
                 [ResourceType.People] = 1,
+            },
+        });
+
+        // MARK: - Gate
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.GateStory1,
+            name = "Investigate",
+            description = "Fragmented ancient carvings whisper of riches held beyond the gate. What little can be gleaned points unerringly back to Old Gloomhollow's darkest secrets.",
+            baseCosts =
+            {
+                [ResourceType.Mako] = 25000,
+                [ResourceType.Science] = 5,
+            },
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.GateStory2,
+            name = "Study",
+            description = "Worm-eaten tomes and half-deciphered symbols unveil a terrifying truth - but those who remain skeptical demand further study.",
+            hiddenRequirements = { UpgradeType.GateStory1 },
+            baseCosts =
+            {
+                [ResourceType.Mako] = 50000,
+                [ResourceType.Science] = 50,
+            },
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.GateStory3,
+            name = "Understand",
+            description = "At last the truth is laid bare. The gate demands blood from New Gloomhollow to break its seal. No denial remains - its very mechanisms feed upon the despair of lost souls, twisting their fates into a key for entry.",
+            hiddenRequirements = { UpgradeType.GateStory2 },
+            baseCosts =
+            {
+                [ResourceType.Mako] = 100000,
+                [ResourceType.Science] = 100,
             },
         });
     }

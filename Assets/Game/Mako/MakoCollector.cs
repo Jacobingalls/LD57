@@ -12,8 +12,8 @@ public class MakoCollector : MonoBehaviour
     public float maxForce = 10.0f;
     public float gain = 3f;
 
-    private static float maxVelMultiplier = 1.0f;
-    private static float maxForceAdditive = 0.0f;
+    private float maxVelMultiplier = 1.0f;
+    private float maxForceAdditive = 0.0f;
 
     [Header ("Manual Controls")]
     public bool AllowsManual = true;
@@ -58,6 +58,8 @@ public class MakoCollector : MonoBehaviour
         {
             SetMaxVelMultiplier();
         });
+
+        SetMaxVelMultiplier();
     }
 
     private void SetMaxVelMultiplier()

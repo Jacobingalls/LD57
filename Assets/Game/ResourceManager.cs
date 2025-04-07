@@ -160,9 +160,6 @@ public class ResourceManager : MonoBehaviour
 
         var resourceGain = resource.baseGain * gain * additiveModifier * multiplicativeModifier;
 
-        Debug.Log("additive modifier = " + additiveModifier);
-        Debug.Log("multiplicativeModifier = " + additiveModifier);
-
         resource.amount += (int)resourceGain;
         resource.lifetimeAmount += (int)resourceGain;
     }
@@ -224,7 +221,7 @@ public class ResourceManager : MonoBehaviour
             foreach(var entry in _resources)
             {
                 entry.Value.unlocked = true;
-                entry.Value.amount = (int)10e5;
+                entry.Value.amount = (int)10e7;
             }
             GetComponent<PubSubSender>().Publish("resource.unlocked");
         }

@@ -6,13 +6,22 @@ public class ResourceField : MonoBehaviour
     public List<GameObject> affectedObjects;
     public Vector3 forceVector = Vector3.up;
     public Transform centerAxis;
+    public LayerMask affectedLayer = 1 << 6;
 
     void OnTriggerEnter2D(Collider2D collidee)
     {
+        if (((1 << collidee.gameObject.layer) & affectedLayer) == 0)
+        {
+            return;
+        }
         affectedObjects.Add(collidee.gameObject);
     }
     void OnTriggerExit2D(Collider2D collidee)
     {
+        if (((1 << collidee.gameObject.layer) & affectedLayer) == 0)
+        {
+            return;
+        }
         affectedObjects.Remove(collidee.gameObject);
     }
 

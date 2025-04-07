@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class ResourceDisplay : MonoBehaviour
 {
@@ -12,9 +13,11 @@ public class ResourceDisplay : MonoBehaviour
     {
         resourceImage.sprite = ResourceManager.Instance.GetResourceSprite(resourceType);
     }
-
     void Update()
     {
-        resourceLabel.text = $"{ResourceManager.Instance.GetResourceAmount(resourceType)}";
+        var amt = ResourceManager.Instance.GetResourceAmount(resourceType);
+        var valueStr = amt > 1e4 ? string.Format("{0:0.##E+0}", amt) : amt.ToString();
+
+        resourceLabel.text = $"{valueStr}";
     }
 }

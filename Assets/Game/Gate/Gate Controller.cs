@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,10 +17,9 @@ public class GateController : MonoBehaviour
     public GameObject rightGate;
 
     public GameObject coin;
+    public GameObject gradient;
 
     public UnityEvent onOpenGate;
-
-
 
     public bool isOpen = false;
 
@@ -70,7 +70,9 @@ public class GateController : MonoBehaviour
         if (isOpen) {
             return;
         }
-        
+
+        coin.GetComponent<SpriteFloat>().Jitter(0.1f);
+
         progress += forcePerOpenAttempt;
         progress = Mathf.Clamp01(progress);
         if (progress >= 1f) {
@@ -87,5 +89,38 @@ public class GateController : MonoBehaviour
     public void ForceOpenGate() {
         isOpen = true;
         onOpenGate.Invoke();
+        FadeOutGradient(0.25f);
+    }
+
+    public void FadeOutGradient(float duration)
+    {
+        StartCoroutine(FadeOutGradientCoroutine(duration));
+    }
+
+    private IEnumerator FadeOutGradientCoroutine(float duration)
+    {
+        SpriteRenderer[] spriteRenderers = gradient.GetComponentsInChildren<SpriteRenderer>();
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);
+            foreach (var spriteRenderer in spriteRenderers)
+            {
+                Color color = spriteRenderer.color;
+                color.a = alpha;
+                spriteRenderer.color = color;
+            }
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure all sprites are fully transparent at the end
+        foreach (var spriteRenderer in spriteRenderers)
+        {
+            Color color = spriteRenderer.color;
+            color.a = 0f;
+            spriteRenderer.color = color;
+        }
     }
 }

@@ -362,7 +362,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Duskhollow
+  m_text: New Gloomhollow
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7c674711b26c76246b0ee18a4d5abe31, type: 2}
   m_sharedMaterial: {fileID: -6985338626427091019, guid: 7c674711b26c76246b0ee18a4d5abe31, type: 2}
@@ -817,7 +817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
       propertyPath: upgrades.Array.size
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
       propertyPath: 'upgrades.Array.data[0]'
@@ -830,6 +830,26 @@ PrefabInstance:
     - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
       propertyPath: 'upgrades.Array.data[2]'
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[3]'
+      value: 404
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[4]'
+      value: 405
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[5]'
+      value: 406
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[6]'
+      value: 407
+      objectReference: {fileID: 0}
+    - target: {fileID: 9103492044722668829, guid: 9e3d10cfde61300439a9630ddcc514e1, type: 3}
+      propertyPath: 'upgrades.Array.data[7]'
+      value: 408
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

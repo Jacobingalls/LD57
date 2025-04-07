@@ -82,8 +82,14 @@ public class MakoHarvester : MonoBehaviour
     {
         var moduleContainer = (IdleModuleContainer)FindFirstObjectByType(typeof(IdleModuleContainer));
         var lowestBounds = moduleContainer.CalculateBoundsForLowestActiveModule();
+        var lowestAllowedPoint = GameObject.Find("LowestMakoCrystalPoint").transform.position.y;
+        var y = lowestBounds.min.y;
+        if (y < lowestAllowedPoint)
+        {
+            y = lowestAllowedPoint;
+        }
 
-        _makoFocusGO.transform.position = new Vector3(_makoFocusGO.transform.position.x, lowestBounds.min.y, _makoFocusGO.transform.position.z);
+        _makoFocusGO.transform.position = new Vector3(_makoFocusGO.transform.position.x, y, _makoFocusGO.transform.position.z);
     }
 
     private void OnMouseDown()

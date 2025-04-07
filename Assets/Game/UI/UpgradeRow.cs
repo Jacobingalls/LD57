@@ -83,7 +83,10 @@ public class UpgradeRow : MonoBehaviour
         for (var i = 0; i < upgrade.Costs.Count; i++)
         {
             var entry = upgrade.Costs.ElementAt(i);
-            costText += $"<sprite name=\"{entry.Key}\"> {entry.Value}";
+
+            var valueStr = entry.Value > 1e4 ? string.Format("{0:0.##E+0}", entry.Value) : entry.Value.ToString();
+
+            costText += $"<sprite name=\"{entry.Key}\"> {valueStr}";
             if (i != upgrade.Costs.Count - 1)
             {
                 costText += " ";
