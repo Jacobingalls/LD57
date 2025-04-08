@@ -306,7 +306,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.PeopleLargeHouse,
             name = "Flat",
-            description = "A cramped, towering flat. Provides housing for 4 mortal souls.",
+            description = "A cramped, towering flat. Provides housing for 2 mortal souls.",
             maxPurchases = 16,
             hiddenRequirements = { UpgradeType.PeopleUnlockLargeHouse },
             baseCosts =
