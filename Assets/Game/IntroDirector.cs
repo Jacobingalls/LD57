@@ -85,7 +85,17 @@ public class IntroDirector : MonoBehaviour
 
         }
 
-        yield return new WaitForSeconds(3.0f);
+        if (currentSequence == 1) {
+            AudioManager.Instance.Play2D(
+                "Tutorial/Calamity",
+                loop: false, 
+                volumeMin: 1f, 
+                volumeMax: 1f, 
+                position: transform.position
+            );
+        }
+
+        yield return new WaitForSeconds(10.0f);
 
         ActivateSequence();
     }
