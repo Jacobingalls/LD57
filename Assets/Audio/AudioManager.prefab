@@ -130,7 +130,7 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
   audioSourcePrefab: {fileID: 5304750828136170511, guid: 6dc175167ffb53347b7845ab3fc03c39, type: 3}
   AmbianceSoundInfoID: Ambiance
-  MusicSoundInfoID: LD57 BGM
+  MusicSoundInfoID: 
 --- !u!1 &700154186250235073
 GameObject:
   m_ObjectHideFlags: 0

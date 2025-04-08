@@ -29,4 +29,15 @@ public class LD57GameManager : MonoBehaviour
         
     }
 
+    public void PlayBGM() {
+        AudioManager.Instance.Play2D(
+            "LD57 BGM", 
+            loop: true,
+            volumeMin: 0.5f, 
+            volumeMax: 0.5f, 
+            position: transform.position,
+            isMusic: true
+        );
+    }
+
 }

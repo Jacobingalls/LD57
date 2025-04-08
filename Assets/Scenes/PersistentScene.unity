@@ -167,10 +167,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LD57GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 5677856895485127212, guid: 17253b0883f51f044b49bd208fe696ad, type: 3}
-      propertyPath: cheatMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5779101976867906228, guid: 17253b0883f51f044b49bd208fe696ad, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.68041
