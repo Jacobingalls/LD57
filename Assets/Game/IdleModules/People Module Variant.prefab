@@ -1003,6 +1003,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1287731519701933819, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: m_text
+      value: 'Delver Deeper
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 1296222262130843168, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1470,6 +1476,10 @@ PrefabInstance:
     - target: {fileID: 8579461228464592848, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8994793334466094590, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: tooltipTitle
+      value: Explore the Depths
       objectReference: {fileID: 0}
     - target: {fileID: 9133374306886094321, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y

@@ -147,6 +147,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1287731519701933819, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: m_text
+      value: Deeper!
+      objectReference: {fileID: 0}
     - target: {fileID: 1296222262130843168, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -291,6 +295,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 4267444488204968269, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: m_spriteAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 0359ef6811928cf43a381cca1b85abec, type: 2}
     - target: {fileID: 4299888561105099781, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -461,7 +469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: modulePurchaseTeaserName
-      value: Do Not Relent
+      value: Deeper!
       objectReference: {fileID: 0}
     - target: {fileID: 5846542892945700148, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: onPurchase.m_PersistentCalls.m_Calls.Array.size
@@ -582,7 +590,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8994793334466094590, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: tooltipTitle
-      value: Do Not Relent
+      value: Deeper!
       objectReference: {fileID: 0}
     - target: {fileID: 9133374306886094321, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y

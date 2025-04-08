@@ -64,11 +64,11 @@ MonoBehaviour:
   cheatMode: 0
   _resourceSpriteConfigs:
   - Type: 0
-    Sprite: {fileID: 21300000, guid: aa1df80e268f7c64bb75e9bb6fd56d34, type: 3}
+    Sprite: {fileID: -557097223, guid: 5ee1e7117ba5fd943a16bb0eee6c0443, type: 3}
   - Type: 1
     Sprite: {fileID: -841016360, guid: 5ee1e7117ba5fd943a16bb0eee6c0443, type: 3}
   - Type: 2
-    Sprite: {fileID: -7585664845875449013, guid: 3ed04f71e66d543a4be277bb720d2962, type: 3}
+    Sprite: {fileID: -2110983776, guid: 5ee1e7117ba5fd943a16bb0eee6c0443, type: 3}
   - Type: 3
     Sprite: {fileID: -7585664845875449013, guid: 3ed04f71e66d543a4be277bb720d2962, type: 3}
 --- !u!114 &4315847150791977749

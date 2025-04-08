@@ -199,7 +199,7 @@ public class UpgradeManager : MonoBehaviour
             hiddenRequirements = { UpgradeType.MakoClickAndHold },
             baseCosts =
             {
-                [ResourceType.Mako] = 10,
+                [ResourceType.Mako] = 7,
             },
         });
 
@@ -212,7 +212,7 @@ public class UpgradeManager : MonoBehaviour
             maxPurchases = 3,
             baseCosts =
             {
-                [ResourceType.Mako] = 10,
+                [ResourceType.Mako] = 7,
             },
             costsScaleFactors =
             {
@@ -228,7 +228,7 @@ public class UpgradeManager : MonoBehaviour
             hiddenRequirements = { UpgradeType.MakoClickAndHold },
             baseCosts =
             {
-                [ResourceType.Mako] = 25,
+                [ResourceType.Mako] = 20,
             },
         });
 
@@ -311,11 +311,11 @@ public class UpgradeManager : MonoBehaviour
             hiddenRequirements = { UpgradeType.PeopleUnlockLargeHouse },
             baseCosts =
             {
-                [ResourceType.Mako] = 25,
+                [ResourceType.Mako] = 500,
             },
             costsScaleFactors =
             {
-                [ResourceType.Mako] = 2,
+                [ResourceType.Mako] = 1.5f,
             }
         });
 
@@ -340,7 +340,7 @@ public class UpgradeManager : MonoBehaviour
             hiddenRequirements = { UpgradeType.PeopleUnlockCathedral },
             baseCosts =
             {
-                [ResourceType.Mako] = 100000,
+                [ResourceType.Mako] = (int)1e5,
                 [ResourceType.Science] = 100,
             },
         });
@@ -354,9 +354,13 @@ public class UpgradeManager : MonoBehaviour
             maxPurchases = 8,
             baseCosts =
             {
-                [ResourceType.Mako] = 100000,
-                [ResourceType.Science] = 100,
+                [ResourceType.Mako] = (int)1e5,
                 [ResourceType.People] = 1,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 1.1f,
+                [ResourceType.People] = 1.0f,
             },
         });
 
@@ -368,7 +372,7 @@ public class UpgradeManager : MonoBehaviour
             hiddenRequirements = { UpgradeType.PeopleConvinceResidents },
             baseCosts =
             {
-                [ResourceType.Mako] = 100000,
+                [ResourceType.Mako] = (int)2e6,
                 [ResourceType.Science] = 100,
             },
             ApplyUpgradeEffect = u => {
@@ -384,9 +388,8 @@ public class UpgradeManager : MonoBehaviour
             hiddenRequirements = { UpgradeType.PeopleHireRitekeeper },
             baseCosts =
             {
-                [ResourceType.Mako] = 100000,
-                [ResourceType.Science] = 100,
-                [ResourceType.People] = 1,
+                [ResourceType.Mako] = (int)1e6,
+                [ResourceType.Science] = 200,
             },
         });
 
@@ -394,8 +397,8 @@ public class UpgradeManager : MonoBehaviour
         RegisterUpgrade(new Upgrade
         {
             type = UpgradeType.MakoRefinementUnlockCrystal,
-            name = "Construct Refinement Crystal",
-            description = "Refines the beam to attract refined substance.",
+            name = "Grow Crystal",
+            description = "Alters the beam to attract refined substance.",
             hideOnComplete = true,
             baseCosts =
             {
@@ -418,6 +421,10 @@ public class UpgradeManager : MonoBehaviour
             {
                 [ResourceType.Mako] = 50,
             },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 2.0f,
+            },
             pubSubNotifications = 
             { 
                 "refinement.crystal.attenuated" 
@@ -435,6 +442,10 @@ public class UpgradeManager : MonoBehaviour
             {
                 [ResourceType.Mako] = 50,
             },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 2.0f,
+            },
             pubSubNotifications = 
             { 
                 "refinement.crystal.amplified" 
@@ -445,12 +456,16 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoRefinementCriticalHitChance,
             name = "Luck",
-            description = "It's not luck, it's skill. A chance of getting double the substances. Each upgrade increases the chance by 1%.",
+            description = "It's not luck, it's skill. A chance of getting double the substances. Each upgrade increases the chance by 2%.",
             hiddenRequirements = { UpgradeType.MakoRefinementUnlockCrystal },
             maxPurchases = 10,
             baseCosts =
             {
                 [ResourceType.Mako] = 200,
+            },
+            costsScaleFactors =
+            {
+                [ResourceType.Mako] = 1.5f,
             },
             pubSubNotifications = 
             { 
@@ -504,11 +519,11 @@ public class UpgradeManager : MonoBehaviour
             maxPurchases = 100,
             baseCosts =
             {
-                [ResourceType.Mako] = 100,
+                [ResourceType.Mako] = 50,
             },
             costsScaleFactors =
             {
-                [ResourceType.Mako] = 1.1f,
+                [ResourceType.Mako] = 1.13f,
             },
             pubSubNotifications =
             {
@@ -525,7 +540,7 @@ public class UpgradeManager : MonoBehaviour
             maxPurchases = 3,
             baseCosts =
             {
-                [ResourceType.Mako] = 1000,
+                [ResourceType.Mako] = 250,
             },
             costsScaleFactors =
             {
@@ -541,12 +556,12 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.ResearchProcessingIncresedEfficiency,
             name = "Studeo",
-            description = "Learn how to use the <i>Cognitio Aqua Diluta</i> more efficiently. Increases the efficiency of the factory.",
+            description = "Learn how to use the <i>Cognitio Aqua Diluta</i> more efficiently. Reduces <i>Cognitio Aqua Diluta</i> needed by the distillary.",
             hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
             maxPurchases = 3,
             baseCosts =
             {
-                [ResourceType.Mako] = 1000,
+                [ResourceType.Mako] = 250,
             },
             costsScaleFactors =
             {
@@ -609,7 +624,7 @@ public class UpgradeManager : MonoBehaviour
             description = "Fragmented ancient carvings whisper of riches held beyond the gate. What little can be gleaned points unerringly back to Old Gloomhollow's darkest secrets.",
             baseCosts =
             {
-                [ResourceType.Mako] = 25000,
+                [ResourceType.Mako] = (int)1e4,
                 [ResourceType.Science] = 5,
             },
         });
@@ -622,8 +637,8 @@ public class UpgradeManager : MonoBehaviour
             hiddenRequirements = { UpgradeType.GateStory1 },
             baseCosts =
             {
-                [ResourceType.Mako] = 50000,
-                [ResourceType.Science] = 50,
+                [ResourceType.Mako] = (int)1e5,
+                [ResourceType.Science] = 25,
             },
         });
 
@@ -635,7 +650,7 @@ public class UpgradeManager : MonoBehaviour
             hiddenRequirements = { UpgradeType.GateStory2 },
             baseCosts =
             {
-                [ResourceType.Mako] = 100000,
+                [ResourceType.Mako] = (int)1e6,
                 [ResourceType.Science] = 100,
             },
         });

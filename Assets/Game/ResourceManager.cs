@@ -218,12 +218,7 @@ public class ResourceManager : MonoBehaviour
     {
         if (cheatMode)
         {
-            foreach(var entry in _resources)
-            {
-                entry.Value.unlocked = true;
-                entry.Value.amount = (int)10e7;
-            }
-            GetComponent<PubSubSender>().Publish("resource.unlocked");
+            Cheat();
         }
     }
 
@@ -270,6 +265,30 @@ public class ResourceManager : MonoBehaviour
 
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.Period))
+        {
+            WipeResources();
+        }
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.Comma))
+        {
+            Cheat();
+        }
+    }
+    private void WipeResources()
+    {
+        foreach (var entry in _resources)
+        {
+            entry.Value.amount = 0;
+        }
+    }
+
+    private void Cheat()
+    {
+        foreach (var entry in _resources)
+        {
+            entry.Value.unlocked = true;
+            entry.Value.amount = (int)10e8;
+        }
+        GetComponent<PubSubSender>().Publish("resource.unlocked");
     }
 }
