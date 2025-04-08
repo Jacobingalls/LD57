@@ -37,6 +37,11 @@ public class Cathedral : MonoBehaviour
         {
             doubleYeetUnlocked = true;
         });
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.PeopleHireRitekeeper, u =>
+        {
+            ShowRitekeeperVisual();
+        });
     }
 
     void Update()
@@ -63,6 +68,26 @@ public class Cathedral : MonoBehaviour
                 _debugTimer -= Time.deltaTime;
             }
         }
+    }
+
+    private void ShowRitekeeperVisual()
+    {
+        var ritekeepers = transform.Find("RitekeeperStack");
+        var disabledRitekeepers = new List<GameObject>();
+        for(var i = 0; i < ritekeepers.transform.childCount; i++)
+        {
+            var ritekeeper = ritekeepers.GetChild(i).gameObject;
+            if (!ritekeeper.activeInHierarchy)
+            {
+                disabledRitekeepers.Add(ritekeeper);
+            }
+        }
+        if (disabledRitekeepers.Count == 0)
+        {
+            return;
+        }
+
+        disabledRitekeepers[Random.Range(0, disabledRitekeepers.Count)].SetActive(true);
     }
 
     public bool debug = false;
