@@ -1631,6 +1631,22 @@ PrefabInstance:
       propertyPath: m_text
       value: Gate of demonstrated worth
       objectReference: {fileID: 0}
+    - target: {fileID: 613905596994409245, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 613905596994409245, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 613905596994409245, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.8509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 613905596994409245, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4283519449
+      objectReference: {fileID: 0}
     - target: {fileID: 739046754600091936, guid: f250c6e6fbe1f438da1af43d09f11ee9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
