@@ -99,6 +99,8 @@ public class GateController : MonoBehaviour
         isOpen = true;
         onOpenGate.Invoke();
         FadeOutGradient(0.25f);
+
+        AudioManager.Instance.Play2D("Gate/WinSound");
     }
 
     public void FadeOutGradient(float duration)

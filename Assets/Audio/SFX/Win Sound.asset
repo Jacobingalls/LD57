@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a173958d21274cc2875c8fe08113670, type: 3}
-  m_Name: Person Hit Gate
+  m_Name: Win Sound
   m_EditorClassIdentifier: 
-  id: Gate/PersonHit
+  id: Gate/WinSound
   audioMixerGroup: {fileID: 4674431572857700961, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
   audioClips:
-  - {fileID: 8300000, guid: 5dd3b735b7c52447a8a3ec6d094d9620, type: 3}
+  - {fileID: 8300000, guid: 53ed2ba4b29a74f37af958f15b419403, type: 3}

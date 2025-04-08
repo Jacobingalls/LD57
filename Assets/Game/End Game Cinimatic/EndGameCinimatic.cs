@@ -69,6 +69,10 @@ public class EndGameCinimatic : MonoBehaviour
 
         IEnumerator PlayCinimaticWithDelay()
         {
+
+            // Give time for the camera and music to swell.
+            yield return new WaitForSeconds(4.75f);
+
             progress = 0f;
             isEndGame = true;
             UpdateCinimatic();
