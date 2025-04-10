@@ -21,6 +21,9 @@ public class CameraController : MonoBehaviour
         Vector3 position = transform.position;
         position.y = startPositionY;
         transform.position = position;
+
+        Debug.Log(SystemInfo.operatingSystem);
+        Debug.Log(SystemInfo.deviceModel);
     }
 
     private bool _postedScrollNotification = false;
@@ -55,7 +58,21 @@ public class CameraController : MonoBehaviour
         }
         else if (Input.mouseScrollDelta.y != 0)
         {
-            movement = Input.mouseScrollDelta.y * 100 * Time.deltaTime;
+
+            float scrollSpeed = 100f;
+            if (Application.platform == RuntimePlatform.WebGLPlayer ) {
+                if (SystemInfo.operatingSystem.Contains("MacOS")) {
+                    if (SystemInfo.deviceModel.Contains("Safari")) {
+                        scrollSpeed = 10f;
+                    } else {
+                        scrollSpeed = 100f;
+                    }
+                } else {
+                    scrollSpeed = 150f;
+                }
+            }
+
+            movement = Input.mouseScrollDelta.y * scrollSpeed * Time.deltaTime;
             position.y += movement;
             // Don't use keyhold time as users can control speed.
         } 
