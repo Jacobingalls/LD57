@@ -380,13 +380,13 @@
       "url": "https://packages.unity.com"
     },
     "info.jacobingalls.jamkit": {
-      "version": "git@github.com:Jacobingalls/JamKit.git",
+      "version": "https://github.com/Jacobingalls/JamKit.git",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.unity.textmeshpro": "3.0.8"
       },
-      "hash": "4dd2b44968d297c5f18fa22b9256a9de9a2898b6"
+      "hash": "5486310b305e76d3a5e655d5fbf7bf32c5988976"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",

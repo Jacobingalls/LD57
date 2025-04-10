@@ -11,7 +11,7 @@
     "com.unity.toolchain.macos-arm64-linux-x86_64": "2.0.4",
     "com.unity.ugui": "2.0.0",
     "com.unity.visualscripting": "1.9.6",
-    "info.jacobingalls.jamkit": "git@github.com:Jacobingalls/JamKit.git",
+    "info.jacobingalls.jamkit": "https://github.com/Jacobingalls/JamKit.git",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
