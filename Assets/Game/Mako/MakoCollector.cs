@@ -49,7 +49,7 @@ public class MakoCollector : MonoBehaviour
         _mm = GetComponentInParent<MakoManager>();
         _jumpingMortal = GetComponentInChildren<JumpingMortal>();
 
-        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualSummonIncrease, u =>
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualCollectIncrease, u =>
         {
             SetMaxVelMultiplier();
         });

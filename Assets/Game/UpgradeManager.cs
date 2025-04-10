@@ -195,11 +195,11 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoManualCollectIncrease,
             name = "Alignment",
-            description = "Improve alignment of the collector arrays. Substance is attracted at a faster rate.",
+            description = "Improve alignment of the collector arrays. <sprite name=\"Mako\"> is attracted at a faster rate.",
             hiddenRequirements = { UpgradeType.MakoClickAndHold },
             baseCosts =
             {
-                [ResourceType.Mako] = 7,
+                [ResourceType.Mako] = 5,
             },
         });
 
@@ -207,16 +207,16 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoManualSummonIncrease,
             name = "Calibration",
-            description = "Calibrate the channeling device. Substance is drawn more easily from the depths.",
+            description = "Calibrate the channeling device. <sprite name=\"Mako\"> is drawn more easily from the depths.",
             hiddenRequirements = { UpgradeType.MakoClickAndHold },
             maxPurchases = 3,
             baseCosts =
             {
-                [ResourceType.Mako] = 7,
+                [ResourceType.Mako] = 5,
             },
             costsScaleFactors =
             {
-                [ResourceType.Mako] = 2,
+                [ResourceType.Mako] = 3,
             }
         });
 
@@ -224,11 +224,11 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoManualAdditionalCollector,
             name = "Collector",
-            description = "Construct an additional substance collector.",
+            description = "Construct an additional <sprite name=\"Mako\"> collector.",
             hiddenRequirements = { UpgradeType.MakoClickAndHold },
             baseCosts =
             {
-                [ResourceType.Mako] = 20,
+                [ResourceType.Mako] = 15,
             },
         });
 
@@ -236,7 +236,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoAutoAdditionalCollector,
             name = "Manifest Pylon",
-            description = "Raise a small collector pylon. A mortal soul toils away, collecting the substance.",
+            description = "Raise a small collector pylon. A mortal soul toils away, collecting <sprite name=\"Mako\"> sphaera from the skies.",
             hiddenRequirements = { UpgradeType.PeopleSmallHouse },
             maxPurchases = 6,
             baseCosts =
@@ -255,7 +255,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoAutoAdditionalHarvester,
             name = "Channeler",
-            description = "Raise a harvester platform from the depths. A mortal soul toils away, channeling for substance.",
+            description = "Raise a harvester platform from the depths. A mortal soul toils away, channeling for <sprite name=\"Mako\"> sphaera.",
             hiddenRequirements = { UpgradeType.PeopleSmallHouse },
             maxPurchases = 8,
             baseCosts =
@@ -276,7 +276,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.PeopleSmallHouse,
             name = "Cottage",
-            description = "A damp, cold cottage. Provides housing for 1 mortal soul.",
+            description = "A damp, cold cottage, provides housing for a mortal soul. +1 <sprite name=\"People\">",
             maxPurchases = 16,
             baseCosts =
             {
@@ -306,7 +306,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.PeopleLargeHouse,
             name = "Flat",
-            description = "A cramped, towering flat. Provides housing for 2 mortal souls.",
+            description = "A cramped, towering flat for mortal souls. +2 <sprite name=\"People\">",
             maxPurchases = 16,
             hiddenRequirements = { UpgradeType.PeopleUnlockLargeHouse },
             baseCosts =
@@ -336,7 +336,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.PeopleConvinceResidents,
             name = "Extended Flock",
-            description = "Persuasive letters from residents fly across distant lands, luring new blood to New Gloomhollow.",
+            description = "Persuasive letters from residents fly across distant lands, luring new blood to New Gloomhollow. Each home provides passive <sprite name=\"People\"> generation.",
             hiddenRequirements = { UpgradeType.PeopleUnlockCathedral },
             baseCosts =
             {
@@ -368,7 +368,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.PeopleBreedingPrograms,
             name = "Fecund Harvest",
-            description = "It is the solemn duty of each soul in New Gloomhollow to produce and raise the next generation. For the greater good.",
+            description = "It is the solemn duty of each soul in New Gloomhollow to produce and raise the next generation. For the greater good. Each home provides additional passive <sprite name=\"People\"> generation.",
             hiddenRequirements = { UpgradeType.PeopleConvinceResidents },
             baseCosts =
             {
@@ -398,7 +398,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoRefinementUnlockCrystal,
             name = "Grow Crystal",
-            description = "Alters the beam to attract refined substance.",
+            description = "Alters the beam to attract refined <sprite name=\"Mako\"> sphaera.",
             hideOnComplete = true,
             baseCosts =
             {
@@ -414,7 +414,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoRefinementIncreaseLaserLevel,
             name = "Attenuate",
-            description = "Attenuates the crystal to increase the effectiveness of the beam on the substance. Increases the chance of attracting high-quality substance from the depths.",
+            description = "Attenuates the crystal to increase the effectiveness of the beam on the substance. Increases the chance of attracting high-quality <sprite name=\"Mako\"> sphaera from the depths.",
             hiddenRequirements = { UpgradeType.MakoRefinementUnlockCrystal },
             maxPurchases = 2,
             baseCosts =
@@ -435,7 +435,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoRefinementIncreaseLaserPower,
             name = "Amplify",
-            description = "Increases the power of the beam to attract refined substance. Increases the chance for additional substance from the depths.",
+            description = "Increases the power of the beam to attract refined substance. Increases the chance for additional <sprite name=\"Mako\"> sphaera from the depths.",
             hiddenRequirements = { UpgradeType.MakoRefinementUnlockCrystal },
             maxPurchases = 2,
             baseCosts =
@@ -456,7 +456,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoRefinementCriticalHitChance,
             name = "Luck",
-            description = "It's not luck, it's skill. A chance of getting double the substances. Each upgrade increases the chance by 2%.",
+            description = "It's not luck, it's skill. A chance of getting double <sprite name=\"Mako\"> sphaera from the depths. Each upgrade increases the chance by 2%.",
             hiddenRequirements = { UpgradeType.MakoRefinementUnlockCrystal },
             maxPurchases = 10,
             baseCosts =
@@ -477,7 +477,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoRefinementMoreValuableMako,
             name = "Imbumentum",
-            description = "Imbue the crystal with <i>Cognitio Aqua Diluta</i>. Each upgrade increases the base value of substance sphaera by 10.",
+            description = "Imbue the crystal with <i>Cognitio Aqua Diluta</i>. Each upgrade increases the base value of <sprite name=\"Mako\"> sphaera by 10.",
             hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
             maxPurchases = 3,
             baseCosts =
@@ -497,7 +497,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.ResearchProcessingUnlockFactory,
             name = "Construe",
-            description = "Construct a distillary to process the <i>Cognitio Aqua Diluta</i> from the depths.",
+            description = "Construct a distillary to process the <i>Cognitio Aqua Diluta</i> from the depths, a powerful liquid capable of being distilled into <sprite name=\"Science\">.",
             hideOnComplete = true,
             baseCosts =
             {
@@ -514,7 +514,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.ResearchProcessingBuyBucket,
             name = "Situla",
-            description = "Increase the amount of <i>Cognitio Aqua Diluta</i> drawn from the well. Add another bucket to the factory well.",
+            description = "Increase the amount of <i>Cognitio Aqua Diluta</i> drawn from the well. Add another bucket to the distillery well.",
             hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
             maxPurchases = 100,
             baseCosts =
@@ -556,7 +556,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.ResearchProcessingIncresedEfficiency,
             name = "Studeo",
-            description = "Learn how to use the <i>Cognitio Aqua Diluta</i> more efficiently. Reduces <i>Cognitio Aqua Diluta</i> needed by the distillary.",
+            description = "Learn how to use the <i>Cognitio Aqua Diluta</i> more efficiently. Reduces <i>Cognitio Aqua Diluta</i> needed by the distillary to produce <sprite name=\"Science\">.",
             hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
             maxPurchases = 3,
             baseCosts =
@@ -598,7 +598,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.ResearchProcessingMoreMakoSuck,
             name = "Divina Guidantia",
-            description = "Per Dei gratiam pergere possumus mysteria huius substantiae alienae detegere. Substance is attracted at a faster rate.",
+            description = "Per Dei gratiam pergere possumus mysteria huius substantiae alienae detegere. <sprite name=\"Mako\"> is attracted at a faster rate.",
             hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
             maxPurchases = 3,
             baseCosts =

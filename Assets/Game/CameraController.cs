@@ -1,6 +1,7 @@
 using info.jacobingalls.jamkit;
 using UnityEngine;
 
+[RequireComponent(typeof(PubSubSender))]
 public class CameraController : MonoBehaviour
 {
 
@@ -22,6 +23,9 @@ public class CameraController : MonoBehaviour
         transform.position = position;
     }
 
+    private bool _postedScrollNotification = false;
+    private float _totalScrolledAbs = 0.0f;
+
     // Update is called once per frame
     void Update()
     {
@@ -36,24 +40,39 @@ public class CameraController : MonoBehaviour
         float moveSpeed = Mathf.Min(20f * Mathf.Pow(2f, 10f * keyHoldTime), 100f);
         Vector3 position = transform.position;
 
+        float movement = 0.0f;
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            position.y += moveSpeed * Time.deltaTime;
+            movement = moveSpeed * Time.deltaTime;
+            position.y += movement;
             keyHoldTime += Time.deltaTime;
         }
         else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            position.y -= moveSpeed * Time.deltaTime;
+            movement = moveSpeed * Time.deltaTime;
+            position.y -= movement;
             keyHoldTime += Time.deltaTime;
         }
         else if (Input.mouseScrollDelta.y != 0)
         {
-            position.y += Input.mouseScrollDelta.y * 100 * Time.deltaTime;
+            movement = Input.mouseScrollDelta.y * 100 * Time.deltaTime;
+            position.y += movement;
             // Don't use keyhold time as users can control speed.
         } 
         else 
         {
             keyHoldTime = 0;
+        }
+
+        _totalScrolledAbs += Mathf.Abs(movement);
+
+        if (!_postedScrollNotification)
+        {
+            if (_totalScrolledAbs > 5.0f)
+            {
+                _postedScrollNotification = true;
+                GetComponent<PubSubSender>().Publish("mouse.scrolled.sufficiently");
+            }
         }
 
         position.y = Mathf.Clamp(position.y, MinHeight, MaxHeight);

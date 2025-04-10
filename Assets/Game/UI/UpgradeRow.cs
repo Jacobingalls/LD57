@@ -31,6 +31,7 @@ public class UpgradeRow : MonoBehaviour
     public void Update()
     {
         purchaseButton.interactable = UpgradeManager.Instance.CanAfford(_upgradeType);
+        upgradePriceLabel.color = purchaseButton.interactable ? Color.white : Color.white * 0.5f;
     }
 
     private string ConvertToRomanNumerals(int number)
