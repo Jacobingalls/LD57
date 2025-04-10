@@ -64,7 +64,7 @@ public class MakoCollector : MonoBehaviour
 
     private void SetMaxVelMultiplier()
     {
-        var makuManualSummonIncrease = UpgradeManager.Instance.GetUpgrade(UpgradeType.MakoManualSummonIncrease).timesPurchased;
+        var makuManualSummonIncrease = UpgradeManager.Instance.GetUpgrade(UpgradeType.MakoManualCollectIncrease).timesPurchased;
         var researchProcessingMoreMakoSuck = UpgradeManager.Instance.GetUpgrade(UpgradeType.ResearchProcessingMoreMakoSuck).timesPurchased;
         var totalUpgrades = makuManualSummonIncrease + researchProcessingMoreMakoSuck;
         maxVelMultiplier = Mathf.Pow(2, totalUpgrades);

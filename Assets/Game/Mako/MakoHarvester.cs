@@ -51,7 +51,7 @@ public class MakoHarvester : MonoBehaviour
             pressAndHoldEnabled = true;
         }));
 
-        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualCollectIncrease, (u =>
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoManualSummonIncrease, (u =>
         {
             manualClickGain *= 2;
         }));
