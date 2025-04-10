@@ -274,6 +274,7 @@ public class ResourceManager : MonoBehaviour
             Cheat();
         }
     }
+
     private void WipeResources()
     {
         foreach (var entry in _resources)

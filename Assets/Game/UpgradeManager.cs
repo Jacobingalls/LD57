@@ -177,9 +177,14 @@ public class UpgradeManager : MonoBehaviour
         }
 
         _pubSub = GetComponent<PubSubSender>();
+        Reset();
+    }
+
+    public void Reset()
+    {
+        _upgrades.Clear();
 
         // MARK: - Mako Mining
-
         RegisterUpgrade(new Upgrade 
         {
             type = UpgradeType.MakoClickAndHold,
@@ -711,14 +716,6 @@ public class UpgradeManager : MonoBehaviour
         AudioManager.Instance.Play2D("Upgrade/Purchase", volumeMin: 0.2f, volumeMax: 0.4f);
 
         return true;
-    }
-
-    public void Reset()
-    {
-        foreach (var upgrade in _upgrades.Values)
-        {
-            upgrade.timesPurchased = 0;
-        }
     }
 
     void Start()

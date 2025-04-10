@@ -1,7 +1,9 @@
+using info.jacobingalls.jamkit;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PubSubSender))]
 public class IntroDirector : MonoBehaviour
 {
     public List<GameObject> _sequences;
@@ -18,7 +20,10 @@ public class IntroDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetComponent<PubSubSender>().Publish("gameManager.showGame");
+        }
     }
 
     public void ActivateSequence()

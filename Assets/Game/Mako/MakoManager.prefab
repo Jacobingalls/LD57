@@ -274,7 +274,8 @@ PrefabInstance:
       value: MakoCollector
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4055729330195566636, guid: 83740e7b8efc8e84fa9cda8cbc886ecd, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83740e7b8efc8e84fa9cda8cbc886ecd, type: 3}
