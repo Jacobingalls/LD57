@@ -269,8 +269,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: It was risen from the depths, free to continue is evil machinations. The
-    world will thank you, but it wont be yours anymore.
+  m_text: It was risen from the depths, free to continue its evil machinations. The
+    world will thank you, but it won't be yours anymore.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 478b531f2ccbc415fbb6b3d644283f69, type: 2}
   m_sharedMaterial: {fileID: -4376371783075392593, guid: 478b531f2ccbc415fbb6b3d644283f69, type: 2}
