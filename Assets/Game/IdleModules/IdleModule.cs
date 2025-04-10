@@ -76,6 +76,7 @@ public class IdleModule : MonoBehaviour
             }
 
             GetComponent<PubSubSender>().Publish("module.purchased");
+            AudioManager.Instance.Play2D("Upgrade/Purchase", volumeMin: 0.2f, volumeMax: 0.4f);
         }
     }
 
