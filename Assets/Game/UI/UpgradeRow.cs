@@ -75,8 +75,17 @@ public class UpgradeRow : MonoBehaviour
 
         var upgradeName = $"{upgrade.name} {romanNumeral}";
 
+        string description = upgrade.description;
+        if (!upgrade.Unlocked && upgrade.lockedAdditionalDescription is string lockedAdditionalDescription)
+        {
+            description += $"\n\n<sprite name=\"Lock\"> {lockedAdditionalDescription}";
+        } else if (upgrade.Unlocked && upgrade.unlockedAdditionalDescription is string unlockedAdditionalDescription)
+        {
+            description += $"\n\n{unlockedAdditionalDescription}";
+        }
+
         tooltipProvider.tooltipTitle = upgradeName;
-        tooltipProvider.tooltipText = upgrade.description;
+        tooltipProvider.tooltipText = description;
         upgradeTitleLabel.text = upgradeName;
 
         var costText = "";

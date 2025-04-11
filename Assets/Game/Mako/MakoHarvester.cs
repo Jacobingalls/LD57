@@ -35,6 +35,7 @@ public class MakoHarvester : MonoBehaviour
     [UnityEngine.Range(0.0f, 1.0f)]
     public float shortPressThreshold = 0.200f;
     public bool pressAndHoldEnabled = false;
+    public bool keyboard = false;
     [UnityEngine.Range(0.0f, 2.0f)]
     public float pressAndHoldTriggerTime = 0.500f;
 
@@ -60,6 +61,11 @@ public class MakoHarvester : MonoBehaviour
         {
             laserAnimator.transform.localScale = new Vector3(1.0f, 150.0f, 1.0f);
         }));
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoKeyboard, (u =>
+        {
+            keyboard = true;
+        }));
     }
 
     // Update is called once per frame
@@ -75,6 +81,8 @@ public class MakoHarvester : MonoBehaviour
                 _triggerTime = pressAndHoldTriggerTime;
                 ChargeHarvester(manualClickGain);
             }
+        } else {
+            UpdateKeyboardInput();
         }
     }
 
@@ -112,6 +120,17 @@ public class MakoHarvester : MonoBehaviour
         }
 
         _pressing = false;
+    }
+
+    private void UpdateKeyboardInput()
+    {
+        if (keyboard)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ChargeHarvester(manualClickGain);
+            }
+        }
     }
 
     public void AutoChargeHarvester()

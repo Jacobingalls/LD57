@@ -11,6 +11,7 @@ public enum UpgradeType
 {
     // MARK: - Mako Mining
     MakoClickAndHold = 0,
+    MakoKeyboard = 102,
     MakoManualSummonIncrease = 1,
     MakoManualCollectIncrease = 2,
     MakoManualAdditionalCollector = 3,
@@ -60,6 +61,8 @@ public class Upgrade
 
     public string name = "Upgrade";
     public string description = "Upgrade Description";
+    public string lockedAdditionalDescription = null;
+    public string unlockedAdditionalDescription = null;
 
     public int timesPurchased = 0;
     public int maxPurchases = 1;
@@ -194,6 +197,27 @@ public class UpgradeManager : MonoBehaviour
             {
                 [ResourceType.Mako] = 1,
             },
+            hideOnComplete = true,
+        });
+
+        RegisterUpgrade(new Upgrade
+        {
+            type = UpgradeType.MakoKeyboard,
+            name = "Divine Warrior",
+            description = "Channeling the power of the devine warrior, you achieve a deep, telepathic connection with the channeling device and the collector arrays.",
+            lockedAdditionalDescription = "Requires mortal souls from New Gloomhollow to lend their aid.",
+            unlockedAdditionalDescription = "Press the <b><color=#EC4848>Space</color></b> to use the channeling device and <b><color=#EC4848>C</color></b> to use the collector.",
+            baseCosts =
+            {
+                [ResourceType.Mako] = 250,
+                [ResourceType.People] = 3,
+            },
+            hiddenRequirements = { 
+                UpgradeType.MakoClickAndHold
+            },
+            requirements = { 
+                UpgradeType.PeopleSmallHouse
+            },
         });
 
         RegisterUpgrade(new Upgrade
@@ -282,7 +306,7 @@ public class UpgradeManager : MonoBehaviour
             type = UpgradeType.PeopleSmallHouse,
             name = "Cottage",
             description = "A damp, cold cottage, provides housing for a mortal soul. +1 <sprite name=\"People\">",
-            maxPurchases = 16,
+            maxPurchases = 20,
             baseCosts =
             {
                 [ResourceType.Mako] = 5,

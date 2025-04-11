@@ -41,6 +41,7 @@ public class MakoCollector : MonoBehaviour
     private float _currentCooldown = 0.0f;
     private JumpingMortal _jumpingMortal;
     private float _timeHoldingOrb;
+    public bool keyboard = false;
 
 
     void Start()
@@ -58,6 +59,11 @@ public class MakoCollector : MonoBehaviour
         {
             SetMaxVelMultiplier();
         });
+
+        UpgradeManager.Instance.RegisterUpgradePurchaseHandler(UpgradeType.MakoKeyboard, (u =>
+        {
+            keyboard = true;
+        }));
 
         SetMaxVelMultiplier();
     }
@@ -110,6 +116,8 @@ public class MakoCollector : MonoBehaviour
         {
             _jumpingMortal.jumping = _makoOrbTarget != null;
         }
+
+        UpdateKeyboardInput();
     }
 
     private MakoOrb _makoOrbTarget = null;
@@ -142,6 +150,25 @@ public class MakoCollector : MonoBehaviour
         if (AllowsManual)
         {
             _pubsub.Publish("mako.collector.manual.end");
+        }
+    }
+
+    private bool keyPressed = false;
+    private void UpdateKeyboardInput()
+    {
+        if (keyboard && AllowsManual)
+        {
+            if (Input.GetKey(KeyCode.C)) {
+                if (!keyPressed) {
+                    keyPressed = true;
+                    _pubsub.Publish("mako.collector.manual.begin");
+                }
+            } else {
+                if (keyPressed) {
+                    keyPressed = false;
+                    _pubsub.Publish("mako.collector.manual.end");
+                }
+            }
         }
     }
 
