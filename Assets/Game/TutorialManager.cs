@@ -9,6 +9,7 @@ public class TutorialManager : MonoBehaviour
     private bool _leftClickShown = false;
     private bool _leftClickAndHoldShown = false;
     private bool _scrollShown = false;
+    private bool _sufficientlyScrolled = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,15 +40,16 @@ public class TutorialManager : MonoBehaviour
         }
         LeftClickTutorial.SetActive(false);
         LeftClickAndHoldTutorial.SetActive(false);
-        ScrollTutorial.SetActive(true);
+        if (!_sufficientlyScrolled) {
+            ScrollTutorial.SetActive(true);
+        }
         _scrollShown = true;
     }
 
-    public void End()
+    // Can be called before the ui is first shown.
+    public void SufficientlyScrolled()
     {
-        LeftClickTutorial.SetActive(false);
-        LeftClickAndHoldTutorial.SetActive(false);
         ScrollTutorial.SetActive(false);
-        Destroy(gameObject);
+        _sufficientlyScrolled = true;
     }
 }

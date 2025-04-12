@@ -85,7 +85,7 @@ public class CameraController : MonoBehaviour
 
         if (!_postedScrollNotification)
         {
-            if (_totalScrolledAbs > 5.0f)
+            if (_totalScrolledAbs > 20.0f || position.y <= -10f)
             {
                 _postedScrollNotification = true;
                 GetComponent<PubSubSender>().Publish("mouse.scrolled.sufficiently");

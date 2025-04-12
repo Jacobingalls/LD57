@@ -29,39 +29,57 @@ fi
 mkdir -p "$BUILD_PATH"
 
 # macOS
-"$UNITY_PATH" -quit -batchmode -nographics -clean \
-    -buildTarget osxuniversal \
-    -projectPath "$PROJECT_PATH" \
-    -buildOSXUniversalPlayer "$BUILD_PATH/$NAME.app"
+MACOS_ZIP_NAME="$NAME (macOS, $VERSION).zip"
+if ! [ -f "$BUILD_PATH/$MACOS_ZIP_NAME" ]; then
+    "$UNITY_PATH" -quit -batchmode -nographics -clean \
+        -buildTarget osxuniversal \
+        -projectPath "$PROJECT_PATH" \
+        -buildOSXUniversalPlayer "$BUILD_PATH/$NAME.app"
 
-rm -rf "$BUILD_PATH/${NAME}_BurstDebugInformation_DoNotShip"
-cd "$BUILD_PATH" && zip -r "$NAME (macOS, $VERSION).zip" "$NAME.app"
-rm -rf "$BUILD_PATH/$NAME.app"
+    rm -rf "$BUILD_PATH/${NAME}_BurstDebugInformation_DoNotShip"
+    cd "$BUILD_PATH" && zip -r "$MACOS_ZIP_NAME" "$NAME.app"
+    rm -rf "$BUILD_PATH/$NAME.app"
+
+    sleep 10
+fi
 
 # Linux
-"$UNITY_PATH" -quit -batchmode -nographics -clean \
-    -projectPath "$PROJECT_PATH" \
-    -buildTarget linux64 \
-    -buildLinux64Player "$BUILD_PATH/$NAME/$NAME"
+LINUX_ZIP_NAME="$NAME (Linux, $VERSION).zip"
+if ! [ -f "$BUILD_PATH/$LINUX_ZIP_NAME" ]; then
+    "$UNITY_PATH" -quit -batchmode -nographics -clean \
+        -projectPath "$PROJECT_PATH" \
+        -buildTarget linux64 \
+        -buildLinux64Player "$BUILD_PATH/$NAME/$NAME"
 
-cd "$BUILD_PATH" && zip -r "$NAME (Linux, $VERSION).zip" "$NAME"
-rm -rf "$BUILD_PATH/$NAME"
+    cd "$BUILD_PATH" && zip -r "$LINUX_ZIP_NAME" "$NAME"
+    rm -rf "$BUILD_PATH/$NAME"
+
+    sleep 10
+fi
 
 # Windows
-"$UNITY_PATH" -quit -batchmode -nographics -clean \
-    -buildTarget win64 \
-    -projectPath "$PROJECT_PATH" \
-    -buildWindows64Player "$BUILD_PATH/$NAME/$NAME.exe"
+WINDOWS_ZIP_NAME="$NAME (Windows, $VERSION).zip"
+if ! [ -f "$BUILD_PATH/$WINDOWS_ZIP_NAME" ]; then
+    "$UNITY_PATH" -quit -batchmode -nographics -clean \
+        -buildTarget win64 \
+        -projectPath "$PROJECT_PATH" \
+        -buildWindows64Player "$BUILD_PATH/$NAME/$NAME.exe"
 
-cd "$BUILD_PATH" && zip -r "$NAME (Windows, $VERSION).zip" "$NAME"
-rm -rf "$BUILD_PATH/$NAME"
+    cd "$BUILD_PATH" && zip -r "$WINDOWS_ZIP_NAME" "$NAME"
+    rm -rf "$BUILD_PATH/$NAME"
+
+    sleep 10
+fi
 
 # WebGL
-"$UNITY_PATH" -quit -batchmode -nographics -clean \
-    -projectPath "$PROJECT_PATH" \
-    -buildPath "$BUILD_PATH/$NAME" \
-    -buildTarget webgl \
-    -executeMethod WebGLBuilder.BuildGame
+WEBGL_ZIP_NAME="$NAME (WebGL, $VERSION).zip"
+if ! [ -f "$BUILD_PATH/$WEBGL_ZIP_NAME" ]; then
+    "$UNITY_PATH" -quit -batchmode -nographics -clean \
+        -projectPath "$PROJECT_PATH" \
+        -buildPath "$BUILD_PATH/$NAME" \
+        -buildTarget webgl \
+        -executeMethod WebGLBuilder.BuildGame
 
-cd "$BUILD_PATH/$NAME" && zip -r "$BUILD_PATH/$NAME (WebGL, $VERSION).zip" *
-rm -rf "$BUILD_PATH/$NAME"
+    cd "$BUILD_PATH/$NAME" && zip -r "$WEBGL_ZIP_NAME" *
+    rm -rf "$BUILD_PATH/$NAME"
+fi
