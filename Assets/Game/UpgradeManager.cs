@@ -206,7 +206,7 @@ public class UpgradeManager : MonoBehaviour
             name = "Divine Warrior",
             description = "Channeling the power of the devine warrior, you achieve a deep, telepathic connection with the channeling device and the collector arrays.",
             lockedAdditionalDescription = "Requires mortal souls from New Gloomhollow to lend their aid.",
-            unlockedAdditionalDescription = "Press the <b><color=#EC4848>Space</color></b> to use the channeling device and <b><color=#EC4848>C</color></b> to use the collector.",
+            unlockedAdditionalDescription = "Press <b><color=#EC4848>Space</color></b> to use the channeling device and <b><color=#EC4848>C</color></b> to use the collector.",
             baseCosts =
             {
                 [ResourceType.Mako] = 250,
