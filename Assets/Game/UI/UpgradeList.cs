@@ -38,6 +38,7 @@ public class UpgradeList : MonoBehaviour
 
             var upgradeRow = upgradeRowGO.GetComponent<UpgradeRow>();
             upgradeRow.SetUpgradeType(upgradeType);
+            upgradeRow.ForceUpdateButtonInteractability();
         }
     }
 }

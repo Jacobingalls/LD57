@@ -34,6 +34,15 @@ public class UpgradeRow : MonoBehaviour
         upgradePriceLabel.color = purchaseButton.interactable ? Color.white : Color.white * 0.5f;
     }
 
+    public void ForceUpdateButtonInteractability() {
+        // If the button is active while we change interactable it will animate, and flash on even if it was always not interactable.
+        bool wasActive = purchaseButton.gameObject.activeSelf;
+        purchaseButton.gameObject.SetActive(false);
+        purchaseButton.interactable = UpgradeManager.Instance.CanAfford(_upgradeType);
+        upgradePriceLabel.color = purchaseButton.interactable ? Color.white : Color.white * 0.5f;
+        purchaseButton.gameObject.SetActive(wasActive);
+    }
+
     private string ConvertToRomanNumerals(int number)
     {
         if (number < 1 || number > 100)
