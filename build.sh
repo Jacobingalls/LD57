@@ -80,6 +80,6 @@ if ! [ -f "$BUILD_PATH/$WEBGL_ZIP_NAME" ]; then
         -buildTarget webgl \
         -executeMethod WebGLBuilder.BuildGame
 
-    cd "$BUILD_PATH/$NAME" && zip -r "$WEBGL_ZIP_NAME" *
+    cd "$BUILD_PATH/$NAME" && zip -r "../$WEBGL_ZIP_NAME" *
     rm -rf "$BUILD_PATH/$NAME"
 fi
