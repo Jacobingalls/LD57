@@ -2116,6 +2116,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1699435735390550797, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1699435735390550797, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2140622788}
@@ -2124,11 +2128,19 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1699435735390550797, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1699435735390550797, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Publish
       objectReference: {fileID: 0}
     - target: {fileID: 1699435735390550797, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: info.jacobingalls.jamkit.PubSubSender, Jam Kit
+      objectReference: {fileID: 0}
+    - target: {fileID: 1699435735390550797, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: info.jacobingalls.jamkit.PubSubSender, Jam Kit
       objectReference: {fileID: 0}
     - target: {fileID: 1699435735390550797, guid: 627675551f649400ea30c1b4edb70f23, type: 3}

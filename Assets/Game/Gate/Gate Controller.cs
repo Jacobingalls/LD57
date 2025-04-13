@@ -41,6 +41,11 @@ public class GateController : MonoBehaviour
             progress -= closingForcePerSecond * Time.deltaTime;
             progress = Mathf.Clamp01(progress);
         }
+
+        // Extreme cheat mode.
+        if (Input.GetKeyDown(KeyCode.Slash) && Input.GetKey(KeyCode.LeftControl)) {
+            ForceOpenGate();
+        }
         
         UpdateGate();
     }

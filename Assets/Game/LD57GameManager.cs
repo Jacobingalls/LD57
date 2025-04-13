@@ -33,4 +33,9 @@ public class LD57GameManager : MonoBehaviour
         AudioManager.Instance.Play("LD57 BGM", true, volumeMin: 0.5f, volumeMax: 0.5f, isMusic: true);
     }
 
+    public void ResetAudioManager() {
+        AudioManager.Instance.MusicSoundInfoID = null;
+        AudioManager.Instance.Reset();
+    }
+
 }

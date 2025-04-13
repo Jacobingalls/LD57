@@ -291,9 +291,9 @@
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.androidjni": "1.0.0",
         "com.unity.nuget.newtonsoft-json": "3.2.1",
-        "com.unity.modules.androidjni": "1.0.0"
+        "com.unity.modules.unitywebrequest": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -426,7 +426,7 @@
       "dependencies": {
         "com.unity.textmeshpro": "3.0.8"
       },
-      "hash": "5486310b305e76d3a5e655d5fbf7bf32c5988976"
+      "hash": "8aec61d9007b496e8e0c012b8bfc823d4752aff9"
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
