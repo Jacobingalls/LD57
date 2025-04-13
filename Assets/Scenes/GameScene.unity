@@ -526,6 +526,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4225945637980126056, guid: 9f2f250be060b4e4e9d91df50561cb05, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5416984024326236896, guid: 9f2f250be060b4e4e9d91df50561cb05, type: 3}
       propertyPath: m_Name
       value: ResourceCanvas
