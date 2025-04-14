@@ -17,6 +17,11 @@ public class GateController : MonoBehaviour
     public GameObject rightGate;
 
     public GameObject coin;
+    public GameObject coinLit;
+    public AnimationCurve coinLitAnimationCurve;
+    public float cointAnimationTime;
+
+
     public GameObject gradient;
 
     public UnityEvent onOpenGate;
@@ -46,6 +51,15 @@ public class GateController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Slash) && Input.GetKey(KeyCode.LeftControl)) {
             ForceOpenGate();
         }
+
+        cointAnimationTime += Time.deltaTime;
+        cointAnimationTime = Mathf.Clamp01(cointAnimationTime);
+        float coinLitAlpha = (1f - coinLitAnimationCurve.Evaluate(cointAnimationTime)) * Mathf.Lerp(0.1f, 0.5f, progress);
+        if (isOpen) {
+            coinLitAlpha = 0.5f;
+        }
+
+        coinLit.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, coinLitAlpha);
         
         UpdateGate();
     }
@@ -76,6 +90,7 @@ public class GateController : MonoBehaviour
             return;
         }
 
+        cointAnimationTime = 0f;
         coin.GetComponent<SpriteFloat>().Jitter(0.1f);
 
         progress += forcePerOpenAttempt;
