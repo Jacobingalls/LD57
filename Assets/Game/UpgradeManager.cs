@@ -204,7 +204,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.MakoKeyboard,
             name = "Divine Warrior",
-            description = "Channeling the power of the devine warrior, you achieve a deep, telepathic connection with the channeling device and the collector arrays.",
+            description = "Channeling the power of the divine warrior, you achieve a deep, telepathic connection with the channeling device and the collector arrays.",
             lockedAdditionalDescription = "Requires mortal souls from New Gloomhollow to lend their aid.",
             unlockedAdditionalDescription = "Press <b><color=#EC4848>Space</color></b> to use the channeling device and <b><color=#EC4848>C</color></b> to use the collector.",
             baseCosts =
@@ -321,7 +321,7 @@ public class UpgradeManager : MonoBehaviour
         {
             type = UpgradeType.PeopleUnlockLargeHouse,
             name = "Sturdier Supports",
-            description = "Reinforce New Duskhollow's support structures. Permits the construction of larger Flats.",
+            description = "Reinforce New Gloomhollow's support structures. Permits the construction of larger Flats.",
             maxPurchases = 1,
             hiddenRequirements = { UpgradeType.ResearchProcessingUnlockFactory },
             baseCosts =
