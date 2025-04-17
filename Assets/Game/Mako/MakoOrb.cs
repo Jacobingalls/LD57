@@ -46,9 +46,20 @@ public class MakoOrb : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
     }
 
+    // Orbs can sometimes miss the collector, in those cases just become collectable after a while
+    private float _timeToAutoBecomeCollectable = 60.0f;
+
     void Update()
     {
-        
+        if (Collectable == false)
+        {
+            _timeToAutoBecomeCollectable -= Time.deltaTime;
+            if (_timeToAutoBecomeCollectable <= 0.0f)
+            {
+                Collectable = true;
+                ShowAcceleratedVisuals();
+            }
+        }    
     }
 
     public void ApplySpawningImpulse(float impulseScale)
