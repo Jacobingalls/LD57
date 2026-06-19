@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Lurks Below — Codex &amp; Porting Atlas</title>
+<script>try{if(localStorage.getItem('wlb-theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+<style>
+/*__FONTFACE__*/
+
+:root{
+  --abyss:#0b0d13; --abyss-2:#080a0e; --surface:#141823; --surface-2:#1a1f2d;
+  --raised:#202637; --hair:#2a3242; --hair-2:#384155;
+  --ink:#aeb6c8; --ink-bright:#eaf0fa; --ink-dim:#6b7589; --ink-faint:#49526400;
+  --mako:#ff4fa3; --mako-glow:#ff77bd; --mako-deep:#c9337b; --mako-dark:#5e1e44;
+  --blood:#ec4848; --bone:#dcb78d; --science:#56c9d6; --gate:#e0a93c; --violet:#9a7bd0;
+  --mining:#ff4fa3; --refine:#cf6be0; --research:#56c9d6; --people:#dcb78d; --gatec:#e0a93c;
+  --font-display:'ThaleahFat','Courier New',monospace;
+  --font-lore:'PixelBotoSerif',Georgia,serif;
+  --font-body:'Iowan Old Style','Palatino Linotype',Palatino,'Hoefler Text',Georgia,serif;
+  --font-mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --maxw:1080px;
+  /* theme-reactive diagram colors */
+  --node-bg:#161b27; --node-text:#dfe5f0; --diagram-1:#10131c; --diagram-2:#080a0e; --curve-base:#2a3242;
+  --hero-shadow:0 0 60px rgba(255,79,163,.32), 0 4px 0 #000;
+  --bus-fill:rgba(255,79,163,.06); --vignette:rgba(0,0,0,.55); --lore:#9aa0b4;
+}
+
+html[data-theme="light"]{
+  --abyss:#ece3d1; --abyss-2:#e1d6bf;
+  --surface:#f6efe0; --surface-2:#fbf5e9; --raised:#fffaf0;
+  --hair:#d6c9ae; --hair-2:#c2b393;
+  --ink:#4e4533; --ink-bright:#241d11; --ink-dim:#8c7d60;
+  --mako:#cf2a80; --mako-glow:#b11d68; --mako-deep:#8c1450; --mako-dark:#ecc8dc;
+  --blood:#c52b2b; --bone:#8f6228; --science:#13727f; --gate:#9c6f18; --violet:#674aa6;
+  --mining:#cf2a80; --refine:#973cb8; --research:#13727f; --people:#8f6228; --gatec:#9c6f18;
+  --node-bg:#fcf6ea; --node-text:#241d11; --diagram-1:#efe6d6; --diagram-2:#e3d8c2; --curve-base:#cabd9f;
+  --hero-shadow:0 0 44px rgba(207,42,128,.15), 3px 3px 0 var(--mako-dark);
+  --bus-fill:rgba(207,42,128,.07); --vignette:rgba(140,110,70,.12); --lore:#776a50;
+}
+html[data-theme="light"] code{color:var(--mako-deep); background:rgba(207,42,128,.08); border-color:rgba(207,42,128,.22)}
+html[data-theme="light"] .shot img{filter:none}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--abyss); color:var(--ink);
+  font-family:var(--font-body); font-size:16.5px; line-height:1.62;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+/* grain + vignette atmosphere */
+body::before{
+  content:""; position:fixed; inset:0; z-index:9999; pointer-events:none; opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+body::after{
+  content:""; position:fixed; inset:0; z-index:9998; pointer-events:none;
+  background:radial-gradient(120% 80% at 50% -10%, transparent 50%, var(--vignette) 100%);
+}
+
+a{color:var(--mako-glow); text-decoration:none}
+a:hover{color:var(--mako); text-shadow:0 0 12px rgba(255,79,163,.5)}
+::selection{background:rgba(255,79,163,.3); color:#fff}
+
+/* ---------------- layout ---------------- */
+.shell{display:grid; grid-template-columns:288px 1fr; max-width:1500px; margin:0 auto}
+nav.side{
+  position:sticky; top:0; height:100vh; padding:30px 22px 30px 34px;
+  border-right:1px solid var(--hair); display:flex; flex-direction:column; gap:18px;
+  background:linear-gradient(180deg,var(--abyss) 0%, var(--abyss-2) 100%);
+}
+.brand{display:flex; flex-direction:column; gap:2px}
+.brand .kicker{font-family:var(--font-mono); font-size:10px; letter-spacing:.32em; color:var(--ink-dim); text-transform:uppercase}
+.brand h1{
+  font-family:var(--font-display); font-weight:400; font-size:25px; line-height:.96;
+  margin:5px 0 0; color:var(--ink-bright); letter-spacing:.01em;
+  text-shadow:0 0 22px rgba(255,79,163,.28);
+}
+.brand .sub{font-family:var(--font-mono); font-size:10.5px; color:var(--mako-glow); letter-spacing:.18em; margin-top:6px}
+
+.depth-wrap{display:flex; gap:12px; flex:1; min-height:0; margin-top:4px}
+.depth-rail{position:relative; width:3px; border-radius:3px; background:var(--hair); flex:none}
+.depth-fill{position:absolute; top:0; left:0; right:0; height:0%;
+  background:linear-gradient(180deg,var(--mako-glow),var(--mako),var(--mako-deep));
+  box-shadow:0 0 10px rgba(255,79,163,.6); border-radius:3px; transition:height .15s linear}
+.depth-knob{position:absolute; left:50%; width:9px; height:9px; margin-left:-4.5px; top:0;
+  background:var(--mako-glow); border-radius:50%; box-shadow:0 0 12px var(--mako); transition:top .15s linear}
+.toc{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; overflow-y:auto; flex:1; min-height:0}
+.toc::-webkit-scrollbar{width:0}
+.toc li a{
+  display:flex; align-items:baseline; gap:9px; padding:5px 8px; border-radius:5px;
+  font-family:var(--font-mono); font-size:12px; color:var(--ink-dim); letter-spacing:.02em;
+  border-left:2px solid transparent; transition:all .12s;
+}
+.toc li a .ix{font-size:9.5px; opacity:.5; width:18px; flex:none}
+.toc li a:hover{color:var(--ink); background:rgba(255,255,255,.03)}
+.toc li a.active{color:var(--ink-bright); background:rgba(255,79,163,.08); border-left-color:var(--mako); text-shadow:0 0 10px rgba(255,79,163,.4)}
+.side-foot{font-family:var(--font-mono); font-size:9.5px; color:var(--ink-faint); color:#3c4456; line-height:1.7; border-top:1px solid var(--hair); padding-top:14px}
+
+main{min-width:0; position:relative}
+section{padding:86px clamp(26px,5vw,76px); border-bottom:1px solid var(--hair); position:relative}
+.wrap{max-width:var(--maxw); margin:0 auto}
+
+/* strata label */
+.stratum{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.34em; text-transform:uppercase;
+  color:var(--ink-dim); display:flex; align-items:center; gap:14px; margin-bottom:22px}
+.stratum::before{content:""; width:30px; height:1px; background:var(--mako-deep)}
+.stratum .n{color:var(--mako); }
+h2.title{font-family:var(--font-display); font-weight:400; font-size:clamp(30px,4.4vw,50px);
+  line-height:1; margin:0 0 18px; color:var(--ink-bright); letter-spacing:.005em}
+h3{font-family:var(--font-display); font-weight:400; font-size:23px; color:var(--ink-bright);
+  letter-spacing:.01em; margin:38px 0 14px}
+h4{font-family:var(--font-mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--mako-glow); margin:26px 0 10px; font-weight:400}
+p{margin:0 0 15px; max-width:74ch}
+.lead{font-size:19px; color:var(--ink-bright); line-height:1.6; max-width:70ch}
+strong{color:var(--ink-bright); font-weight:600}
+em{color:var(--mako-glow); font-style:italic}
+code{font-family:var(--font-mono); font-size:.85em; background:rgba(255,79,163,.09);
+  color:#ffc6e3; padding:1px 6px; border-radius:4px; border:1px solid rgba(255,79,163,.16)}
+.lore{font-family:var(--font-lore); font-style:italic; color:var(--lore); font-size:15px; line-height:1.5}
+
+/* ---------------- hero ---------------- */
+#hero{padding-top:0; min-height:100vh; display:flex; flex-direction:column; justify-content:center; overflow:hidden; border-bottom:1px solid var(--hair)}
+#orbfield{position:absolute; inset:0; z-index:0}
+#hero .wrap{position:relative; z-index:2}
+.hero-moon{position:absolute; top:8%; right:7%; width:120px; image-rendering:pixelated; opacity:.5; z-index:1; filter:drop-shadow(0 0 30px rgba(180,200,230,.25))}
+.hero-eyebrow{font-family:var(--font-mono); font-size:11px; letter-spacing:.34em; text-transform:uppercase; color:var(--mako); margin-bottom:20px}
+.hero-eyebrow .dot{display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--mako); box-shadow:0 0 10px var(--mako); margin-right:10px; vertical-align:middle; animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+#hero h1{font-family:var(--font-display); font-weight:400; font-size:clamp(46px,9vw,108px); line-height:.9;
+  margin:0; color:var(--ink-bright); letter-spacing:.005em;
+  text-shadow:var(--hero-shadow)}
+#hero h1 .glow{color:var(--mako); text-shadow:0 0 50px rgba(255,79,163,.9)}
+.hero-tag{font-family:var(--font-lore); font-style:italic; font-size:clamp(17px,2.4vw,24px); color:var(--ink); margin:24px 0 0; max-width:30ch}
+.hero-desc{margin-top:30px; max-width:60ch; font-size:17px; color:var(--ink)}
+.hero-meta{display:flex; flex-wrap:wrap; gap:10px; margin-top:34px}
+.chip{font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--ink);
+  border:1px solid var(--hair-2); background:var(--abyss-2); padding:6px 12px; border-radius:30px; backdrop-filter:blur(4px)}
+.chip b{color:var(--mako-glow); font-weight:600}
+.scroll-cue{position:absolute; bottom:30px; left:50%; transform:translateX(-50%); z-index:2;
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.3em; color:var(--ink-dim); text-transform:uppercase; text-align:center}
+.scroll-cue .arr{display:block; margin-top:8px; animation:bob 1.8s infinite}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(6px);opacity:1}}
+
+/* ---------------- stat grid ---------------- */
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:1px; background:var(--hair); border:1px solid var(--hair); border-radius:10px; overflow:hidden; margin:30px 0}
+.stat{background:var(--surface); padding:20px 18px; text-align:center}
+.stat .v{font-family:var(--font-display); font-size:34px; color:var(--mako-glow); line-height:1; text-shadow:0 0 20px rgba(255,79,163,.3)}
+.stat .l{font-family:var(--font-mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-dim); margin-top:8px}
+
+/* ---------------- cards ---------------- */
+.grid{display:grid; gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:linear-gradient(170deg,var(--surface),var(--abyss-2)); border:1px solid var(--hair);
+  border-radius:12px; padding:22px; position:relative; overflow:hidden}
+.card .tag{font-family:var(--font-mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-dim)}
+.card h4{margin-top:4px}
+.card.accent::before{content:""; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--mako),transparent)}
+
+.callout{border-left:3px solid var(--mako); background:linear-gradient(90deg,rgba(255,79,163,.07),transparent);
+  padding:16px 20px; border-radius:0 10px 10px 0; margin:22px 0}
+.callout.red{border-color:var(--blood); background:linear-gradient(90deg,rgba(236,72,72,.08),transparent)}
+.callout.eye{border-color:var(--science); background:linear-gradient(90deg,rgba(86,201,214,.07),transparent)}
+.callout .h{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--mako-glow); margin-bottom:6px; display:block}
+.callout.red .h{color:var(--blood)} .callout.eye .h{color:var(--science)}
+
+/* ---------------- tables ---------------- */
+.tablewrap{overflow-x:auto; border:1px solid var(--hair); border-radius:10px; margin:18px 0}
+table{border-collapse:collapse; width:100%; font-family:var(--font-mono); font-size:12.5px}
+th,td{text-align:left; padding:9px 13px; border-bottom:1px solid var(--hair)}
+th{background:var(--abyss-2); color:var(--mako-glow); font-size:10px; letter-spacing:.12em; text-transform:uppercase; font-weight:400; position:sticky; top:0}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(255,79,163,.04)}
+td.num{color:var(--ink-bright); text-align:right}
+
+/* resource glyph */
+.res{display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+.res svg{width:13px; height:13px; flex:none}
+.res.mako{color:var(--mako-glow)} .res.people{color:var(--bone)} .res.science{color:var(--science)} .res.artifacts{color:var(--violet)}
+
+/* badge */
+.badge{display:inline-block; font-family:var(--font-mono); font-size:10px; letter-spacing:.06em; padding:2px 8px; border-radius:20px; border:1px solid currentColor; text-transform:uppercase}
+.sev-high{color:var(--blood)} .sev-med{color:var(--gate)} .sev-low{color:var(--science)}
+.pill{display:inline-block; font-family:var(--font-mono); font-size:10px; padding:2px 9px; border-radius:20px; text-transform:uppercase; letter-spacing:.08em}
+.pill.mining{background:rgba(255,79,163,.14); color:var(--mining)}
+.pill.refine{background:rgba(207,107,224,.14); color:var(--refine)}
+.pill.research{background:rgba(86,201,214,.14); color:var(--research)}
+.pill.people{background:rgba(220,183,141,.14); color:var(--people)}
+.pill.gate{background:rgba(224,169,60,.14); color:var(--gatec)}
+
+/* ---------------- interactive: upgrade explorer ---------------- */
+.controls{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:8px 0 18px}
+.tabbtn{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  padding:7px 13px; border-radius:7px; border:1px solid var(--hair); background:var(--surface); color:var(--ink-dim); cursor:pointer; transition:all .12s}
+.tabbtn:hover{color:var(--ink); border-color:var(--hair-2)}
+.tabbtn.on{color:var(--ink-bright); border-color:var(--mako); background:rgba(255,79,163,.1); box-shadow:0 0 16px rgba(255,79,163,.12)}
+.search{flex:1; min-width:160px; font-family:var(--font-mono); font-size:12px; padding:8px 13px;
+  background:var(--abyss-2); border:1px solid var(--hair); border-radius:7px; color:var(--ink-bright)}
+.search:focus{outline:none; border-color:var(--mako)}
+
+.uplist{display:grid; grid-template-columns:repeat(auto-fill,minmax(232px,1fr)); gap:10px}
+.upcard{background:var(--surface); border:1px solid var(--hair); border-radius:10px; padding:13px 15px; cursor:pointer;
+  position:relative; transition:all .14s; border-left:3px solid var(--c)}
+.upcard:hover{border-color:var(--hair-2); border-left-color:var(--c); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.upcard.sel{border-color:var(--c); box-shadow:0 0 0 1px var(--c), 0 0 26px -6px var(--c)}
+.upcard .nm{font-family:var(--font-display); font-size:18px; color:var(--ink-bright); line-height:1; letter-spacing:.01em}
+.upcard .meta{font-family:var(--font-mono); font-size:10px; color:var(--ink-dim); margin-top:7px; display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.upcard .cost{display:flex; gap:9px; flex-wrap:wrap; margin-top:10px; font-family:var(--font-mono); font-size:11.5px}
+.maxtag{font-family:var(--font-mono); font-size:9px; padding:1px 6px; border-radius:10px; background:rgba(255,255,255,.05); color:var(--ink-dim)}
+
+.detail{margin-top:16px; background:linear-gradient(170deg,var(--surface-2),var(--abyss-2));
+  border:1px solid var(--hair-2); border-radius:12px; padding:24px; display:none}
+.detail.show{display:block; animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.detail-head{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap}
+.detail-head .dn{font-family:var(--font-display); font-size:30px; color:var(--ink-bright); line-height:1}
+.detail-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:18px}
+@media(max-width:680px){.detail-grid{grid-template-columns:1fr}}
+.kv{font-family:var(--font-mono); font-size:12px; line-height:2}
+.kv b{color:var(--mako-glow); font-weight:400; letter-spacing:.04em}
+canvas.curve{width:100%; height:170px; background:var(--abyss-2); border:1px solid var(--hair); border-radius:8px}
+
+/* ---------------- tech tree ---------------- */
+.treewrap{overflow-x:auto; border:1px solid var(--hair); border-radius:12px; background:
+  radial-gradient(100% 100% at 50% 0%, var(--diagram-1), var(--diagram-2)); margin:10px 0}
+.treewrap svg{display:block; max-width:100%; height:auto; margin:0 auto}
+.tnode rect{transition:all .15s; fill:var(--node-bg)}
+.tnode text{font-family:var(--font-mono); font-size:10px; fill:var(--node-text); pointer-events:none}
+.tnode{cursor:pointer}
+.tnode:hover rect{filter:brightness(1.4)}
+.tedge{fill:none; transition:opacity .15s}
+.tree-dim .tedge{opacity:.06} .tree-dim .tnode{opacity:.22}
+.tree-dim .tnode.lit{opacity:1} .tree-dim .tedge.lit{opacity:.95}
+
+/* ---------------- pipeline ---------------- */
+.pipe{display:flex; gap:6px; align-items:stretch; overflow-x:auto; padding:6px 0 14px; margin:10px 0}
+.stage{flex:1; min-width:120px; background:var(--surface); border:1px solid var(--hair); border-radius:10px; padding:14px; text-align:center; position:relative}
+.stage .ico{height:52px; display:flex; align-items:center; justify-content:center; margin-bottom:8px}
+.stage .ico img{image-rendering:pixelated}
+.stage .sn{font-family:var(--font-mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--mako-glow)}
+.stage .st{font-family:var(--font-display); font-size:15px; color:var(--ink-bright); margin:3px 0}
+.stage .sd{font-size:11px; color:var(--ink-dim); line-height:1.4; font-family:var(--font-mono)}
+.stage .ev{font-family:var(--font-mono); font-size:8.5px; color:var(--mako); margin-top:7px; opacity:.8}
+.arrow{display:flex; align-items:center; color:var(--mako-deep); flex:none; font-size:20px}
+@media(max-width:760px){.pipe{flex-direction:column}.arrow{transform:rotate(90deg); justify-content:center; padding:2px}}
+
+/* calculators */
+.calc{background:linear-gradient(170deg,var(--surface),var(--abyss-2)); border:1px solid var(--hair-2); border-radius:12px; padding:24px; margin:16px 0}
+.calc-row{display:flex; align-items:center; gap:14px; margin:12px 0; flex-wrap:wrap}
+.calc-row label{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--ink); min-width:150px}
+.calc-row input[type=range]{flex:1; min-width:140px; accent-color:var(--mako)}
+.calc-row .val{font-family:var(--font-mono); font-size:13px; color:var(--mako-glow); min-width:54px; text-align:right}
+.calc-out{display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:1px; background:var(--hair); border:1px solid var(--hair); border-radius:9px; overflow:hidden; margin-top:18px}
+.calc-out .o{background:var(--abyss-2); padding:14px; text-align:center}
+.calc-out .o .ov{font-family:var(--font-display); font-size:25px; color:var(--mako-glow); line-height:1}
+.calc-out .o .ol{font-family:var(--font-mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-dim); margin-top:6px}
+.verdict{margin-top:14px; font-family:var(--font-mono); font-size:13px; padding:12px 16px; border-radius:8px; text-align:center; letter-spacing:.04em}
+.verdict.good{background:rgba(86,201,214,.1); color:var(--science); border:1px solid rgba(86,201,214,.3)}
+.verdict.bad{background:rgba(236,72,72,.1); color:var(--blood); border:1px solid rgba(236,72,72,.3)}
+.probbar{height:24px; border-radius:5px; display:flex; overflow:hidden; margin-top:12px; border:1px solid var(--hair)}
+.probbar i{display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:10px; color:#0b0d13; font-style:normal; transition:width .2s}
+
+/* events */
+.evlist{display:grid; gap:8px}
+.evrow{display:grid; grid-template-columns:minmax(190px,260px) 1fr; gap:14px; background:var(--surface); border:1px solid var(--hair); border-radius:8px; padding:11px 15px; align-items:start}
+@media(max-width:640px){.evrow{grid-template-columns:1fr}}
+.evrow .topic{font-family:var(--font-mono); font-size:12px; color:var(--mako-glow)}
+.evrow .flow{font-family:var(--font-mono); font-size:11px; color:var(--ink-dim); line-height:1.6}
+.evrow .flow b{color:var(--bone); font-weight:400}
+
+/* scene flow */
+.sceneflow{display:flex; flex-direction:column; gap:10px; font-family:var(--font-mono); margin:14px 0}
+.scenenode{display:flex; align-items:center; gap:14px}
+.scenebox{border:1px solid var(--hair-2); border-radius:8px; padding:10px 16px; background:var(--surface); min-width:150px}
+.scenebox .sb-n{font-family:var(--font-display); font-size:16px; color:var(--ink-bright)}
+.scenebox .sb-d{font-size:10px; color:var(--ink-dim)}
+.scenebox.persist{border-color:var(--mako); box-shadow:0 0 18px -6px var(--mako)}
+
+/* art gallery */
+.gallery{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px}
+.art{background:
+   linear-gradient(170deg,var(--surface),var(--abyss-2));
+   border:1px solid var(--hair); border-radius:10px; padding:14px; text-align:center}
+.art .frame{height:96px; display:flex; align-items:center; justify-content:center; margin-bottom:10px;
+  background:
+    repeating-conic-gradient(#2b3242 0% 25%, #1f2532 0% 50%) 0/14px 14px;
+  border-radius:7px; border:1px solid var(--hair); overflow:hidden}
+.art .frame img{image-rendering:pixelated; max-width:88%; max-height:84px}
+.art .an{font-family:var(--font-mono); font-size:11px; color:var(--ink-bright)}
+.art .ad{font-family:var(--font-mono); font-size:9px; color:var(--ink-dim); margin-top:2px}
+
+.note{font-family:var(--font-mono); font-size:11px; color:var(--ink-dim); margin-top:8px}
+.reveal{opacity:0; transform:translateY(22px); transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1; transform:none}
+
+ul.clean{list-style:none; padding:0; margin:14px 0}
+ul.clean li{padding:7px 0 7px 26px; position:relative; border-bottom:1px solid var(--hair); max-width:80ch}
+ul.clean li::before{content:"◆"; position:absolute; left:4px; color:var(--mako-deep); font-size:11px; top:9px}
+ul.clean li:last-child{border-bottom:none}
+
+footer{padding:50px clamp(26px,5vw,76px); text-align:center; font-family:var(--font-mono); font-size:11px; color:var(--ink-dim)}
+footer .big{font-family:var(--font-display); font-size:26px; color:var(--mako); margin-bottom:14px; text-shadow:0 0 30px rgba(255,79,163,.4)}
+
+/* theme toggle */
+.themebtn{display:inline-flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:10.5px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink-dim); background:var(--surface);
+  border:1px solid var(--hair); border-radius:30px; padding:6px 13px; cursor:pointer; transition:all .15s; width:fit-content; margin-top:14px}
+.themebtn:hover{color:var(--ink-bright); border-color:var(--mako); box-shadow:0 0 16px -4px var(--mako)}
+.themebtn svg{width:13px; height:13px; flex:none}
+
+/* phase tracker */
+.overallbar{height:9px; border-radius:6px; background:var(--hair); overflow:hidden; margin:8px 0 4px; border:1px solid var(--hair)}
+.overallbar i{display:block; height:100%; background:linear-gradient(90deg,var(--mako-deep),var(--mako),var(--mako-glow));
+  box-shadow:0 0 14px rgba(255,79,163,.5); transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.phase{background:linear-gradient(170deg,var(--surface),var(--abyss-2)); border:1px solid var(--hair);
+  border-radius:14px; padding:22px 24px; margin:14px 0; position:relative}
+.phase.active{border-color:var(--mako); box-shadow:0 0 0 1px rgba(255,79,163,.22), 0 0 44px -14px var(--mako)}
+.phase.done{border-left:3px solid var(--science)}
+.phase-head{display:flex; align-items:center; gap:15px; flex-wrap:wrap}
+.phase-num{font-family:var(--font-display); font-size:31px; line-height:1; color:var(--ink-dim); min-width:36px}
+.phase.active .phase-num{color:var(--mako)} .phase.done .phase-num{color:var(--science)}
+.phase-tt{flex:1; min-width:190px}
+.phase-tt .pt{font-family:var(--font-display); font-size:23px; color:var(--ink-bright); line-height:1}
+.phase-tt .pg{font-family:var(--font-mono); font-size:11px; color:var(--ink-dim); margin-top:4px}
+.pstatus{font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  padding:4px 11px; border-radius:20px; border:1px solid currentColor; white-space:nowrap}
+.pstatus.done{color:var(--science)} .pstatus.active{color:var(--mako)} .pstatus.todo{color:var(--ink-dim)}
+.phase-meta{display:flex; flex-direction:column; gap:8px; align-items:flex-end}
+.buildlink{font-family:var(--font-mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--mako-glow); border:1px solid var(--mako-deep); border-radius:20px; padding:4px 11px; white-space:nowrap; transition:all .15s}
+.buildlink:hover{background:rgba(255,79,163,.12); border-color:var(--mako); box-shadow:0 0 14px -4px var(--mako); color:var(--mako-glow)}
+.pbar{height:5px; border-radius:5px; background:var(--hair); overflow:hidden; margin:15px 0 6px}
+.pbar i{display:block; height:100%; background:var(--mako); transition:width .4s}
+.phase.done .pbar i{background:var(--science)}
+.tasks{list-style:none; margin:6px 0 0; padding:0}
+.tasks li{display:flex; align-items:flex-start; gap:11px; padding:8px 0; border-bottom:1px solid var(--hair);
+  font-family:var(--font-mono); font-size:13px; color:var(--ink); cursor:pointer; transition:color .12s; user-select:none}
+.tasks li:last-child{border-bottom:none}
+.tasks li:hover{color:var(--ink-bright)}
+.tasks li:hover .box{border-color:var(--mako)}
+.tasks li .box{width:17px; height:17px; border:1.5px solid var(--hair-2); border-radius:5px; flex:none; margin-top:1px;
+  display:flex; align-items:center; justify-content:center; transition:all .15s; font-size:11px; line-height:1}
+.tasks li.checked .box{background:var(--mako); border-color:var(--mako); color:#fff}
+.phase.done .tasks li.checked .box{background:var(--science); border-color:var(--science)}
+.tasks li.checked .box::after{content:"✓"; font-weight:bold}
+.tasks li.checked .tx{color:var(--ink-dim); text-decoration:line-through; text-decoration-color:var(--hair-2)}
+.evidence{margin-top:18px}
+.evidence .eh{font-family:var(--font-mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--science); margin-bottom:11px}
+.evidence .eh.todo{color:var(--ink-dim)}
+.shots{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:11px}
+.shot{border:1px solid var(--hair); border-radius:9px; overflow:hidden; cursor:zoom-in; background:var(--abyss-2); transition:all .15s}
+.shot:hover{border-color:var(--mako); transform:translateY(-3px); box-shadow:0 10px 26px -8px var(--mako)}
+.shot img{width:100%; display:block; aspect-ratio:16/10; object-fit:cover; object-position:top left; image-rendering:auto}
+.shot .cap{font-family:var(--font-mono); font-size:10px; color:var(--ink-dim); padding:8px 10px; border-top:1px solid var(--hair)}
+.shot-empty{border:1px dashed var(--hair-2); border-radius:9px; padding:22px; text-align:center;
+  font-family:var(--font-mono); font-size:11px; color:var(--ink-dim)}
+.lightbox{position:fixed; inset:0; z-index:10000; background:rgba(4,5,9,.93); display:none; align-items:center;
+  justify-content:center; padding:34px; cursor:zoom-out; backdrop-filter:blur(7px)}
+.lightbox.open{display:flex}
+.lightbox img{max-width:96%; max-height:90%; border:1px solid var(--hair-2); border-radius:8px; box-shadow:0 24px 90px rgba(0,0,0,.7)}
+.lightbox .cap2{position:absolute; bottom:20px; left:0; right:0; text-align:center; font-family:var(--font-mono); font-size:12px; color:#cfd6e6}
+
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr}
+  nav.side{position:static; height:auto; flex-direction:row; flex-wrap:wrap; align-items:center; gap:14px; border-right:none; border-bottom:1px solid var(--hair)}
+  .depth-wrap{display:none}
+  .toc{flex-direction:row; flex-wrap:wrap; flex:1}
+  .toc li a .ix{display:none}
+  .side-foot{display:none}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<nav class="side">
+  <div class="brand">
+    <span class="kicker">Ludum Dare 57 · "Deeper"</span>
+    <h1>What Lurks<br>Below</h1>
+    <span class="sub">CODEX &amp; PORTING ATLAS</span>
+  </div>
+  <button class="themebtn" id="themebtn" aria-label="Toggle light / dark theme"><span id="themeic"></span><span id="themelbl">Daylight</span></button>
+  <div class="depth-wrap">
+    <div class="depth-rail"><div class="depth-fill" id="dfill"></div><div class="depth-knob" id="dknob"></div></div>
+    <ul class="toc" id="toc"></ul>
+  </div>
+  <div class="side-foot">
+    Unity 6000.0.42f1 · URP 2D<br>
+    59 scripts · ~5,141 LOC<br>
+    Three Beeps and a Boop<br>
+    <span style="color:var(--mako-deep)">▸ generated reconnaissance</span>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section id="hero">
+  <canvas id="orbfield"></canvas>
+  <img class="hero-moon" id="heromoon" alt="">
+  <div class="wrap">
+    <div class="hero-eyebrow"><span class="dot"></span>An incremental descent · est. 2025</div>
+    <h1>WHAT LURKS<br><span class="glow">BELOW</span></h1>
+    <p class="hero-tag">"By the grace of God, we can begin to uncover the mysteries of this strange substance."</p>
+    <p class="hero-desc">A moody, Lovecraftian idle game. You mine a glowing substance from a bottomless pit, refine it, grow a town of mortal souls — and slowly discover the gate at the bottom wants them back. This codex maps every system, number, and asset, and charts the course to a pure-web HTML5 port.</p>
+    <div class="hero-meta">
+      <span class="chip"><b>4</b> resources</span>
+      <span class="chip"><b>29</b> upgrades</span>
+      <span class="chip"><b>5</b> systems</span>
+      <span class="chip"><b>6</b> scenes</span>
+      <span class="chip"><b>JamKit</b> framework</span>
+      <span class="chip">no save · <b>session-only</b></span>
+    </div>
+  </div>
+  <div class="scroll-cue">descend<span class="arr">↓</span></div>
+</section>
+
+<!-- ============ OVERVIEW ============ -->
+<section id="overview">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum 0</span> · the surface</div>
+  <h2 class="title">A machine that reaches into the dark</h2>
+  <p class="lead">The whole game is one feedback loop wrapped in dread: <em>summon</em> the substance, <em>refine</em> it, <em>collect</em> it, spend it to reach <em>deeper</em>, and unlock a new mechanic at every layer — until the only thing left to spend is people.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="v">59</div><div class="l">C# Scripts</div></div>
+    <div class="stat"><div class="v">5.1k</div><div class="l">Lines of code</div></div>
+    <div class="stat"><div class="v">29</div><div class="l">Upgrades</div></div>
+    <div class="stat"><div class="v">121</div><div class="l">Art files</div></div>
+    <div class="stat"><div class="v">22</div><div class="l">Audio files</div></div>
+    <div class="stat"><div class="v">13</div><div class="l">Pub/sub topics</div></div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card accent">
+      <span class="tag">The progression spine</span>
+      <h4>Depth = progress</h4>
+      <p style="font-size:14.5px">Going "deeper" is literal: the camera scrolls down a pit. Each <strong>idle module</strong> you buy unlocks a new layer of mechanics — New Gloomhollow (people), the Refining Crystal, the Library/distillery (research), and finally <strong>the Gate</strong>. The theme of LD57 was "deeper"; the game takes it at face value.</p>
+    </div>
+    <div class="card accent">
+      <span class="tag">The turn</span>
+      <h4>From idle game to horror</h4>
+      <p style="font-size:14.5px">It plays as a cozy incremental until the gate research (<em>Investigate → Study → Understand</em>) reveals the truth: the seal opens only by feeding mortal souls into it. The endgame is an industrialized sacrifice line — a Ritekeeper hurling townsfolk down the pit you spent the whole game digging.</p>
+    </div>
+  </div>
+
+  <div class="callout eye">
+    <span class="h">⌖ Reading this atlas</span>
+    Every section is a faithful map of the existing Unity game <strong>plus</strong> a green-tinted porting note where the web target diverges. Numbers come straight from source — costs and formulas are hard-coded in <code>UpgradeManager.cs</code>, so the balance below is exact, not estimated.
+  </div>
+ </div>
+</section>
+
+<!-- ============ ARCHITECTURE ============ -->
+<section id="architecture">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum I</span> · skeleton</div>
+  <h2 class="title">Architecture &amp; the event bus</h2>
+  <p class="lead">A handful of singleton <strong>managers</strong> own state; everything else is decoupled through <strong>JamKit's PubSub</strong> — a global string-keyed event bus. Most wiring ("when X is published, call Y") lives in the Unity <em>scene</em>, not in code.</p>
+
+  <div class="treewrap" style="margin:24px 0"><svg id="archsvg" viewBox="0 0 1040 470" width="1040" height="470"></svg></div>
+
+  <div class="grid g2">
+   <div class="card">
+    <span class="tag">State owners (singletons)</span>
+    <ul class="clean" style="margin-top:8px">
+      <li><code>ResourceManager</code> — the 4 resources + the additive/multiplicative modifier stacks.</li>
+      <li><code>UpgradeManager</code> — all 29 upgrades, costs, requirement graph, purchasing.</li>
+      <li><code>MakoManager</code> — orb spawning, the live orb list, orb→resource conversion.</li>
+      <li><code>PeopleManager</code> — housing, passive generation, the sacrifice cadence.</li>
+      <li><code>LD57GameManager</code> — thin glue (tooltip prefab, BGM); JamKit's own <code>GameManager</code> drives scene loads.</li>
+    </ul>
+   </div>
+   <div class="card">
+    <span class="tag">JamKit — the framework layer</span>
+    <p style="font-size:14px">A custom game-jam toolkit (<code>info.jacobingalls.jamkit</code>, pulled from GitHub). It is the single biggest thing a port must replace:</p>
+    <ul class="clean" style="margin-top:6px">
+      <li><strong>PubSub</strong> — <code>PubSubSender.Publish(key)</code> / scene <code>PubSubListener</code>s. The nervous system.</li>
+      <li><strong>AudioManager</strong> — a 64-source pool, mixer volumes in <code>PlayerPrefs</code>.</li>
+      <li><strong>GameManager</strong> — additive scene loading + loading screen.</li>
+      <li><strong>UI kit</strong> — StandardButton, PauseMenu, SettingsPanel, Tabs, title-screen helpers (incl. <code>DeleteIfWebGL</code>).</li>
+      <li><strong>ObjectPooler, ValueAnimator, Spin</strong> — small utilities.</li>
+    </ul>
+   </div>
+  </div>
+
+  <div class="callout red">
+    <span class="h">⚠ No save system</span>
+    A grep for <code>PlayerPrefs</code> game-state / <code>JsonUtility</code> / serialization comes back empty. State lives only in <code>DontDestroyOnLoad</code> singletons for the session. <strong>Refreshing the page loses everything.</strong> Only audio volumes persist. For the sequel this is a clean slate — a port can add proper save/load without untangling legacy formats.
+  </div>
+ </div>
+</section>
+
+<!-- ============ CORE LOOP ============ -->
+<section id="loop">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum II</span> · the engine</div>
+  <h2 class="title">The Mako pipeline</h2>
+  <p class="lead">"Mako" is the internal name for the substance (an FF7 nod). One orb's journey from the pit to your wallet is the entire early game — and it is real 2D physics, not a particle effect.</p>
+
+  <div class="pipe" id="pipe"></div>
+
+  <div class="callout">
+    <span class="h">✦ The pink cloud is real</span>
+    There is <strong>no Unity ParticleSystem anywhere in the project</strong>. The dense "Mysterious Substance" cloud in the screenshots is hundreds-to-thousands of <em>live</em> <code>MakoOrb</code> rigidbodies, each with a collider, corralled around the harvester by a <code>ResourceField</code> that pushes them up and toward a center axis. This is the single most important rendering fact for the port: you must batch-render and pool many physics entities, not fake a GPU emitter.
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <span class="tag">Manual control</span>
+      <h4>Charge to nine</h4>
+      <p style="font-size:14px">The harvester holds a 0→<strong>9</strong> charge. Tap (or hold, once <em>Divine Guidance</em> is bought) adds <code>manualClickGain</code> — <strong>×2 per Calibration</strong>. At 9 it fires a laser; 0.25s later <code>SpawnMakoOrbs()</code> births 1–N orbs and the charge resets. <em>Divine Warrior</em> adds <kbd>Space</kbd>/<kbd>C</kbd> keyboard control.</p>
+    </div>
+    <div class="card">
+      <span class="tag">Idle / automation</span>
+      <h4>Mortals at the machines</h4>
+      <p style="font-size:14px"><strong>Channelers</strong> (auto-harvesters, max 8) tick the shared charge every <code>~1.0s</code>. <strong>Manifest Pylons</strong> (auto-collectors, max 6) run a ~2s cooldown loop, each pulling the nearest collectable orb with a PD seek controller (<code>maxVel = 4 × 2^upgrades</code>). Every upgrade simply flips on one pre-placed, inactive machine in the scene.</p>
+    </div>
+  </div>
+
+  <h4>Anti-deadlock safeties (port these or orbs pile up)</h4>
+  <ul class="clean">
+    <li>A held orb's collider is disabled after <code>5s</code> so it can phase through fields to the draw point.</li>
+    <li>Any orb auto-becomes collectable after <code>60s</code>, even if it never hit the accelerator.</li>
+    <li>Orb value passes through ResourceManager's <strong>additive (+10/level) then multiplicative (×2, ×4)</strong> modifiers, truncated to int.</li>
+  </ul>
+ </div>
+</section>
+
+<!-- ============ RESOURCES ============ -->
+<section id="resources">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum II</span> · currency</div>
+  <h2 class="title">Four resources, one formula</h2>
+  <p class="lead">Every gain runs through one gated path: <code>gain = baseGain × n × Σ(additive) × Π(multiplicative)</code>, cast to int. Modifier stacks start at <code>[1.0]</code>; upgrades push more onto them.</p>
+  <div class="grid g2" id="rescards" style="margin-top:18px"></div>
+  <div class="callout">
+    <span class="h">⚠ Artifacts — the ghost resource</span>
+    <code>ResourceType.Artifacts</code> exists and the win screen will print a lifetime total for it, but <strong>nothing in the game ever increments it</strong> and no upgrade costs it. It's a cut/vestigial fourth resource — a hook the sequel could revive, or quietly delete.
+  </div>
+ </div>
+</section>
+
+<!-- ============ ECONOMY ============ -->
+<section id="economy">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum III</span> · the ledger</div>
+  <h2 class="title">Economy &amp; upgrade explorer</h2>
+  <p class="lead">All 29 upgrades, exact from <code>UpgradeManager.Reset()</code>. Cost scales geometrically: <code>cost(n) = ⌊scale<sup>n</sup> × base⌋</code> where <code>n</code> = times already purchased. Filter, search, then click any upgrade for its cost curve and dependencies.</p>
+
+  <div class="controls">
+    <button class="tabbtn on" data-cat="all">All <span style="opacity:.5">29</span></button>
+    <button class="tabbtn" data-cat="mining">Mako Mining</button>
+    <button class="tabbtn" data-cat="refine">Refinement</button>
+    <button class="tabbtn" data-cat="research">Research</button>
+    <button class="tabbtn" data-cat="people">People</button>
+    <button class="tabbtn" data-cat="gate">Gate</button>
+    <input class="search" id="upsearch" placeholder="search name, effect, lore…">
+  </div>
+  <div class="uplist" id="uplist"></div>
+  <div class="detail" id="detail"></div>
+
+  <h3>The dependency tech-tree</h3>
+  <p style="font-size:14.5px; max-width:74ch">Solid edges are <strong>visible prerequisites</strong> (you see the upgrade, greyed, before you can afford its parent); dashed edges are <strong>hidden requirements</strong> (the upgrade stays invisible until its parent is bought). Hover any node to trace its full lineage. Note how the gate story gates the Cathedral, which gates the entire sacrifice economy.</p>
+  <div class="treewrap"><svg id="treesvg"></svg></div>
+ </div>
+</section>
+
+<!-- ============ REFINEMENT ============ -->
+<section id="refinement">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum III</span> · alchemy</div>
+  <h2 class="title">Refinement RNG lab</h2>
+  <p class="lead">The Refining Crystal doesn't add a flat bonus — it bends the dice on every harvester fire. Two independent rolls decide <strong>orb level</strong> (value) and <strong>orb count</strong> (quantity). These are the exact formulas from <code>MakoManager.pickRandomOrbLevel()</code> and <code>pickNumberOfOrbs()</code>. Drag the upgrades and watch the odds move.</p>
+
+  <div class="calc">
+    <div class="calc-row"><label>Grow Crystal (unlock)</label><input type="checkbox" id="rx-crystal" checked><span class="val" id="rx-crystal-v">on</span></div>
+    <div class="calc-row"><label>Attenuate — laser level</label><input type="range" id="rx-level" min="0" max="2" value="2"><span class="val" id="rx-level-v"></span></div>
+    <div class="calc-row"><label>Amplify — laser power</label><input type="range" id="rx-power" min="0" max="2" value="2"><span class="val" id="rx-power-v"></span></div>
+    <div class="calc-row"><label>Luck — crit chance</label><input type="range" id="rx-crit" min="0" max="10" value="0"><span class="val" id="rx-crit-v"></span></div>
+
+    <h4 style="margin-top:22px">Orb level distribution (quality per orb)</h4>
+    <div class="probbar" id="rx-probbar"></div>
+    <div class="calc-out">
+      <div class="o"><div class="ov" id="rx-exp">—</div><div class="ol">Expected orbs / fire</div></div>
+      <div class="o"><div class="ov" id="rx-l1">—</div><div class="ol">Level 1 chance</div></div>
+      <div class="o"><div class="ov" id="rx-l2">—</div><div class="ol">Level 2 chance</div></div>
+      <div class="o"><div class="ov" id="rx-l3">—</div><div class="ol">Level 3 chance</div></div>
+    </div>
+    <p class="note">Level roll: base L2/L3 = 10%/1% once the crystal exists; +10% L2 at level≥2; +20% L2 &amp; +10% L3 at level≥3. Count roll: start 1, +1 at 10% (crystal), +1 at 50% per power tier ≥2 &amp; ≥3, then ×2 on a crit (2% per Luck). <em>Imbumentum</em> separately adds +10 flat value per level via a resource modifier.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ============ RESEARCH ============ -->
+<section id="research">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum IV</span> · the library</div>
+  <h2 class="title">The distillery</h2>
+  <p class="lead">A literal bucket conveyor draws <span class="lore">Cognitio Aqua Diluta</span> from the depths and distills it into <strong>Science</strong>. It's a clean throughput chain with three knobs.</p>
+
+  <div class="grid g3" style="margin:18px 0">
+    <div class="card accent"><span class="tag">Situla · max 100</span><h4>Buckets</h4><p style="font-size:13.5px">Each filled bucket reaching the top = <code>+1</code> goo. Chain starts with <strong>8</strong>; more = more parallel arrivals.</p></div>
+    <div class="card accent"><span class="tag">Aliquid · max 3</span><h4>Chain speed</h4><p style="font-size:13.5px"><code>chainSpeed ×2</code> per level → 5, 10, 20, <strong>40</strong> (base 5). Faster loop = faster arrivals.</p></div>
+    <div class="card accent"><span class="tag">Studeo · max 3</span><h4>Efficiency</h4><p style="font-size:13.5px"><code>goo-per-Science ÷2</code> per level → 64, 32, 16, <strong>8</strong> (base 64). Cheaper batches.</p></div>
+  </div>
+
+  <div class="callout">
+    <span class="h">∑ Science rate</span>
+    The chain is a 10-unit loop; a bucket arrives, adds 1 goo, and every <code>gooToMakeKnowledge</code> goo distills into exactly <strong>1 Science</strong>. Steady state:
+    <p style="font-family:var(--font-mono); font-size:14px; color:var(--mako-glow); margin:10px 0 0">Science/s ∝ ( buckets × chainSpeed ) ÷ gooToMakeKnowledge</p>
+    <p class="note" style="margin-top:6px">Fully maxed vs. base ≈ <strong>(N buckets) × 8 (chain) × 8 (efficiency)</strong>. Science is the gate-key currency: every late-game unlock (Imbumentum, Sturdier Supports, the Gate story, the Cathedral) is priced in it.</p>
+  </div>
+ </div>
+</section>
+
+<!-- ============ PEOPLE / GATE ============ -->
+<section id="people">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum V</span> · the reckoning</div>
+  <h2 class="title">People, the Gate &amp; the end</h2>
+  <p class="lead">Houses make people; the gate eats them. The endgame is a brutal rate race — and a moral one.</p>
+
+  <div class="grid g2">
+   <div class="card">
+    <span class="tag">Supply</span>
+    <h4>New Gloomhollow</h4>
+    <p style="font-size:14px"><strong>Cottages</strong> (+1, max 20) and <strong>Flats</strong> (+2, max 16) grant people on build and pepper the skyline (balanced across ledges, max 6 each). <em>Extended Flock</em> turns on passive generation (every ~2s per home); <em>Fecund Harvest</em> doubles it with a +1 additive modifier.</p>
+   </div>
+   <div class="card">
+    <span class="tag">Demand</span>
+    <h4>The sacrifice line</h4>
+    <p style="font-size:14px">Each <strong>Ritekeeper</strong> (max 8) speeds the cadence: a <code>people.yeet.request</code> fires every <code>1.0 / ritekeepers</code> seconds. The Cathedral spends 1 person and launches a ragdoll soul down the pit (<strong>2</strong> with <em>Twin Reaping Rite</em>). Souls funnel through a suction trigger into the gate's maw.</p>
+   </div>
+  </div>
+
+  <div class="callout red">
+    <span class="h">⚠ The leaky-bucket gate</span>
+    Gate <code>progress</code> rises <code>+0.025</code> per soul but decays <code>−0.355 / second</code>, opening at <code>1.0</code>. You must land souls <strong>faster than they bleed off</strong> — roughly <strong>≥15 souls/second sustained</strong> (14.2 exactly). <span style="color:var(--science)">⌖ These are the real values lifted from the prefab YAML; the C# defaults of 0.1 / 1.0 were placeholders.</span> This single relationship <em>is</em> the difficulty of the entire endgame.
+  </div>
+
+  <h3>Gate sacrifice calculator</h3>
+  <p style="font-size:14.5px; max-width:74ch">Set your ritekeepers and rite, assuming people supply keeps up, and see whether the seal actually breaks.</p>
+  <div class="calc">
+    <div class="calc-row"><label>Ritekeepers</label><input type="range" id="gx-rite" min="1" max="8" value="4"><span class="val" id="gx-rite-v"></span></div>
+    <div class="calc-row"><label>Twin Reaping Rite (×2 souls)</label><input type="checkbox" id="gx-double"><span class="val" id="gx-double-v">off</span></div>
+    <div class="calc-out">
+      <div class="o"><div class="ov" id="gx-souls">—</div><div class="ol">Souls / sec</div></div>
+      <div class="o"><div class="ov" id="gx-prog">—</div><div class="ol">Net progress / sec</div></div>
+      <div class="o"><div class="ov" id="gx-time">—</div><div class="ol">Time to open</div></div>
+      <div class="o"><div class="ov" id="gx-ppl">—</div><div class="ol">People / sec spent</div></div>
+    </div>
+    <div class="verdict" id="gx-verdict"></div>
+    <p class="note">Decay is a flat −0.355/s. With 8 ritekeepers + twin rite you launch 16 souls/s → +0.4 −0.355 = +0.045/s net → ~22 seconds of <em>sustained</em> max sacrifice, burning 16 people/s — so housing + passive generation must feed the line.</p>
+  </div>
+
+  <h3>The ending</h3>
+  <ol class="clean" style="counter-reset:e">
+   <li>Gate opens → <code>onOpenGate</code> → publishes <code>game.triggerEndCinimatic</code>.</li>
+   <li>A bat swarm erupts (spawn rate cranked 50 → <strong>200/s</strong>), the camera dives, music swells (4.75s).</li>
+   <li>A hand rises from the gate; three lines fade in — <span class="lore">"At long last / free from the depths / again…"</span> (5s).</li>
+   <li><code>gameManager.showWin</code> → the win screen tallies your <strong>lifetime</strong> Mako / People / Science.</li>
+  </ol>
+ </div>
+</section>
+
+<!-- ============ EVENTS ============ -->
+<section id="events">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum I</span> · signals</div>
+  <h2 class="title">The pub/sub nervous system</h2>
+  <p class="lead">Systems never call each other directly across boundaries — they shout into the bus. These are the 13 code-published topics; many subscribers are wired in-scene as <code>PubSubListener</code> components (flagged below). Reproducing this loose coupling cleanly is most of the port's "feel."</p>
+  <div class="evlist" id="evlist"></div>
+  <p class="note">⚠ Listener wiring marked <b>scene</b> is set in the Unity Inspector, not in C# — when porting, this mapping must be lifted out of the <code>.unity</code>/<code>.prefab</code> YAML, since it isn't visible in source.</p>
+ </div>
+</section>
+
+<!-- ============ SCENES / BUILD ============ -->
+<section id="scenes">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum 0</span> · scaffolding</div>
+  <h2 class="title">Scenes, build &amp; serving</h2>
+  <p class="lead">A persistent root scene boots everything; gameplay scenes load <strong>additively</strong> on top and are swapped via the bus.</p>
+
+  <div class="sceneflow" id="sceneflow"></div>
+
+  <div class="grid g2" style="margin-top:22px">
+   <div class="card">
+    <span class="tag">Build pipeline</span>
+    <h4>WebGL today, already</h4>
+    <p style="font-size:14px"><code>build.sh</code> batch-builds macOS / Linux / Windows / <strong>WebGL</strong> via a custom <code>WebGLBuilder.BuildGame</code>. Template = PWA, <strong>Gzip</strong> compression, Wasm, 16 MB initial memory. So a Unity-WebGL build exists — but it ships the whole engine runtime. The goal here is to leave that behind.</p>
+   </div>
+   <div class="card">
+    <span class="tag">Serving</span>
+    <h4>nginx + docker</h4>
+    <p style="font-size:14px"><code>unity-nginx.conf</code> serves pre-compressed <code>.gz</code> assets with the right <code>Content-Encoding</code> and a one-line <code>run-docker.sh</code> mounts it into stock nginx. Canvas default <strong>1320×760</strong>. A static HTML5 port would need none of this gz dance — just a plain static host.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ============ ASSETS ============ -->
+<section id="assets">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">Stratum II</span> · the relics</div>
+  <h2 class="title">Art &amp; audio</h2>
+  <p class="lead">Pixel art authored in Aseprite (imported directly as sprite sheets); the runtime sprites below are the <strong>real PNGs the game renders</strong>, embedded here. Pink is the only saturated hue in the whole palette — the substance is the one warm thing in a cold world.</p>
+
+  <h4>Hero sprites — the Mako rig</h4>
+  <div class="gallery" id="gal-mako"></div>
+  <h4>The endgame &amp; the world</h4>
+  <div class="gallery" id="gal-world"></div>
+  <h4>Icons, walls &amp; UI atoms</h4>
+  <div class="gallery" id="gal-ui"></div>
+
+  <div class="grid g2" style="margin-top:24px">
+   <div class="card">
+     <span class="tag">Audio · 22 files</span>
+     <h4>1 song, 3 beds, 18 SFX</h4>
+     <p style="font-size:13.5px"><code>LD57 BGM.mp3</code> loops under everything. Ambiance: Calamity (intro), Factory (gameplay). Bespoke <code>.wav</code> SFX track every stage of the Mako loop — <em>Accelerate, Capture, Charge, Focus, Harvest, PullIn</em> — plus factory clinks, person-hits-gate, and a family of upgrade chimes.</p>
+   </div>
+   <div class="card">
+     <span class="tag">Type</span>
+     <h4>The game's own fonts</h4>
+     <p style="font-size:13.5px">This codex is set in <strong>ThaleahFat</strong> (the title font) for headings and <strong>PixelBoto Serif</strong> for lore — both lifted straight from the project so it reads in the game's voice. Resource icons (<span class="res mako" id="mk-demo"></span>, people, science) live in a single TMP sprite atlas, <code>font_spritesheet</code>.</p>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ============ PORTING ============ -->
+<section id="porting">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">The ascent</span> · out of Unity</div>
+  <h2 class="title">Porting blueprint</h2>
+  <p class="lead">The goal: a pure web build, no Unity runtime. The good news — this game is <strong>small, dependency-light, and 2D</strong>. The hard parts are narrow and known.</p>
+
+  <h3>Recommended stack</h3>
+  <div class="grid g2">
+   <div class="card accent">
+    <span class="tag">Render + world</span>
+    <h4 style="color:var(--mako-glow)">PixiJS (WebGL) + TypeScript</h4>
+    <p style="font-size:14px">Pixi exists for exactly this problem: <strong>thousands of batched sprites</strong>. The Mako cloud is the one rendering challenge and Canvas2D would choke on it; Pixi's sprite batching eats it. TypeScript pays for itself on the 29-node upgrade graph and modifier math.</p>
+   </div>
+   <div class="card accent">
+    <span class="tag">UI</span>
+    <h4 style="color:var(--science)">HTML / CSS DOM overlay</h4>
+    <p style="font-size:14px">The upgrade list, tooltips, HUD, and odometer were built in Unity's uGUI — i.e. a retained-mode UI tree. Rebuild them as DOM over the Pixi canvas: you get text, layout, scrolling, hover, and accessibility for free instead of reinventing them in WebGL.</p>
+   </div>
+   <div class="card accent">
+    <span class="tag">Physics</span>
+    <h4 style="color:var(--bone)">Hand-rolled, fixed-timestep</h4>
+    <p style="font-size:14px">Don't pull in matter.js. The physics is shallow — up-force fields, spawn impulses, PD "seek" controllers, and AABB triggers. A ~150-line fixed-step (to mirror Unity's <code>FixedUpdate</code>) integrator gives exact control to reproduce the float/swirl feel, and pools orbs to dodge GC.</p>
+   </div>
+   <div class="card accent">
+    <span class="tag">Glue</span>
+    <h4 style="color:var(--gate)">Tiny event emitter + WebAudio</h4>
+    <p style="font-size:14px">Re-implement JamKit's PubSub as a ~30-line typed <code>EventBus</code>. Wrap WebAudio in an AudioManager with a small voice pool (the original uses 64). Add <code>localStorage</code> save — the one feature the original lacks and the sequel wants.</p>
+   </div>
+  </div>
+  <p class="note" style="margin-top:14px">Alternatives weighed: <strong>Phaser</strong> (great, but pushes UI into the canvas — wrong for this text-heavy UI, and heavier to "fully detach"); <strong>vanilla Canvas2D</strong> (smallest deps, but you'd hand-write the sprite batching the Mako cloud needs). PixiJS+DOM is the sweet spot for "detach from Unity, keep the feel, ship static."</p>
+
+  <h3>System → web mapping</h3>
+  <div class="tablewrap"><table id="maptable"></table></div>
+
+  <h3>Risk register</h3>
+  <div class="evlist" id="risklist"></div>
+
+  <h3>Suggested shape &amp; phasing</h3>
+  <div class="grid g2">
+   <div class="card">
+     <span class="tag">project structure</span>
+     <pre style="font-family:var(--font-mono); font-size:11.5px; color:var(--ink); line-height:1.7; overflow-x:auto; margin:6px 0 0">/src
+ ├─ core/      eventBus, loop, rng, save
+ ├─ sim/       resources, modifiers,
+ │             upgrades(data+graph), economy
+ ├─ world/     pixi stage, orbs+pool,
+ │             physics, harvester, collector,
+ │             field, accelerator, gate
+ ├─ ui/        upgradeList, tooltip, hud,
+ │             tumbler, intro, tutorial
+ ├─ audio/     audioManager, sfx map
+ └─ data/      upgrades.json, sprites,
+               pubsub map (from YAML)</pre>
+   </div>
+   <div class="card">
+     <span class="tag">phasing</span>
+     <ul class="clean" style="margin-top:6px">
+       <li><strong>1 · Sim core</strong> — resources, modifiers, the 29-upgrade graph + costs. Headless, unit-testable. (The data is already in this page.)</li>
+       <li><strong>2 · Mako loop</strong> — Pixi stage, orb pool + physics, harvester/collector, the field. Prove the cloud renders.</li>
+       <li><strong>3 · UI shell</strong> — DOM upgrade list bound to the bus, HUD, tooltips, odometer, camera-depth scroll.</li>
+       <li><strong>4 · Layers</strong> — refinement, distillery, people, gate + endgame, intro/tutorial.</li>
+       <li><strong>5 · Polish</strong> — audio, save/load, a real leaderboard backend, dissolve shaders (or CSS fallback).</li>
+     </ul>
+   </div>
+  </div>
+
+  <div class="callout eye">
+    <span class="h">⌖ Two things to settle before coding</span>
+    <strong>(1) The leaderboard</strong> never worked — <code>AddScore</code> submits a hard-coded <code>102</code> and only appears in a test scene. Decide the real score metric (lifetime Mako? time-to-open the gate?) and a backend (Supabase/Firebase/tiny REST).
+    <strong>(2) Scene-wired events</strong> — the exact "publish X → call Y" map lives in <code>.unity</code>/<code>.prefab</code> YAML, not code. Lift it once into a <code>pubsub map</code> data file; it's the connective tissue of the whole game.
+  </div>
+ </div>
+</section>
+
+<!-- ============ PHASE TRACKER ============ -->
+<section id="tracker">
+ <div class="wrap reveal">
+  <div class="stratum"><span class="n">The Ascent</span> · the build</div>
+  <h2 class="title">Porting phase tracker</h2>
+  <p class="lead">The living checklist for the Unity&nbsp;→&nbsp;web port. <strong>Tick tasks as you go</strong> — progress saves to this browser. Completed phases carry <em>field evidence</em> — real screenshots and an <strong>openable build ↗</strong> you can run.</p>
+  <div style="font-family:var(--font-mono); font-size:12px; color:var(--ink-dim); display:flex; justify-content:space-between; align-items:baseline; margin-top:24px">
+    <span>Overall progress</span><span id="overallpct" style="color:var(--mako-glow)">—</span>
+  </div>
+  <div class="overallbar"><i id="overallfill"></i></div>
+  <div id="phases"></div>
+  <p class="note">Phase 0 is complete — this codex is its deliverable. Phase 1 is up next. As each later phase ships, drop its screenshots into <code>docs/shots/</code> and re-run <code>docs/gen.py</code> to embed them here.</p>
+ </div>
+</section>
+
+<footer>
+  <div class="big">↧ ALL THAT GLITTERS RISES FROM THE DARK ↧</div>
+  What Lurks Below · Ludum Dare 57 · reconnaissance for the HTML5 sequel<br>
+  Generated from source — every number traced to <code>UpgradeManager.cs</code>, the Mako cluster, and the scene graph.
+</footer>
+
+</main>
+</div>
+
+<div class="lightbox" id="lightbox"><img alt="enlarged screenshot"><div class="cap2"></div></div>
+
+<script>
+/*__ART__*/
+/*__SHOTS__*/
+const ART = window.WLB_ART || {};
+const SHOTS = window.WLB_SHOTS || {};
+const img = k => ART[k] || "";
+
+/* ---------- resource glyphs ---------- */
+function resIcon(t){
+  if(t==='People') return `<svg viewBox="0 0 16 16"><circle cx="8" cy="4" r="3" style="fill:currentColor"/><path d="M2 16c0-4 3-6 6-6s6 2 6 6z" style="fill:currentColor"/></svg>`;
+  if(t==='Science') return `<svg viewBox="0 0 16 16"><path d="M6 1h4v5l4 8a1.5 1.5 0 01-1.4 2H3.4A1.5 1.5 0 012 14l4-8z" style="fill:none;stroke:currentColor;stroke-width:1.5"/><circle cx="8" cy="12" r="1.6" style="fill:currentColor"/></svg>`;
+  if(t==='Artifacts') return `<svg viewBox="0 0 16 16"><path d="M8 1l5 4-5 10-5-10z" style="fill:currentColor"/></svg>`;
+  return `<svg viewBox="0 0 16 16"><path d="M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" style="fill:currentColor"/></svg>`;
+}
+const RC = {Mako:'mako',People:'people',Science:'science',Artifacts:'artifacts'};
+function resChip(t,v){ return `<span class="res ${RC[t]}">${resIcon(t)}${fmt(v)} ${t}</span>`; }
+function fmt(n){
+  if(n>=1e6) return (n/1e6).toLocaleString(undefined,{maximumFractionDigits:2})+'M';
+  if(n>=1e4) return (n/1e3).toLocaleString(undefined,{maximumFractionDigits:1})+'k';
+  return n.toLocaleString();
+}
+
+/* ======================================================================
+   DATA — all 29 upgrades, exact from UpgradeManager.Reset()
+   cost(n)=floor(scale^n * base), n=timesPurchased
+   ====================================================================== */
+const CATS = {mining:'Mako Mining',refine:'Refinement',research:'Research',people:'People',gate:'Gate'};
+const CCOL = {mining:'var(--mining)',refine:'var(--refine)',research:'var(--research)',people:'var(--people)',gate:'var(--gatec)'};
+const U = [
+ {k:'MakoClickAndHold',n:'Divine Guidance',c:'mining',max:1,cost:{Mako:1},req:[],hreq:[],hoc:1,fx:'Unlocks click + hold on the channeling device — the true start of the game.',lore:'By the grace of God, we can begin to uncover the mysteries of this strange substance.'},
+ {k:'MakoManualSummonIncrease',n:'Calibration',c:'mining',max:3,cost:{Mako:5},scale:{Mako:3},hreq:['MakoClickAndHold'],fx:'Doubles Mako summoned per harvester charge (manualClickGain ×2).',lore:'Calibrate the channeling device. Mako is drawn more easily from the depths.'},
+ {k:'MakoManualCollectIncrease',n:'Alignment',c:'mining',max:1,cost:{Mako:5},hreq:['MakoClickAndHold'],fx:'Collector pull speed ×2 (shared counter with Divina Guidantia).',lore:'Improve alignment of the collector arrays. Mako is attracted at a faster rate.'},
+ {k:'MakoManualAdditionalCollector',n:'Collector',c:'mining',max:1,cost:{Mako:15},hreq:['MakoClickAndHold'],fx:'Activates one additional manual collector tower.',lore:'Construct an additional Mako collector.'},
+ {k:'MakoAutoAdditionalCollector',n:'Manifest Pylon',c:'mining',max:6,cost:{Mako:10,People:1},scale:{Mako:2,People:1},hreq:['PeopleSmallHouse'],fx:'Raises an auto-collector pylon — passive collection (idle).',lore:'A mortal soul toils away, collecting Mako sphaera from the skies.'},
+ {k:'MakoAutoAdditionalHarvester',n:'Channeler',c:'mining',max:8,cost:{Mako:10,People:1},scale:{Mako:2,People:1},hreq:['PeopleSmallHouse'],fx:'Raises an auto-harvester — passive summoning (+1 charge every ~1s).',lore:'A mortal soul toils away, channeling for Mako sphaera.'},
+ {k:'MakoKeyboard',n:'Divine Warrior',c:'mining',max:1,cost:{Mako:250,People:3},hreq:['MakoClickAndHold'],req:['PeopleSmallHouse'],fx:'Enables keyboard control — Space = harvester, C = collector.',lore:'A deep, telepathic connection with the channeling device and the collector arrays.'},
+
+ {k:'MakoRefinementUnlockCrystal',n:'Grow Crystal',c:'refine',max:1,cost:{Mako:50},hoc:1,pub:['refinement.crystal.unlocked'],fx:'Unlocks the crystal: enables L2 (10%) / L3 (1%) orbs + 10% double-orb.',lore:'Alters the beam to attract refined Mako sphaera.'},
+ {k:'MakoRefinementIncreaseLaserLevel',n:'Attenuate',c:'refine',max:2,cost:{Mako:50},scale:{Mako:2},hreq:['MakoRefinementUnlockCrystal'],pub:['refinement.crystal.attenuated'],fx:'+1 orb level → boosts the chance of high-quality (L2/L3) orbs.',lore:'Increases the chance of attracting high-quality Mako sphaera from the depths.'},
+ {k:'MakoRefinementIncreaseLaserPower',n:'Amplify',c:'refine',max:2,cost:{Mako:50},scale:{Mako:2},hreq:['MakoRefinementUnlockCrystal'],pub:['refinement.crystal.amplified'],fx:'+1 laser power → 50% chance of an extra orb per tier.',lore:'Increases the chance for additional Mako sphaera from the depths.'},
+ {k:'MakoRefinementCriticalHitChance',n:'Luck',c:'refine',max:10,cost:{Mako:200},scale:{Mako:1.5},hreq:['MakoRefinementUnlockCrystal'],pub:['refinement.crystal.criticalHitChanceImproved'],fx:'+2% per level to DOUBLE all orbs from a fire (crit).',lore:"It's not luck, it's skill. A chance of getting double Mako sphaera."},
+ {k:'MakoRefinementMoreValuableMako',n:'Imbumentum',c:'refine',max:3,cost:{Mako:1000,Science:2},scale:{Mako:2,Science:2.5},hreq:['ResearchProcessingUnlockFactory'],fx:'+10 to Mako base value per level (additive resource modifier).',lore:'Imbue the crystal with Cognitio Aqua Diluta.'},
+
+ {k:'ResearchProcessingUnlockFactory',n:'Construe',c:'research',max:1,cost:{Mako:100,People:2},hoc:1,pub:['research.factory.unlocked'],fx:'Builds the distillery and unlocks the Science resource.',lore:'A powerful liquid capable of being distilled into Science.'},
+ {k:'ResearchProcessingBuyBucket',n:'Situla',c:'research',max:100,cost:{Mako:50},scale:{Mako:1.13},hreq:['ResearchProcessingUnlockFactory'],pub:['research.factory.bucketAdded'],fx:'+1 bucket on the distillery chain (more goo throughput).',lore:'Add another bucket to the distillery well.'},
+ {k:'ResearchProcessingFasterChain',n:'Aliquid',c:'research',max:3,cost:{Mako:250},scale:{Mako:10},hreq:['ResearchProcessingUnlockFactory'],pub:['research.factory.fasterChain'],fx:'Chain speed ×2 per level → 1, 2, 4, 8.',lore:'Draw the Cognitio Aqua Diluta faster from the well.'},
+ {k:'ResearchProcessingIncresedEfficiency',n:'Studeo',c:'research',max:3,cost:{Mako:250},scale:{Mako:10},hreq:['ResearchProcessingUnlockFactory'],pub:['research.factory.increasedEfficiency'],fx:'Goo-per-Science ÷2 per level → 10, 5, 2.5, 1.25.',lore:'Reduces Cognitio Aqua Diluta needed to produce Science.'},
+ {k:'ResearchProcessingMoreMako',n:'Intellectus',c:'research',max:3,cost:{Mako:100,Science:1,People:1},scale:{Mako:10,Science:2,People:1},hreq:['ResearchProcessingUnlockFactory'],fx:'Mako ×4 multiplicative modifier per level. ⚠ tooltip says 2× — code adds ×4.',lore:'Understand the link between Cognitio Aqua Diluta and the substance.'},
+ {k:'ResearchProcessingMoreMakoSuck',n:'Divina Guidantia',c:'research',max:3,cost:{Mako:200,Science:2,People:1},scale:{Mako:10,Science:2,People:1},hreq:['ResearchProcessingUnlockFactory'],fx:'Collector pull speed ×2 per level (shared counter with Alignment).',lore:'Per Dei gratiam… Mako is attracted at a faster rate.'},
+
+ {k:'PeopleSmallHouse',n:'Cottage',c:'people',max:20,cost:{Mako:5},scale:{Mako:1.5},fx:'Builds a cottage: +1 People on construction.',lore:'A damp, cold cottage, provides housing for a mortal soul.'},
+ {k:'PeopleUnlockLargeHouse',n:'Sturdier Supports',c:'people',max:1,cost:{Mako:500,Science:5},hreq:['ResearchProcessingUnlockFactory'],fx:'Permits construction of Flats.',lore:"Reinforce New Gloomhollow's support structures."},
+ {k:'PeopleLargeHouse',n:'Flat',c:'people',max:16,cost:{Mako:500},scale:{Mako:1.5},hreq:['PeopleUnlockLargeHouse'],fx:'Builds a flat: +2 People on construction.',lore:'A cramped, towering flat for mortal souls.'},
+ {k:'PeopleUnlockCathedral',n:'Cathedral',c:'people',max:1,cost:{Mako:100000,Science:100},hreq:['GateStory3'],fx:'Activates the Cathedral — the sacrifice engine.',lore:'A fine place for a fine end.'},
+ {k:'PeopleConvinceResidents',n:'Extended Flock',c:'people',max:1,cost:{Mako:100000,Science:100},hreq:['PeopleUnlockCathedral'],fx:'Each home now passively generates People (~every 2s).',lore:'Persuasive letters lure new blood to New Gloomhollow.'},
+ {k:'PeopleHireRitekeeper',n:'Ritekeeper',c:'people',max:8,cost:{Mako:100000,People:1},scale:{Mako:1.1,People:1},hreq:['PeopleUnlockCathedral'],fx:'+1 sacrifice cadence — yeet interval = 1.0 / ritekeepers.',lore:'Leads willing and unwilling alike to meet their fate.'},
+ {k:'PeopleBreedingPrograms',n:'Fecund Harvest',c:'people',max:1,cost:{Mako:2000000,Science:100},hreq:['PeopleConvinceResidents'],fx:'+1 additive People modifier — doubles passive generation.',lore:'It is the solemn duty of each soul to produce the next generation. For the greater good.'},
+ {k:'PeopleUpgradeRitekeeper',n:'Twin Reaping Rite',c:'people',max:1,cost:{Mako:1000000,Science:200},hreq:['PeopleHireRitekeeper'],fx:'Each sacrifice now launches TWO souls.',lore:"Two hapless souls are now cast into the gate's maw."},
+
+ {k:'GateStory1',n:'Investigate',c:'gate',max:1,cost:{Mako:10000,Science:5},fx:'Story beat 1 — reveals the gate research path.',lore:'Fragmented carvings whisper of riches held beyond the gate.'},
+ {k:'GateStory2',n:'Study',c:'gate',max:1,cost:{Mako:100000,Science:25},hreq:['GateStory1'],fx:'Story beat 2 — those who remain skeptical demand further study.',lore:'Worm-eaten tomes unveil a terrifying truth.'},
+ {k:'GateStory3',n:'Understand',c:'gate',max:1,cost:{Mako:1000000,Science:100},hreq:['GateStory2'],fx:'Story beat 3 → unlocks the Cathedral. The gate demands blood.',lore:'No denial remains — its mechanisms feed upon the despair of lost souls.'},
+];
+const UMAP = Object.fromEntries(U.map(u=>[u.k,u]));
+const costAt = (u,n)=>{const o={};for(const r in u.cost){const s=(u.scale&&u.scale[r])||1;o[r]=Math.floor(Math.pow(s,n)*u.cost[r]);}return o;};
+const totalCost = u=>{const o={};for(let n=0;n<u.max;n++){const c=costAt(u,n);for(const r in c)o[r]=(o[r]||0)+c[r];}return o;};
+
+/* ======================= UPGRADE EXPLORER ======================= */
+const uplist=document.getElementById('uplist'), detail=document.getElementById('detail');
+let curCat='all', curSearch='', selKey=null;
+function renderUplist(){
+  uplist.innerHTML='';
+  U.filter(u=>(curCat==='all'||u.c===curCat) &&
+      (!curSearch || (u.n+u.fx+u.lore+u.k).toLowerCase().includes(curSearch)))
+   .forEach(u=>{
+    const d=document.createElement('div');
+    d.className='upcard'+(selKey===u.k?' sel':''); d.style.setProperty('--c',CCOL[u.c]);
+    const c0=costAt(u,0);
+    d.innerHTML=`<div class="nm">${u.n}</div>
+      <div class="meta"><span class="pill ${u.c}">${CATS[u.c]}</span>
+        <span class="maxtag">${u.max>1?'×'+u.max:'one-off'}</span>${u.scale?'<span class="maxtag">scaling</span>':''}</div>
+      <div class="cost">${Object.keys(c0).map(r=>resChip(r,c0[r])).join('')}</div>`;
+    d.onclick=()=>{selKey=u.k; renderUplist(); showDetail(u);};
+    uplist.appendChild(d);
+  });
+}
+function depName(k){const u=UMAP[k];return u?u.n:k;}
+function showDetail(u){
+  const tot=totalCost(u);
+  const reqs=(u.req||[]).map(k=>`<span class="pill ${UMAP[k].c}">${depName(k)}</span>`).join(' ');
+  const hreqs=(u.hreq||[]).map(k=>`<span class="pill ${UMAP[k].c}">${depName(k)}</span>`).join(' ');
+  const unlocks=U.filter(x=>(x.req||[]).includes(u.k)||(x.hreq||[]).includes(u.k))
+                 .map(x=>`<span class="pill ${x.c}">${x.n}</span>`).join(' ');
+  detail.className='detail show'; detail.style.borderColor=CCOL[u.c];
+  detail.innerHTML=`
+    <div class="detail-head">
+      <div><div class="dn" style="color:${CCOL[u.c]}">${u.n}</div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--ink-dim);margin-top:5px">${u.k} · <span class="pill ${u.c}">${CATS[u.c]}</span></div></div>
+      <div style="text-align:right;font-family:var(--font-mono);font-size:11px;color:var(--ink-dim)">max ${u.max} ${u.hoc?'· hides on complete':''}</div>
+    </div>
+    <p class="lore" style="margin:16px 0 4px;font-size:16px;max-width:68ch">"${u.lore}"</p>
+    <p style="font-size:14.5px;max-width:70ch"><strong>Effect.</strong> ${u.fx}</p>
+    <div class="detail-grid">
+      <div>
+        <div class="kv"><b>Base cost</b><br>${Object.keys(u.cost).map(r=>resChip(r,u.cost[r])).join(' &nbsp; ')}</div>
+        ${u.scale?`<div class="kv" style="margin-top:10px"><b>Scale / buy</b><br>${Object.keys(u.scale).map(r=>`<span class="res ${RC[r]}">${resIcon(r)}×${u.scale[r]}</span>`).join(' &nbsp; ')}</div>`:'<div class="kv" style="margin-top:10px"><b>Scale</b><br>flat (no scaling)</div>'}
+        <div class="kv" style="margin-top:10px"><b>Total to max</b><br>${Object.keys(tot).map(r=>resChip(r,tot[r])).join(' &nbsp; ')}</div>
+        <div class="kv" style="margin-top:10px"><b>Reveals after</b> ${hreqs||'<span style="color:var(--ink-dim)">— start unlocked</span>'}</div>
+        ${reqs?`<div class="kv"><b>Also needs</b> ${reqs}</div>`:''}
+        ${unlocks?`<div class="kv" style="margin-top:10px"><b>Unlocks</b> ${unlocks}</div>`:''}
+        ${u.pub?`<div class="kv" style="margin-top:10px"><b>Publishes</b><br><span style="color:var(--mako-glow)">${u.pub.join('<br>')}</span></div>`:''}
+      </div>
+      <div>
+        <div class="kv" style="margin-bottom:8px"><b>Cost curve</b> ${u.max>1?'(per purchase)':'(one-off)'}</div>
+        <canvas class="curve" id="curveC"></canvas>
+        <p class="note" id="curveNote"></p>
+      </div>
+    </div>`;
+  drawCurve(u);
+  detail.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function drawCurve(u){
+  const cv=document.getElementById('curveC'); if(!cv)return;
+  const dpr=window.devicePixelRatio||1, W=cv.clientWidth, H=cv.clientHeight;
+  cv.width=W*dpr; cv.height=H*dpr; const x=cv.getContext('2d'); x.scale(dpr,dpr);
+  x.clearRect(0,0,W,H);
+  const res=Object.keys(u.cost), pad=30, n=u.max;
+  let maxV=1; for(let i=0;i<n;i++){const c=costAt(u,i);res.forEach(r=>maxV=Math.max(maxV,c[r]));}
+  const logT=v=>Math.log10(v+1)/Math.log10(maxV+1);
+  const cvar=k=>getComputedStyle(document.documentElement).getPropertyValue(k).trim()||'#888';
+  // baseline
+  x.strokeStyle=cvar('--curve-base'); x.lineWidth=1; x.beginPath(); x.moveTo(pad,H-pad); x.lineTo(W-6,H-pad); x.stroke();
+  const bw=Math.max(2,(W-pad-12)/n - 2);
+  res.forEach((r,ri)=>{
+    const col={Mako:cvar('--mako'),People:cvar('--people'),Science:cvar('--science')}[r];
+    for(let i=0;i<n;i++){
+      const c=costAt(u,i)[r]; if(c==null)continue;
+      const h=(H-pad-8)*logT(c);
+      const px=pad+ i*((W-pad-12)/n) + ri*(bw/res.length);
+      x.fillStyle=col; x.globalAlpha=.85;
+      x.fillRect(px, H-pad-h, Math.max(2,bw/res.length-1), h);
+    }
+  });
+  x.globalAlpha=1;
+  // endpoints labels
+  x.fillStyle=cvar('--ink-dim'); x.font='10px ui-monospace,monospace';
+  x.fillText('buy 1', pad, H-10); if(n>1) x.fillText('buy '+n, W-46, H-10);
+  const tot=totalCost(u);
+  document.getElementById('curveNote').innerHTML =
+    'log-scaled · '+ (n>1?`first→last: ${res.map(r=>resChip(r,costAt(u,0)[r])).join(' ')} → ${res.map(r=>resChip(r,costAt(u,n-1)[r])).join(' ')}`
+      : 'single purchase');
+}
+document.querySelectorAll('.tabbtn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabbtn').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+  curCat=b.dataset.cat; renderUplist();
+});
+document.getElementById('upsearch').oninput=e=>{curSearch=e.target.value.toLowerCase().trim(); renderUplist();};
+renderUplist();
+
+/* ======================= DEPENDENCY TREE ======================= */
+(function(){
+  const cols=['mining','refine','research','people','gate'];
+  const colX={mining:90,refine:285,research:480,people:690,gate:905};
+  const NW=148,NH=24,vg=11,top=44;
+  const pos={};
+  cols.forEach(c=>{let i=0;U.filter(u=>u.c===c).forEach(u=>{pos[u.k]={x:colX[c],y:top+i*(NH+vg),u};i++;});});
+  const maxRows=Math.max(...cols.map(c=>U.filter(u=>u.c===c).length));
+  const H=top+maxRows*(NH+vg)+20, Wd=1060;
+  const svg=document.getElementById('treesvg');
+  svg.setAttribute('viewBox',`0 0 ${Wd} ${H}`); svg.setAttribute('width',Wd); svg.setAttribute('height',H);
+  // adjacency for highlight
+  const inc={},out={}; U.forEach(u=>{inc[u.k]=[];out[u.k]=[];});
+  const edges=[];
+  U.forEach(u=>{
+    [...(u.hreq||[]).map(k=>[k,1]),...(u.req||[]).map(k=>[k,0])].forEach(([k,hidden])=>{
+      if(!pos[k])return; edges.push({from:k,to:u.k,hidden}); inc[u.k].push(k); out[k].push(u.k);
+    });
+  });
+  // header labels
+  let html='';
+  cols.forEach(c=>{html+=`<text x="${colX[c]+NW/2}" y="22" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10" letter-spacing="1.5" style="fill:${CCOL[c]}" opacity=".85">${CATS[c].toUpperCase()}</text>`;});
+  // edges
+  edges.forEach((e,i)=>{
+    const a=pos[e.from],b=pos[e.to];
+    const x1=a.x+NW,y1=a.y+NH/2, x2=b.x,y2=b.y+NH/2;
+    const mx=(x1+x2)/2;
+    html+=`<path class="tedge" data-from="${e.from}" data-to="${e.to}" id="ed${i}"
+       d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}"
+       style="stroke:${CCOL[a.u.c]}" stroke-width="1.4" opacity=".34" ${e.hidden?'stroke-dasharray="4 3"':''}/>`;
+  });
+  // nodes
+  U.forEach(u=>{const p=pos[u.k];
+    html+=`<g class="tnode" data-k="${u.k}" transform="translate(${p.x},${p.y})">
+      <rect width="${NW}" height="${NH}" rx="5" style="fill:var(--node-bg);stroke:${CCOL[u.c]}" stroke-width="1.2"/>
+      <rect width="3" height="${NH}" rx="1.5" style="fill:${CCOL[u.c]}"/>
+      <text x="9" y="16">${u.n}</text></g>`;
+  });
+  svg.innerHTML=html;
+  // interactions
+  function lineage(k,dir,set){set.add(k);(dir<0?inc:out)[k].forEach(n=>lineage(n,dir,set));}
+  svg.querySelectorAll('.tnode').forEach(g=>{
+    g.onmouseenter=()=>{
+      const k=g.dataset.k; const lit=new Set(); lineage(k,-1,lit); lineage(k,1,lit);
+      svg.classList.add('tree-dim');
+      svg.querySelectorAll('.tnode').forEach(x=>x.classList.toggle('lit',lit.has(x.dataset.k)));
+      svg.querySelectorAll('.tedge').forEach(x=>x.classList.toggle('lit',lit.has(x.dataset.from)&&lit.has(x.dataset.to)));
+    };
+    g.onmouseleave=()=>{svg.classList.remove('tree-dim');
+      svg.querySelectorAll('.lit').forEach(x=>x.classList.remove('lit'));};
+    g.onclick=()=>{selKey=g.dataset.k;renderUplist();showDetail(UMAP[g.dataset.k]);
+      document.getElementById('economy').scrollIntoView({behavior:'smooth'});};
+  });
+})();
+
+/* ======================= ARCHITECTURE MAP ======================= */
+(function(){
+  const svg=document.getElementById('archsvg');
+  const bus={x:520,y:235,w:0};
+  const nodes=[
+    {id:'res',t:'ResourceManager',d:'4 resources · modifiers',x:120,y:60,c:'var(--mako)'},
+    {id:'upg',t:'UpgradeManager',d:'29 upgrades · costs',x:120,y:150,c:'var(--mako)'},
+    {id:'mako',t:'MakoManager',d:'orbs · spawn · convert',x:120,y:240,c:'var(--mako-glow)'},
+    {id:'ppl',t:'PeopleManager',d:'houses · sacrifice',x:120,y:330,c:'var(--people)'},
+    {id:'gm',t:'LD57GameManager',d:'glue · tooltip · BGM',x:120,y:410,c:'var(--ink-dim)'},
+    {id:'harv',t:'Harvester / Collector',d:'input · the loop',x:760,y:70,c:'var(--mako)'},
+    {id:'crystal',t:'Refinement Crystal',d:'beam · RNG knobs',x:760,y:150,c:'var(--refine)'},
+    {id:'research',t:'Research Center',d:'distillery · Science',x:760,y:230,c:'var(--research)'},
+    {id:'gate',t:'Gate / Cathedral',d:'sacrifice · endgame',x:760,y:310,c:'var(--gatec)'},
+    {id:'ui',t:'UpgradeList / HUD',d:'DOM-able UI',x:760,y:390,c:'var(--ink)'},
+  ];
+  const NW=190,NH=58;
+  let h='';
+  // bus
+  h+=`<rect x="470" y="40" width="100" height="395" rx="10" style="fill:var(--bus-fill);stroke:var(--mako)" stroke-dasharray="5 4" stroke-width="1.2"/>`;
+  h+=`<text x="520" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" letter-spacing="2" style="fill:var(--mako-glow)">PUBSUB</text>`;
+  h+=`<text x="520" y="455" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.5" style="fill:var(--ink-dim)">JamKit event bus</text>`;
+  // connectors
+  nodes.forEach(n=>{
+    const left=n.x<500;
+    const ex=left?n.x+NW:n.x, ey=n.y+NH/2;
+    const bx=left?470:570;
+    h+=`<path d="M${ex},${ey} C${(ex+bx)/2},${ey} ${(ex+bx)/2},${235} ${bx},${235}" style="fill:none;stroke:${n.c}" stroke-width="1.2" opacity=".42"/>`;
+  });
+  nodes.forEach(n=>{
+    h+=`<g transform="translate(${n.x},${n.y})">
+      <rect width="${NW}" height="${NH}" rx="9" style="fill:var(--node-bg);stroke:${n.c}" stroke-width="1.3"/>
+      <rect width="4" height="${NH}" rx="2" style="fill:${n.c}"/>
+      <text x="14" y="25" font-family="ThaleahFat,monospace" font-size="17" style="fill:var(--node-text)">${n.t}</text>
+      <text x="14" y="43" font-family="ui-monospace,monospace" font-size="10" style="fill:var(--ink-dim)">${n.d}</text></g>`;
+  });
+  svg.innerHTML=h;
+})();
+
+/* ======================= CORE LOOP PIPELINE ======================= */
+(function(){
+  const stages=[
+   {sn:'1 · summon',st:'Harvester',sd:'Charge 0→9, fire laser',ev:'mako.harvester.laser',ic:`<img src="${img('harvesterBg')}" style="height:46px;position:absolute"><img src="${img('harvesterFg')}" style="height:46px">`},
+   {sn:'2 · spawn',st:'Mako Orbs',sd:'1–N orbs, upward impulse',ev:'SpawnMakoOrbs()',ic:`<img src="${img('orb')}" style="height:30px;filter:drop-shadow(0 0 8px #ff4fa3)">`},
+   {sn:'3 · rise',st:'ResourceField',sd:'Push up + toward center',ev:'(physics)',ic:`<img src="${img('focus')}" style="height:40px;opacity:.8">`},
+   {sn:'4 · refine',st:'Accelerator',sd:'Kick + flash → collectable',ev:'mako.harvested',ic:`<img src="${img('laser')}" style="height:34px;filter:drop-shadow(0 0 8px #cf6be0)">`},
+   {sn:'5 · collect',st:'Collector',sd:'PD-seek nearest orb',ev:'mako.collector.manual',ic:`<img src="${img('collector')}" style="height:48px">`},
+   {sn:'6 · convert',st:'+ Mako',sd:'IncrementResource × mods',ev:'mako.collected',ic:`<span style="font-family:ThaleahFat;font-size:30px;color:var(--mako-glow);text-shadow:0 0 18px rgba(255,79,163,.5)">✦</span>`},
+  ];
+  const pipe=document.getElementById('pipe'); let h='';
+  stages.forEach((s,i)=>{
+    h+=`<div class="stage"><div class="ico">${s.ic}</div><div class="sn">${s.sn}</div><div class="st">${s.st}</div><div class="sd">${s.sd}</div><div class="ev">${s.ev}</div></div>`;
+    if(i<stages.length-1)h+=`<div class="arrow">→</div>`;
+  });
+  pipe.innerHTML=h;
+})();
+
+/* ======================= RESOURCE CARDS ======================= */
+(function(){
+  const R=[
+   {t:'Mako',col:'var(--mako-glow)',tag:'the substance · starts unlocked',d:'The pink substance, the spine of the economy. Collected from orbs; passes through additive (+10/Imbumentum) then multiplicative (×2 module, ×4 Intellectus) modifiers. Pays for nearly everything.'},
+   {t:'People',col:'var(--people)',tag:'mortal souls · from houses',d:'Grown by Cottages (+1) and Flats (+2), passively generated late game. Spent on machine-operators (Pylons, Channelers) and, ultimately, fed to the gate.'},
+   {t:'Science',col:'var(--science)',tag:'research · from the distillery',d:'Distilled from Cognitio Aqua Diluta via the bucket chain. The gate-key currency: the gate story, Cathedral, Imbumentum, and Sturdier Supports all cost Science.'},
+   {t:'Artifacts',col:'var(--violet)',tag:'vestigial · never generated',d:'Defined and printed on the win screen, but nothing increments it and nothing costs it. A cut resource — a dangling hook for the sequel, or safe to delete.'},
+  ];
+  const el=document.getElementById('rescards'); let h='';
+  R.forEach(r=>{h+=`<div class="card accent" style="--c:${r.col}"><div style="display:flex;align-items:center;gap:10px">
+     <span style="width:26px;height:26px;display:inline-flex;color:${r.col}">${resIcon(r.t)}</span>
+     <div><div style="font-family:ThaleahFat;font-size:22px;color:var(--ink-bright);line-height:1">${r.t}</div>
+     <div style="font-family:ui-monospace,monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#6b7589">${r.tag}</div></div></div>
+     <p style="font-size:13.5px;margin-top:12px;margin-bottom:0">${r.d}</p></div>`;});
+  el.innerHTML=h;
+  document.getElementById('mk-demo').innerHTML=resIcon('Mako');
+})();
+
+/* ======================= REFINEMENT CALCULATOR ======================= */
+(function(){
+  const el=id=>document.getElementById(id);
+  function calc(){
+    const crystal=el('rx-crystal').checked;
+    const lvlP=+el('rx-level').value, powP=+el('rx-power').value, crit=+el('rx-crit').value*2;
+    el('rx-level-v').textContent='lvl '+(lvlP+1); el('rx-power-v').textContent='pwr '+(powP+1);
+    el('rx-crit-v').textContent=crit+'%'; el('rx-crystal-v').textContent=crystal?'on':'off';
+    const orbLevel=lvlP+1;
+    let c2=0,c3=0; if(crystal){c2=0.1;c3=0.01;}
+    if(orbLevel>=2)c2+=0.1; if(orbLevel>=3){c2+=0.2;c3+=0.1;}
+    c2=Math.min(c2,1); c3=Math.min(c3,1);
+    const p3=c3, p2=Math.max(0,c2-c3), p1=Math.max(0,1-c2);
+    // expected count
+    let ec=1; if(crystal)ec+=0.1; if((powP+1)>=2)ec+=0.5; if((powP+1)>=3)ec+=0.5; ec*=(1+crit/100);
+    el('rx-exp').textContent=ec.toFixed(2);
+    el('rx-l1').textContent=(p1*100).toFixed(0)+'%';
+    el('rx-l2').textContent=(p2*100).toFixed(1)+'%';
+    el('rx-l3').textContent=(p3*100).toFixed(1)+'%';
+    const bar=el('rx-probbar');
+    bar.innerHTML=`<i style="width:${p1*100}%;background:#5e6b82">L1</i>
+      <i style="width:${p2*100}%;background:#cf6be0">${p2>0.06?'L2':''}</i>
+      <i style="width:${p3*100}%;background:#ff4fa3">${p3>0.05?'L3':''}</i>`;
+  }
+  ['rx-crystal','rx-level','rx-power','rx-crit'].forEach(id=>el(id).addEventListener('input',calc));
+  calc();
+})();
+
+/* ======================= GATE CALCULATOR ======================= */
+(function(){
+  const el=id=>document.getElementById(id);
+  function calc(){
+    const rite=+el('gx-rite').value, dbl=el('gx-double').checked;
+    el('gx-rite-v').textContent=rite; el('gx-double-v').textContent=dbl?'on':'off';
+    const souls=rite*(dbl?2:1);        // souls/sec
+    const net=0.025*souls-0.355;        // progress/sec (real serialized values)
+    el('gx-souls').textContent=souls;
+    el('gx-prog').textContent=(net>=0?'+':'')+net.toFixed(1);
+    el('gx-ppl').textContent=souls;
+    const v=el('gx-verdict');
+    if(net>0){const t=1/net; el('gx-time').textContent=t.toFixed(1)+'s';
+      v.className='verdict good'; v.textContent='✓ THE SEAL BREAKS — net positive, gate opens';}
+    else{el('gx-time').textContent='never';
+      v.className='verdict bad'; v.textContent='✗ DECAY WINS — souls bleed off faster than they land (need ≥15/s)';}
+  }
+  el('gx-rite').addEventListener('input',calc); el('gx-double').addEventListener('input',calc);
+  calc();
+})();
+
+/* ======================= EVENTS ======================= */
+(function(){
+  const E=[
+   ['upgrade.purchased','<b>UpgradeManager</b> → UpgradeList.Redraw <i>(scene)</i> + per-type handlers'],
+   ['module.purchased','<b>IdleModule</b> → MakoManager.ModulePurchased (Mako ×2)'],
+   ['mako.collected','<b>MakoCollector</b> → HUD / score listeners <i>(scene)</i>'],
+   ['mako.harvested','<b>MakoAccelerator</b> → orb-collectable visuals <i>(scene)</i>'],
+   ['mako.harvester.laser.begin / .end','<b>MakoHarvester</b> → RefinementCrystal.LaserDidFire + laser visuals <i>(scene)</i>'],
+   ['mako.collector.manual.begin / .end','<b>MakoCollector</b> → BeginSuck / StopSuck <i>(scene self-wire)</i>'],
+   ['mouse.scrolled.sufficiently','<b>CameraController</b> → TutorialManager.SufficientlyScrolled'],
+   ['people.yeet.request','<b>PeopleManager</b> → Cathedral.YeetMortalSoul (spend 1 person)'],
+   ['resource.unlocked','<b>ResourceManager</b> → HUD reveals a new counter <i>(scene)</i>'],
+   ['refinement.crystal.* <span style="opacity:.6">(unlocked/attenuated/amplified/crit)</span>','<b>UpgradeManager</b> → RefinementCrystal handlers'],
+   ['research.factory.* <span style="opacity:.6">(unlocked/bucket/chain/efficiency)</span>','<b>UpgradeManager</b> → ResearchCenter handlers'],
+   ['gameManager.showGame / showWin','<b>IntroDirector / EndGame</b> → JamKit GameManager scene swap'],
+   ['game.triggerEndCinimatic','<b>Gate.onOpenGate</b> <i>(scene)</i> → cinematic + bats + camera dive'],
+  ];
+  const el=document.getElementById('evlist'); let h='';
+  E.forEach(([t,f])=>h+=`<div class="evrow"><div class="topic">${t}</div><div class="flow">${f}</div></div>`);
+  el.innerHTML=h;
+})();
+
+/* ======================= SCENE FLOW ======================= */
+(function(){
+  const el=document.getElementById('sceneflow');
+  el.innerHTML=`
+   <div class="scenenode"><div class="scenebox persist"><div class="sb-n">PersistentScene</div><div class="sb-d">index 0 · always loaded · hosts JamKit GameManager + Audio</div></div></div>
+   <div style="margin-left:30px;color:var(--mako-deep);font-size:18px">↓ additive load</div>
+   <div class="scenenode" style="flex-wrap:wrap;gap:10px">
+     <div class="scenebox"><div class="sb-n">Title</div><div class="sb-d">menu · parallax backdrop</div></div>
+     <span style="color:var(--ink-dim)">→</span>
+     <div class="scenebox"><div class="sb-n">Tutorial</div><div class="sb-d">IntroDirector · Calamity</div></div>
+     <span style="color:var(--ink-dim)">→</span>
+     <div class="scenebox" style="border-color:var(--mako)"><div class="sb-n">Game</div><div class="sb-d">all managers (in prefabs)</div></div>
+     <span style="color:var(--ink-dim)">→</span>
+     <div class="scenebox"><div class="sb-n">Win</div><div class="sb-d">lifetime tally</div></div>
+     <div class="scenebox"><div class="sb-n">Lose</div><div class="sb-d">game over</div></div>
+   </div>
+   <div class="note">Every transition = UnloadAll() then additive load of one scene, driven by a published topic. PersistentScene never unloads.</div>`;
+})();
+
+/* ======================= ART GALLERY ======================= */
+(function(){
+  const G={
+   mako:[['harvesterFg','Harvester (fg)','55×31 · the channeling device'],['harvesterBg','Harvester (bg)','55×31'],
+         ['collector','Collector tower','25×50'],['orb','Mako orb','5×5 · forms the cloud'],
+         ['laser','Refined beam','42×5'],['focus','Mako focus','99×40'],['harvesterSheet','Charge sheet','561×33 · animated']],
+   world:[['cathedralFg','Cathedral','33×47'],['moon','Moon','70×69'],['mountains','Mountains','660×33'],
+          ['cliffsTL','Cliffs','600×200 · parallax'],['holeBg','The pit','600×200'],['holeGradient','Abyss gradient','600×200'],
+          ['bucketEmpty','Goo bucket','16×16 · distillery'],['ladder','Ladder','4×4']],
+   ui:[['icons','Resource atlas','64×64 · Mako/People/Science/Lock/Check'],['wall','Wall','100×100'],
+       ['wallEdgeTop','Wall edge','autotile'],['wallEdgeInner','Wall inner','autotile'],
+       ['lock','Lock','12×15'],['check','Check','13×11']],
+  };
+  for(const grp in G){
+    const el=document.getElementById('gal-'+grp); if(!el)continue; let h='';
+    G[grp].forEach(([k,n,d])=>{ if(!img(k))return;
+      h+=`<div class="art"><div class="frame"><img src="${img(k)}" alt="${n}"></div>
+        <div class="an">${n}</div><div class="ad">${d}</div></div>`;});
+    el.innerHTML=h;
+  }
+})();
+
+/* ======================= MAPPING TABLE ======================= */
+(function(){
+  const M=[
+   ['Unity / C#','HTML5 target','Notes'],
+   ['MonoBehaviour singletons','ES module singletons / classes','Mechanical — straight translation'],
+   ['JamKit PubSub','~30-line typed EventBus','Lift scene listener wiring from YAML'],
+   ['MakoOrb Rigidbody2D + colliders','Pooled entities + fixed-step integrator','The cloud: batch via Pixi, pool to avoid GC'],
+   ['ResourceField / Accelerator triggers','AABB zone checks in the orb loop','Enter/exit edge detection per orb'],
+   ['Collector PD seek','Same controller, JS','clamp(gain·(clamp(toVel·d,maxVel)−v),maxForce)'],
+   ['uGUI UpgradeList / tooltips / HUD','DOM + CSS, bound to the bus','Diff/render on upgrade.purchased; big win'],
+   ['NumberTumbler odometer','CSS translateY digit columns','Staggered ease per place value'],
+   ['AudioManager (64 sources)','WebAudio + small voice pool','PlayerPrefs volumes → localStorage'],
+   ['Additive scene loading','SPA view states','Title/Tutorial/Game/Win/Lose as routes'],
+   ['CameraController depth scroll','wheel + key → world offset','Normalize WheelEvent deltaMode (UA hack today)'],
+   ['URP dissolve / damage shaders','GLSL frag (Pixi filter) or CSS flash','Optional fidelity — approximate first'],
+   ['Unity Services Leaderboard','Your backend (Supabase/REST)','Currently stubbed (score=102) — design it'],
+  ];
+  const t=document.getElementById('maptable'); let h='<thead><tr>';
+  M[0].forEach(c=>h+=`<th>${c}</th>`); h+='</tr></thead><tbody>';
+  M.slice(1).forEach(r=>{h+='<tr>'+r.map((c,i)=>`<td${i==0?' style="color:#ffc6e3"':''}>${c}</td>`).join('')+'</tr>';});
+  t.innerHTML=h+'</tbody>';
+})();
+
+/* ======================= RISK REGISTER ======================= */
+(function(){
+  const R=[
+   ['high','The Mako cloud','No ParticleSystem — it is hundreds-to-thousands of live orb bodies. Needs batched rendering (Pixi) + object pooling + a fixed-step physics loop, or it tanks. Plan for this first.'],
+   ['high','JamKit dependency','The entire event bus, audio, scene loader, and UI kit are JamKit. Must be re-implemented; much of the "what calls what" lives in scene YAML, not code.'],
+   ['med','Leaderboard backend','Unity Services Leaderboards + anon auth have no browser drop-in. Score is currently hard-coded 102 in a test scene — needs a real metric and backend.'],
+   ['med','URP shaders','Dissolve/Damage effects are shader-graph materials driving _DissolveAmount. Re-author as WebGL/Pixi filters, or fall back to a CSS flash early.'],
+   ['med','Scene-serialized tuning','Orb mass/drag, field forces, collector toVel/maxForce, spawn points, trigger regions — many live in prefab/scene YAML, not code. Extract to reproduce feel.'],
+   ['low','Wheel-delta inconsistency','CameraController already branches scroll speed by browser (Safari 10 / Chrome 100 / Win 150). Normalize WheelEvent.deltaMode instead.'],
+   ['low','No save system','Nothing to migrate — but the port should add localStorage save the original never had.'],
+  ];
+  const el=document.getElementById('risklist'); let h='';
+  R.forEach(([s,t,d])=>{
+    const lbl={high:'High',med:'Medium',low:'Low'}[s];
+    h+=`<div class="evrow"><div><span class="badge sev-${s}">${lbl}</span><div class="topic" style="margin-top:7px">${t}</div></div><div class="flow" style="font-family:var(--font-body);font-size:13.5px;color:var(--ink)">${d}</div></div>`;
+  });
+  el.innerHTML=h;
+})();
+
+/* ======================= NAV / TOC / DEPTH METER ======================= */
+(function(){
+  const secs=[...document.querySelectorAll('main > section')];
+  const labels={hero:'Surface',overview:'Premise',architecture:'Architecture',loop:'Mako Loop',
+    resources:'Resources',economy:'Economy',refinement:'Refinement',research:'Distillery',
+    people:'People & Gate',events:'Event Bus',scenes:'Scenes & Build',assets:'Art & Audio',porting:'Porting',tracker:'Phase Tracker'};
+  const toc=document.getElementById('toc');
+  secs.forEach((s,i)=>{ if(!labels[s.id])return;
+    const li=document.createElement('li');
+    li.innerHTML=`<a href="#${s.id}" data-id="${s.id}"><span class="ix">${String(i).padStart(2,'0')}</span>${labels[s.id]}</a>`;
+    toc.appendChild(li);
+  });
+  const links=[...toc.querySelectorAll('a')];
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){
+      links.forEach(l=>l.classList.toggle('active',l.dataset.id===e.target.id));
+    }});
+  },{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(s=>io.observe(s));
+  // depth meter
+  const fill=document.getElementById('dfill'),knob=document.getElementById('dknob');
+  function onScroll(){
+    const sc=window.scrollY, max=document.body.scrollHeight-window.innerHeight;
+    const p=Math.max(0,Math.min(1,sc/max))*100;
+    fill.style.height=p+'%'; knob.style.top=p+'%';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  // reveal
+  const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}}),{rootMargin:'-8% 0px'});
+  document.querySelectorAll('.reveal').forEach(r=>ro.observe(r));
+})();
+
+/* ======================= HERO ORB FIELD ======================= */
+(function(){
+  const cv=document.getElementById('orbfield'); if(!cv)return;
+  const sp=img('orb'); const moon=document.getElementById('heromoon'); if(moon&&img('moon'))moon.src=img('moon');
+  const orbImg=new Image(); orbImg.src=sp;
+  let W,H,orbs;
+  function size(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight; if(!orbs)init();}
+  function init(){orbs=[];const N=Math.min(70,Math.floor(W/22));
+    for(let i=0;i<N;i++)orbs.push({x:Math.random()*W,y:Math.random()*H,
+      vy:-(0.15+Math.random()*0.5),vx:(Math.random()-0.5)*0.3,s:2+Math.random()*5,
+      a:0.15+Math.random()*0.5,tw:Math.random()*6.28});}
+  const x=cv.getContext('2d');
+  const isLight=()=>document.documentElement.dataset.theme==='light';
+  function frame(t){
+    x.clearRect(0,0,W,H);
+    const light=isLight();
+    const g=x.createRadialGradient(W*0.5,H*0.62,0,W*0.5,H*0.62,H*0.7);
+    if(light){g.addColorStop(0,'rgba(207,42,128,0.08)');g.addColorStop(.5,'rgba(140,20,80,0.03)');g.addColorStop(1,'rgba(236,227,209,0)');}
+    else{g.addColorStop(0,'rgba(255,79,163,0.10)');g.addColorStop(.5,'rgba(201,51,123,0.04)');g.addColorStop(1,'rgba(11,13,19,0)');}
+    x.fillStyle=g; x.fillRect(0,0,W,H);
+    orbs.forEach(o=>{
+      o.y+=o.vy; o.x+=o.vx+Math.sin((t/1000)+o.tw)*0.15;
+      if(o.y<-10){o.y=H+10;o.x=Math.random()*W;}
+      const fl=o.a*(0.6+0.4*Math.sin(t/400+o.tw));
+      x.globalAlpha=light?Math.min(1,fl*1.35):fl;
+      if(light){x.fillStyle='#cf2a80';x.beginPath();x.arc(o.x,o.y,o.s/2,0,6.283);x.fill();}
+      else if(orbImg.complete&&orbImg.naturalWidth){x.drawImage(orbImg,o.x-o.s/2,o.y-o.s/2,o.s,o.s);}
+      else{x.fillStyle='#ff77bd';x.fillRect(o.x,o.y,o.s,o.s);}
+    });
+    x.globalAlpha=1; requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize',size); size(); requestAnimationFrame(frame);
+})();
+
+/* ======================= THEME TOGGLE ======================= */
+(function(){
+  const btn=document.getElementById('themebtn'),lbl=document.getElementById('themelbl'),ic=document.getElementById('themeic');
+  if(!btn)return;
+  const sun='<svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="4.4"/><path d="M12 1.5v2.6M12 19.9v2.6M2.5 12h2.6M18.9 12h2.6M5.1 5.1l1.8 1.8M17.1 17.1l1.8 1.8M18.9 5.1l-1.8 1.8M6.9 17.1l-1.8 1.8"/></svg>';
+  const moon='<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M21 12.9A9 9 0 1111.1 3 7 7 0 0021 12.9z"/></svg>';
+  function paint(){const light=document.documentElement.dataset.theme==='light';
+    lbl.textContent=light?'Abyss':'Daylight'; ic.innerHTML=light?moon:sun;
+    if(typeof selKey!=='undefined'&&selKey){try{drawCurve(UMAP[selKey]);}catch(e){}}
+  }
+  btn.onclick=()=>{const light=document.documentElement.dataset.theme==='light';
+    if(light){delete document.documentElement.dataset.theme;}
+    else{document.documentElement.dataset.theme='light';}
+    try{localStorage.setItem('wlb-theme',light?'dark':'light');}catch(e){}
+    paint();};
+  paint();
+})();
+
+/* ======================= PHASE TRACKER ======================= */
+(function(){
+  const PHASES=[
+   {n:'0',t:'Reconnaissance & Codex',g:'Map the Unity game, choose the stack, build this atlas.',status:'done',build:'index.html',
+    tasks:[
+     ['p0a','Explore the full Unity codebase (59 scripts)',1],
+     ['p0b','Extract the exact economy — 29 upgrades, costs, formulas',1],
+     ['p0c','Map every system, the PubSub bus & data flow',1],
+     ['p0d','Inventory & embed the curated art + the game’s fonts',1],
+     ['p0e','Recommend the web stack (PixiJS + DOM + custom physics)',1],
+     ['p0f','Ship this interactive, beautiful codex',1],
+    ],
+    shots:[['p0_hero','The codex — abyssal hero'],['p0_map','System architecture map'],['p0_explorer','Upgrade explorer + live cost curves'],['p0_porting','Porting blueprint']]},
+   {n:'1',t:'Sim core',g:'Headless, unit-testable game logic in ./web — lifted 1:1 from Unity.',status:'done',build:'builds/phase1.html',
+    tasks:[
+     ['p1a','Scaffold a self-contained Vite + TypeScript project (./web)',1],
+     ['p1b','EventBus — replace JamKit PubSub (~30 lines, typed)',1],
+     ['p1c','ResourceManager: 4 resources + additive/multiplicative stacks',1],
+     ['p1d','Upgrade model + the 29-node requirement graph',1],
+     ['p1e','Cost formula floor(scale^n·base) + purchase/affordability',1],
+     ['p1g','Lift serialized tuning out of Unity YAML → tuning.ts',1],
+     ['p1f','Vitest specs asserting the economy matches Unity 1:1 (19 pass)',1],
+    ], shots:[['p1_simcore','Sim core — live upgrade-tree explorer']]},
+   {n:'2',t:'The Mako loop',g:'Pixi stage, orb physics, harvester & collector — the cloud renders.',status:'done',build:'builds/phase2.html',
+    tasks:[
+     ['p2a','Pixi stage + depth camera + pixel-perfect scaling',1],
+     ['p2b','MakoOrb entity + object pool',1],
+     ['p2c','Fixed-step physics: spawn impulse, field up-force, PD seek',1],
+     ['p2d','Harvester charge 0→9 + click / hold / keyboard input',1],
+     ['p2e','Collector nearest-seek + capture + convert to resource',1],
+     ['p2f','Accelerator & ResourceField zones + anti-stuck safeties',1],
+     ['p2g','Stress-test the cloud at hundreds–thousands of orbs',1],
+    ], shots:[['p2_loop','The Mako loop — orbs rise from the pit, collectors reel them in'],['p2_cloud','Hundreds of live orbs at 60 fps — the substance cloud']]},
+   {n:'2.5',t:'The visible scene',g:'Backdrop art — moonlit sky, cliffs, the pit shaft & walls behind the orbs.',status:'active',
+    tasks:[
+     ['p25a','Lift the GameScene backdrop layout (sky / cliffs / hole / walls — Y-bands, scale, draw order)',0],
+     ['p25b','Copy the scene art into web/src/assets (moon, mountains, cliffs, hole, walls)',0],
+     ['p25c','Composite Pixi backdrop layers behind the orb world, registered to the camera',0],
+     ['p25d','Pit shaft + walls framing the Mako column; depth gradient toward black',0],
+     ['p25e','Sky→surface→abyss vertical composition, ready for the depth camera',0],
+    ], shots:[]},
+   {n:'3',t:'UI shell',g:'DOM UI bound to the bus; camera-depth progression.',status:'todo',
+    tasks:[
+     ['p3a','Upgrade list + rows, re-render on upgrade.purchased',0],
+     ['p3b','HUD + NumberTumbler odometer',0],
+     ['p3c','Tooltips',0],
+     ['p3d','Camera-depth scroll (normalize WheelEvent deltaMode)',0],
+     ['p3e','Idle modules — “go deeper” purchases + resource reveal',0],
+    ], shots:[]},
+   {n:'4',t:'The layers',g:'Every mechanic stratum, up to the gate ending.',status:'todo',
+    tasks:[
+     ['p4a','Refinement crystal + orb-spawn RNG',0],
+     ['p4b','Distillery bucket-chain → Science',0],
+     ['p4c','People: houses, passive generation, modifiers',0],
+     ['p4d','Gate sacrifice loop + leaky-bucket integrator',0],
+     ['p4e','Endgame cinematic + win / lose screens',0],
+     ['p4f','Intro & tutorial sequences',0],
+    ], shots:[]},
+   {n:'5',t:'Polish & ship',g:'Audio, save, leaderboard, effects, balance, deploy.',status:'todo',
+    tasks:[
+     ['p5a','WebAudio AudioManager + SFX / music map',0],
+     ['p5b','localStorage save/load (new for the sequel)',0],
+     ['p5c','Leaderboard backend + a real score metric',0],
+     ['p5d','Dissolve / damage effects (Pixi filter or CSS)',0],
+     ['p5e','Balance pass against the codex numbers',0],
+     ['p5f','Static build + deploy (no nginx gz dance)',0],
+    ], shots:[]},
+  ];
+  const elPhases=document.getElementById('phases'); if(!elPhases)return;
+  const lb=document.getElementById('lightbox');
+  const tk=id=>'wlb-task-'+id;
+  const isDone=(id,def)=>{try{const v=localStorage.getItem(tk(id));if(v!==null)return v==='1';}catch(e){}return !!def;};
+  const setDone=(id,v)=>{try{localStorage.setItem(tk(id),v?'1':'0');}catch(e){}};
+  const prog=p=>({d:p.tasks.filter(t=>isDone(t[0],t[2])).length,n:p.tasks.length});
+  const slabel=s=>s==='done'?'Complete':s==='active'?'In progress':'Planned';
+  function render(){
+    let html='';
+    PHASES.forEach(p=>{
+      const pr=prog(p),pct=pr.n?Math.round(pr.d/pr.n*100):0;
+      const cls=p.status==='done'?'done':p.status==='active'?'active':'';
+      const sc=p.status==='done'?'done':p.status==='active'?'active':'todo';
+      html+=`<div class="phase ${cls}"><div class="phase-head">
+        <div class="phase-num">${p.n}</div>
+        <div class="phase-tt"><div class="pt">${p.t}</div><div class="pg">${p.g}</div></div>
+        <div class="phase-meta"><div class="pstatus ${sc}">${slabel(p.status)} · ${pr.d}/${pr.n}</div>${p.build ? `<a class="buildlink" href="${p.build}" target="_blank" rel="noopener">▸ open build ↗</a>` : ''}</div></div>
+        <div class="pbar"><i style="width:${pct}%"></i></div>
+        <ul class="tasks">`;
+      p.tasks.forEach(t=>{const dn=isDone(t[0],t[2]);
+        html+=`<li class="${dn?'checked':''}" data-id="${t[0]}"><span class="box"></span><span class="tx">${t[1]}</span></li>`;});
+      html+='</ul>';
+      const avail=(p.shots||[]).filter(s=>SHOTS[s[0]]);
+      html+=`<div class="evidence"><div class="eh ${avail.length?'':'todo'}">${avail.length?'◆ Field evidence — '+p.t:'○ Evidence — captured on completion'}</div>`;
+      html+= avail.length
+        ? `<div class="shots">`+avail.map(s=>`<div class="shot" data-k="${s[0]}" data-cap="${s[1]}"><img src="${SHOTS[s[0]]}" alt="${s[1]}" loading="lazy"><div class="cap">${s[1]}</div></div>`).join('')+`</div>`
+        : `<div class="shot-empty">Real screenshots of the work &amp; the running game at this phase will appear here.</div>`;
+      html+=`</div></div>`;
+    });
+    elPhases.innerHTML=html;
+    elPhases.querySelectorAll('.tasks li').forEach(li=>li.onclick=()=>{setDone(li.dataset.id,!li.classList.contains('checked'));render();});
+    elPhases.querySelectorAll('.shot').forEach(sh=>sh.onclick=()=>{if(!lb)return;lb.querySelector('img').src=SHOTS[sh.dataset.k];lb.querySelector('.cap2').textContent=sh.dataset.cap;lb.classList.add('open');});
+    let d=0,n=0;PHASES.forEach(p=>{const pr=prog(p);d+=pr.d;n+=pr.n;});
+    const pct=n?Math.round(d/n*100):0;
+    document.getElementById('overallfill').style.width=pct+'%';
+    document.getElementById('overallpct').textContent=pct+'% · '+d+' / '+n+' tasks';
+  }
+  if(lb){lb.onclick=()=>lb.classList.remove('open');
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open');});}
+  render();
+})();
+</script>
+</body>
+</html>
