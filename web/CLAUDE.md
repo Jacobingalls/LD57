@@ -29,7 +29,7 @@ and may not depend on.
 5. **Keep the tracker honest.** When a phase's work lands, update the Phase
    Tracker in `../docs/template.html` (the `PHASES` array near the bottom):
    flip task flags to `1`, set the phase `status`, capture evidence screenshots,
-   publish a build, then re-run `python3 ../docs/gen.py`. (See "Publishing a phase".)
+   publish a build, then re-run `python ../docs/gen.py`. (See "Publishing a phase".)
 6. **TypeScript strict, no shortcuts.** `npm run typecheck` must pass. No `any`
    to dodge types; no unused locals/params (the config forbids them).
 
@@ -39,7 +39,8 @@ and may not depend on.
   hand-rolled **fixed-step physics** loop (mirrors Unity `FixedUpdate`) ·
   a tiny typed **EventBus** (`src/core/events.ts`, replaces JamKit PubSub) ·
   **WebAudio** · **localStorage** save (new for the sequel). Vite + Vitest.
-- Pixi is **not installed yet** — add it when Phase 2 starts (`npm i pixi.js`).
+- PixiJS 8 renders with nearest-neighbour scaling at 16 pixels per world unit
+  (`SIM.pixelsPerUnit`), through the orthographic `Camera` in `src/world/render.ts`.
 
 ## Layout
 
@@ -53,8 +54,18 @@ web/
              upgrades.ts          the 29 upgrades (1:1 from UpgradeManager.cs)
              tuning.ts            ⭐ all serialized values, lifted from YAML (canonical)
              pubsub.ts            topic catalog + scene-wired listener map
-    main.ts                       Phase-1 smoke: live upgrade-tree explorer
-    world/   (Phase 2+) pixi stage, orb pool, physics, harvester, collector, field, gate
+    core/    rng.ts               seeded RNG
+    main.ts                       boots the live Mako loop + a debug HUD (Phase 3 replaces the HUD)
+    world/   makoWorld.ts         the fixed-step world: owns orbs, harvesters, collectors, zones
+             render.ts            Pixi stage, Camera (world→screen), sprite layers
+             orb.ts               MakoOrb + OrbPool
+             physics.ts vec2.ts   the 2D integrator (mirrors Unity FixedUpdate)
+             harvester.ts         charge 0→9, laser, orb spawn
+             collector.ts         PD "seek" collector, manual + auto
+             accelerator.ts field.ts   zone checks: accelerator kick, ResourceField pull
+             spawnRng.ts          orb level + count rolls
+             (Phase 2.5) backdrop: sky, cliffs, pit shaft · (Phase 4) gate
+    assets/                       PNGs copied from ../Assets (orbs, harvester, collector, laser)
     ui/      (Phase 3+) DOM upgrade list, HUD, tumbler, tooltips, camera-depth scroll
     audio/   (Phase 5+) WebAudio manager
   test/                           Vitest specs (1:1 assertions)
@@ -86,22 +97,26 @@ PD params — most already in `tuning.ts`):
 - Prefab/scene blocks are `--- !u!<classId> &<id>` then a root key
   (`MonoBehaviour:`, `Rigidbody2D:`, `CircleCollider2D:`…). For `MonoBehaviour`,
   resolve `m_Script.guid` → script name via that script's `.cs.meta` (`guid:` line).
-- A throwaway extractor that does this lives at `/tmp/lift.py` (regenerate if gone:
-  it builds the guid→name map from `../Assets/**/*.cs.meta`, then reads component
-  fields). **Bake results into `src/data/tuning.ts` as static values with a
+- Write a throwaway extractor in a temp folder (not in the repo): build the
+  guid→name map from `../Assets/**/*.cs.meta`, then read component fields.
+  Scene `PrefabInstance` `m_Modifications` override prefab values; resolve them
+  and walk the `m_Father` chain for world positions (`docs/handoff-scene.md` has
+  the details). **Bake results into `src/data/tuning.ts` as static values with a
   provenance comment** — do not keep a live dependency on `../Assets`.
 
 ## Publishing a phase (do this when a phase completes)
 
 1. `npm run build` (→ `web/dist/index.html`, self-contained).
-2. From repo root: `bash docs/publish-build.sh phaseN` — copies the build to
-   `docs/builds/phaseN.html` (the link the codex tracker exposes).
+2. From repo root: `bash docs/publish-build.sh phaseN` (Git Bash) — copies the build
+   to `docs/builds/phaseN.html` (the link the codex tracker exposes).
 3. Capture evidence screenshots of the running phase into `docs/shots/` (see
-   `docs/capture.mjs` for the puppeteer pattern; add keys to `SHOTS` in `docs/gen.py`).
+   `docs/capture.mjs` / `docs/capture-game.mjs` for the puppeteer pattern; their
+   Chrome and folder paths are the Mac's, so set them for this machine first; add
+   keys to `SHOTS` in `docs/gen.py`).
 4. In `docs/template.html` `PHASES`: set the phase `status:'done'`, flip its tasks
    to `1`, add `shots:[...]` and `build:'builds/phaseN.html'`; set the next phase
    `status:'active'`.
-5. `python3 docs/gen.py` to rebuild the codex.
+5. `python docs/gen.py` to rebuild the codex.
 
 ## Don't
 
